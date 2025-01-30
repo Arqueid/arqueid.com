@@ -1,25 +1,47 @@
 // videos.js
 const videos = [
     {
+        id: 994,
+        title: "PRESÉPIO DE NATAL MONTADO NA PAROQUIA SANTO ANTÔNIO APIAÍ",
+        embedUrl: "https://www.youtube.com/embed/b51Ic03TgQA?si=e0jyBVW5_ZpMSb6l",
+        coverImage: "https://img.youtube.com/vi/b51Ic03TgQA/maxresdefault.jpg",
+        tags: ["igreja", "natal", "presépio", "presepio", "matriz"]
+    },
+    {
+        id: 995,
+        title: "CÉU NO MORRO 2024 PAROQUIA SANTO ANTÔNIO DE APIAÍ",
+        embedUrl: "https://www.youtube.com/embed/Fiboh-rIhCs?si=nZeWFx0Gp8rh7C5M",
+        coverImage: "https://img.youtube.com/vi/Fiboh-rIhCs/maxresdefault.jpg",
+        tags: ["céu no morro", "ceu no morro", "missa", "santa missa", "morro do ouro"]
+    },
+    {
+        id: 996,
+        title: "ESTRADA APIAÍ IPORANGA INTERDITADA POR QUEDA DE BARREIRA",
+        embedUrl: "https://www.youtube.com/embed/uaOk7U11n8s?si=RxpKRxIisNzyR5iz",
+        coverImage: "https://img.youtube.com/vi/uaOk7U11n8s/maxresdefault.jpg",
+        tags: ["iporanga", "barreira", "chuva", "chuva iporanga", "chuva em iporanga"]
+    },
+    {
         id: 997,
-        title: "Mulata Dançando Pelada",
-        embedUrl: "https://www.xvideos.com/embedframe/kedeffb5f2c",
-        coverImage: "https://cdn77-pic.xvideos-cdn.com/videos/thumbs169poster/91/86/35/9186357e647630de269dd7e8989622ac-2/9186357e647630de269dd7e8989622ac.11.jpg",
-        tags: ["mulata", "pelada", "dançando pelada", "dançando"]
+        title: "Bondinho De Aparecida",
+        embedUrl: "https://www.youtube.com/embed/yVJiCjtdgaI?si=MWqAHLKDzfmZ_5N6",
+        coverImage: "https://img.youtube.com/vi/yVJiCjtdgaI/hqdefault.jpg",
+        tags: ["aparecida", "aparecida do norte", "bondinho", "bondinho de aparecida"]
     },
     {
         id: 998,
-        title: "gostosas na academia",
-        embedUrl: "https://www.xvideos.com/embedframe/kedavfb23f9",
-        coverImage: "https://cdn77-pic.xvideos-cdn.com/videos/thumbs169poster/ec/b9/c1/ecb9c16d140c1fc47719d50655eb66ff/ecb9c16d140c1fc47719d50655eb66ff.17.jpg",
-        tags: ["academia", "dança", "dançando", "musica", "calcinha"]
+        title: "Som do Motor da McLaren MP4/4",
+        embedUrl: "https://www.youtube.com/embed/9TfLwSb8uEA?si=Xg3roSBwdiWF4X_c",
+        coverImage: "https://img.youtube.com/vi/9TfLwSb8uEA/maxresdefault.jpg",
+        tags: ["carro", "corrida", "ayrton", "sena", "ayrton sena"]
     },
     {
         id: 999,
-        title: "Gostosas Zumba",
-        embedUrl: "https://www.xvideos.com/embedframe/kedvfuo9770",
-        coverImage: "https://gcore-pic.xvideos-cdn.com/videos/thumbs169poster/b7/cf/89/b7cf8909b1be36d90b223ac4a83ed4ea/b7cf8909b1be36d90b223ac4a83ed4ea.2.jpg",
-        tags: ["dançando", "dança", "jeans", "calca", "calça", "musica", "zumba"]
+        title: "Passeio Por Apiaí 22/Janeiro/2025",
+        embedUrl: "https://www.youtube.com/embed/1ROJIacGAaQ?si=1HWN_fNzi5HjJLbI",
+        coverImage: "https://img.youtube.com/vi/1ROJIacGAaQ/maxresdefault.jpg",
+        tags: ["passeio por apiaí", "passeio", "apiaí", "2025", "passeando", "Apiaí"]
     }
     // Adicione mais vídeos conforme necessário
 ];
+
