@@ -1,0 +1,108 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+}
+
+/* Menu Horizontal */
+#menu-horizontal {
+    width: 100%;
+    background-color: #333;
+    padding: 10px 0;
+}
+
+#menu-horizontal ul {
+    list-style: none;
+    text-align: center;
+}
+
+#menu-horizontal ul li {
+    display: inline;
+}
+
+#menu-horizontal ul li a {
+    color: #f9f9f9;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: inline-block;
+}
+
+#menu-horizontal ul li a:hover {
+    background-color: #050542;
+}
+
+/* Menu Vertical */
+#check {
+    display: none;
+}
+
+#icone {
+    cursor: pointer;
+    padding: 15px;
+    position: fixed;
+    z-index: 2;
+}
+
+.barra {
+    background-color: #333;
+    height: 100%;
+    width: 300px;
+    position: fixed;
+    top: 0;
+    left: -300px;
+    transition: all 0.3s ease;
+}
+
+.barra nav {
+    width: 100%;
+    position: absolute;
+    top: 60px;
+}
+
+.barra nav a {
+    text-decoration: none;
+}
+
+.link {
+    background-color: #494950;
+    padding: 20px;
+    font-size: 12pt;
+    transition: all 0.2s linear;
+    color: #f9f9f9;
+    border-bottom: 2px solid #222;
+}
+
+.link:hover {
+    background-color: #050542;
+}
+
+#check:checked ~ .barra {
+    transform: translateX(300px);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    #menu-horizontal {
+        display: none;
+    }
+
+    #icone {
+        display: block;
+    }
+}
+
+@media (min-width: 769px) {
+    #icone {
+        display: none;
+    }
+
+    .barra {
+        display: none;
+    }
+}
