@@ -9,20 +9,55 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            padding: 50px;
+            padding: 0;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
         }
         h1 {
             font-size: 50px;
             color: red;
+            margin: 0;
         }
         p {
             font-size: 20px;
+            margin: 10px 0;
+        }
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        .content {
+            z-index: 1;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        a {
+            font-size: 18px;
+            color: #007BFF;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <h1>404</h1>
-    <p>Ops! A página que você procura não foi encontrada.</p>
-    <a href="https://arqueid.com.br/">Voltar para a página inicial</a>
+    <img src="https://i.imgur.com/p93IaX4.png" alt="Robô chorando">
+    <div class="content">
+        <h1>404</h1>
+        <p>Ops! A página que você procura não foi encontrada.</p>
+        <a href="https://arqueid.com.br/">Voltar para a página inicial</a>
+    </div>
 </body>
 </html>
