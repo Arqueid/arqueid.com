@@ -1,0 +1,88 @@
+/* Estilos Gerais */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+header {
+    background-color: #1f1f1f;
+    padding: 20px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2em;
+}
+
+header a {
+    color: #64b5f6; /* Azul claro para links */
+    text-decoration: none;
+}
+
+main {
+    padding: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    margin: 10px 0;
+}
+
+ul li a {
+    color: #64b5f6; /* Azul claro para links */
+    text-decoration: none;
+    font-size: 1.2em;
+}
+
+ul li a:hover {
+    text-decoration: underline;
+    opacity: 0.8; /* Efeito de transparência ao passar o mouse */
+}
+
+article {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+article h2 {
+    color: #64b5f6; /* Azul claro para títulos */
+    margin-top: 20px;
+}
+
+footer {
+    background-color: #1f1f1f;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.9em;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 1.5em;
+    }
+
+    ul li a {
+        font-size: 1em;
+    }
+
+    article {
+        padding: 0 10px;
+    }
+}
