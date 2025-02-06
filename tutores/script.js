@@ -1,5 +1,5 @@
 const numerosSorteados = [];
-const maxNumeros = 35;
+const maxNumeros = 36; // Alterado para 36
 
 document.getElementById('sortearBtn').addEventListener('click', sortearNumero);
 
