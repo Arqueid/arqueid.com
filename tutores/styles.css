@@ -39,10 +39,10 @@ button:hover {
 
 .numeros-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 5 colunas */
+    grid-template-columns: repeat(6, 1fr); /* 6 colunas para 36 números */
     gap: 10px;
     margin-top: 20px;
-    max-width: 500px;
+    max-width: 600px; /* Ajuste para caber 6 colunas */
     margin-left: auto;
     margin-right: auto;
 }
