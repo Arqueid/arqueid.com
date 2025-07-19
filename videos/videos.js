@@ -1,5 +1,13 @@
 // videos.js
 const videos = [
+
+      {
+        id: 966,
+        title: "1986 Reportagem Sobre o Uso de Agrotóxico",
+        embedUrl: "https://youtu.be/CNNqXPTlZkg?si=QwJacJp9K0qElFrC",
+        coverImage: "https://img.youtube.com/vi/CNNqXPTlZkg/0.jpg",
+        tags: ["apiaí", "documentário", "Apiaí", "agrotóxico", "agrotoxico", "1986"]
+    },
       {
         id: 967,
         title: "Apiaí Documentário de 1945 Colorido",
