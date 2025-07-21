@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <title>Central de Downloads</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+    }
+
+    header {
+      background-color: #1f1f1f;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: #00bcd4;
+    }
+
+    .tab-container {
+      display: flex;
+      background-color: #1e1e1e;
+    }
+
+    .tab {
+      padding: 14px 20px;
+      cursor: pointer;
+      background-color: #1e1e1e;
+      border: none;
+      color: #ccc;
+      transition: 0.3s;
+      flex: 1;
+      text-align: center;
+    }
+
+    .tab:hover,
+    .tab.active {
+      background-color: #333;
+      color: #00bcd4;
+    }
+
+    .content {
+      display: none;
+      padding: 20px;
+    }
+
+    .content.active {
+      display: block;
+    }
+
+    .item {
+      background-color: #2a2a2a;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+    }
+
+    .item-title {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .links a {
+      color: #00bcd4;
+      text-decoration: none;
+      margin-right: 10px;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <header>Downloads arquiid.com.br</header>
+
+  <div class="tab-container">
+    <button class="tab active" onclick="showTab('programas')">Programas</button>
+    <button class="tab" onclick="showTab('imagens')">Imagens</button>
+    <button class="tab" onclick="showTab('audio')">Áudio</button>
+    <button class="tab" onclick="showTab('texto')">Texto</button>
+  </div>
+
+  <div id="programas" class="content active">
+    <div class="item">
+      <div class="item-title">Programa Exemplo 1</div>
+      <div class="links">
+        <a href="https://www.mediafire.com/" target="_blank">Clique aqui</a> ou 
+        <a href="https://drive.google.com/" target="_blank">aqui</a> para baixar
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-title">Programa Exemplo 2</div>
+      <div class="links">
+        <a href="https://www.mediafire.com/" target="_blank">Clique aqui</a> ou 
+        <a href="https://drive.google.com/" target="_blank">aqui</a> para baixar
+      </div>
+    </div>
+  </div>
+
+  <div id="imagens" class="content">
+    <div class="item">
+      <div class="item-title">Imagem Bonita 1</div>
+      <div class="links">
+        <a href="https://www.mediafire.com/" target="_blank">Clique aqui</a> ou 
+        <a href="https://drive.google.com/" target="_blank">aqui</a> para baixar
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-title">Imagem Bonita 2</div>
+      <div class="links">
+        <a href="https://www.mediafire.com/" target="_blank">Clique aqui</a> ou 
+        <a href="https://drive.google.com/" target="_blank">aqui</a> para baixar
+      </div>
+    </div>
+  </div>
+
+  <div id="audio" class="content">
+    <div class="item">
+      <div class="item-title">Música Relaxante 1</div>
+      <div class="links">
+        <a href="https://www.mediafire.com/" target="_blank">Clique aqui</a> ou 
+        <a href="https://drive.google.com/" target="_blank">aqui</a> para baixar
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-title">Música Relaxante 2</div>
+      <div class="links">
+        <a href="https://www.mediafire.com/" target="_blank">Clique aqui</a> ou 
+        <a href="https://drive.google.com/" target="_blank">aqui</a> para baixar
+      </div>
+    </div>
+  </div>
+
+  <div id="texto" class="content">
+    <div class="item">
+      <div class="item-title">PDF Explicativo 1</div>
+      <div class="links">
+        <a href="https://www.mediafire.com/" target="_blank">Clique aqui</a> ou 
+        <a href="https://drive.google.com/" target="_blank">aqui</a> para baixar
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-title">PDF Explicativo 2</div>
+      <div class="links">
+        <a href="https://www.mediafire.com/" target="_blank">Clique aqui</a> ou 
+        <a href="https://drive.google.com/" target="_blank">aqui</a> para baixar
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showTab(tabId) {
+      const tabs = document.querySelectorAll('.tab');
+      const contents = document.querySelectorAll('.content');
+
+      tabs.forEach(tab => tab.classList.remove('active'));
+      contents.forEach(content => content.classList.remove('active'));
+
+      document.querySelector(`.tab[onclick*="${tabId}"]`).classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+  </script>
+
+</body>
+</html>
