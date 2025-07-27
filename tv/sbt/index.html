@@ -1,61 +1,69 @@
+
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arqueid TV - SBT Ao Vivo</title>
   <link rel="icon" type="image/png" href="../../favicon.png">
-  <title>Arqueid/Tv/sbt</title>
   <style>
     body {
       margin: 0;
-      background-color: #121212;
-      color: #0f0; /* verde-limão brilhante */
+      background-color: #111;
+      color: #fff;
       font-family: Arial, sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      flex-direction: column;
     }
 
-    .player-container {
-      background-color: #1e1e1e;
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-      text-align: center;
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #0f0;
+      text-shadow: 0 0 5px #0f0;
     }
 
-    .player-container h1 {
-      font-size: 1.6em;
-      margin-bottom: 15px;
-      color: #ccff00;
+    .tv-frame {
+      background: #333;
+      border: 12px solid #555;
+      border-radius: 20px;
+      padding: 10px;
+      box-shadow: 0 0 20px #000;
+      position: relative;
+      width: 800px;
+      max-width: 90%;
     }
 
-    .player-frame {
-      width: 500px;
-      height: 300px;
-      border: 4px solid #555; /* moldura acinzentada */
+    iframe {
+      width: 100%;
+      height: 450px;
+      border: none;
       border-radius: 10px;
+      background-color: #000;
     }
 
-    @media (max-width: 520px) {
-      .player-frame {
-        width: 90vw;
-        height: calc(90vw * 0.6); /* mantém proporção 500x300 */
+    @media (max-width: 600px) {
+      iframe {
+        height: 250px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="player-container">
-    <h1>Assista Agora</h1>
+
+  <h1>📺 SBT Ao Vivo</h1>
+
+  <div class="tv-frame">
     <iframe
-      class="player-frame"
       allow="autoplay; fullscreen"
       allowfullscreen
       src="https://player.jmvstream.com/lvw/e5whdeMpnNiJkSDXnyMWY4IopwpgTH">
-      <!-- FONTE DO PLAYER: https://www.sbtinterior.com/aovivo/ -->
+      <!-- Fonte do player: https://www.sbtinterior.com/aovivo/ -->
     </iframe>
   </div>
+
 </body>
 </html>
