@@ -53,6 +53,27 @@
       color: #0f0;
       text-shadow: 0 0 5px #0f0;
     }
+
+    .sbt-link {
+      margin: 15px 0;
+      text-align: center;
+    }
+
+    .sbt-link a {
+      background-color: #0f0;
+      color: #000;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      box-shadow: 0 0 10px #0f0;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .sbt-link a:hover {
+      background-color: #090;
+      color: #fff;
+    }
   </style>
 </head>
 <body>
@@ -63,22 +84,21 @@
     <video id="video" controls autoplay></video>
   </div>
 
+  <div class="sbt-link">
+    <a href="sbt/" target="_blank">📺 Assistir SBT Ao Vivo</a>
+  </div>
+
   <div class="controls">
     <label for="channelSelect">Escolha um canal:</label>
-    <a href="sbt/">Sbt Ao Vivo</a>
+    <br><br>
     <select id="channelSelect">
-
-      
-
-      <option value="https://stream.ads.ottera.tv/playlist.m3u8?network_id=2116">Record News
-      <option value="https://cdn.jmvstream.com/w/LVW-10842/LVW10842_513N26MDBL/chunklist.m3u8">TV Record
-      <option value="https://cdn.jmvstream.com/w/LVW-9716/LVW9716_HbtQtezcaw/playlist.m3u8">TV Aparecida
+      <option value="https://stream.ads.ottera.tv/playlist.m3u8?network_id=2116">Record News</option>
+      <option value="https://cdn.jmvstream.com/w/LVW-10842/LVW10842_513N26MDBL/chunklist.m3u8">TV Record</option>
+      <option value="https://cdn.jmvstream.com/w/LVW-9716/LVW9716_HbtQtezcaw/playlist.m3u8">TV Aparecida</option>
       <option value="https://amazonsat.brasilstream.com.br/hls/amazonsat/index.m3u8">Amazon Sat</option>
       <option value="https://cdn.jmvstream.com/w/LVW-9715/LVW9715_12B26T62tm/playlist.m3u8">Adesso TV</option>
       <option value="https://video09.logicahost.com.br/redebrasiloficial/redebrasiloficial/playlist.m3u8">Rede Brasil</option>
       <option value="https://player-tvcultura.stream.uol.com.br/live/tvcultura.m3u8">Tv Cultura</option>
-      
-
     </select>
   </div>
 
