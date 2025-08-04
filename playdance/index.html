@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <title>play dance</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- CAMPO DE BUSCA -->
+  <input type="text" id="searchInput" placeholder="Buscar por tags..." oninput="filterVideos()" style="width:100%;padding:10px;margin-bottom:20px;font-size:16px;border-radius:5px;border:none;outline:none;"/>
+
+  <div class="carousel-container">
+
+    <!-- ============================
+         CATEGORIA 1
+         ============================ -->
+    <h2>Fez o M</h2>
+    <div class="carousel">
+      <button class="nav left" onclick="scrollCarousel('carousel1', -1)">❮</button>
+      <div class="carousel-track" id="carousel1">
+        <!-- Adicione vídeos nesta categoria copiando o bloco abaixo -->
+        <div class="video-item" data-tags="fez o m, faz o m, aluna, escola, uniforme" onclick="openPopup('https://i.imgur.com/63JctLV.mp4')">
+          <img src="https://i.imgur.com/00U7NF2.jpeg" alt="Fusca antigo"/>
+        </div>
+
+        <div class="video-item" data-tags="fez o m, faz o m, aluna, escola, uniforme"  onclick="openPopup('https://i.imgur.com/aZ5pfDz.mp4')">
+          <img src="https://i.imgur.com/kJjE3a8.jpeg" alt="Video 2"/>
+        </div>
+
+        <div class="video-item" data-tags="fez o m, faz o m, aluna, escola, uniforme"  onclick="openPopup('https://i.imgur.com/wuFddjg.mp4')">
+          <img src="https://i.imgur.com/pEvPCBX.jpeg" alt="Video 3"/>
+        </div>
+
+        <div class="video-item" data-tags="fez o m, faz o m, aluna, escola, uniforme"  onclick="openPopup('https://i.imgur.com/Uu0mlp2.mp4')">
+          <img src="https://i.imgur.com/clblqhk.jpeg" alt="Video 4"/>
+        </div>
+
+        <div class="video-item" data-tags="fez o m, faz o m, aluna, escola, uniforme"  onclick="openPopup('https://i.imgur.com/hnn4Vey.mp4')">
+          <img src="https://i.imgur.com/qJHouer.jpeg" alt="Video 5"/>
+        </div>
+
+        <div class="video-item" data-tags="fez o m, faz o m"  onclick="openPopup('https://i.imgur.com/uyQ68Zf.mp4')">
+          <img src="https://i.imgur.com/GavZgYB.jpeg" alt="Video 6"/>
+        </div>
+
+        <div class="video-item" data-tags="fez o m, faz o m, calçinha"  onclick="openPopup('https://i.imgur.com/AnEj2hL.mp4')">
+          <img src="https://i.imgur.com/snLwa97.jpeg" alt="Video 7"/>
+        </div>
+
+        <div class="video-item" data-tags="fez o m, faz o m"  onclick="openPopup('https://i.imgur.com/ZOmZ8X5.mp4')">
+          <img src="https://i.imgur.com/dNHTdfo.jpeg" alt="Video 8"/>
+        </div>
+
+        <div class="video-item" data-tags="fez o m, faz o m"  onclick="openPopup('https://i.imgur.com/rzIaN4s.mp4')">
+          <img src="https://i.imgur.com/K3GaK5u.jpeg" alt="Video 9"/>
+        </div>
+
+        
+        <!-- ⬇ Adicione mais vídeos aqui copiando os blocos acima -->
+      </div>
+      <button class="nav right" onclick="scrollCarousel('carousel1', 1)">❯</button>
+    </div>
+
+    <!-- ============================
+         CATEGORIA 2
+         ============================ -->
+    <h2>Categoria 2</h2>
+    <div class="carousel">
+      <button class="nav left" onclick="scrollCarousel('carousel2', -1)">❮</button>
+      <div class="carousel-track" id="carousel2">
+        <!-- Vídeos desta categoria -->
+        <div class="video-item" data-tags="games, retrô, diversão" onclick="openPopup('videos/video7.mp4')">
+          <img src="thumbs/thumb7.jpg" alt="Video 7"/>
+        </div>
+        <div class="video-item" data-tags="ação, trailer, filme" onclick="openPopup('videos/video8.mp4')">
+          <img src="thumbs/thumb8.jpg" alt="Video 8"/>
+        </div>
+        <!-- ⬇ Adicione mais vídeos aqui copiando os blocos acima -->
+      </div>
+      <button class="nav right" onclick="scrollCarousel('carousel2', 1)">❯</button>
+    </div>
+
+    <!-- ============================
+         COPIE UMA DAS CATEGORIAS ACIMA
+         PARA ADICIONAR NOVAS CATEGORIAS
+         ============================ -->
+
+  </div>
+
+  <!-- POPUP de Vídeo -->
+  <div id="videoPopup" class="popup" onclick="closePopup(event)">
+    <video id="popupVideo" controls autoplay loop></video>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
