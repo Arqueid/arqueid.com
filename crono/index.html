@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CronoTartago</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #111;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .player-container {
+            width: 100%;
+            max-width: 900px;
+            background: #222;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #000;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        #dropArea {
+            width: 100%;
+            border: 2px dashed #555;
+            border-radius: 10px;
+            padding: 40px;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        #dropArea.active {
+            background: #333;
+            border-color: #0f0;
+        }
+
+        .video-wrapper {
+            flex: 1 1 500px;
+            min-width: 300px;
+        }
+
+        video {
+            width: 100%;
+            max-height: 65vh;
+            border-radius: 10px;
+            background: #000;
+            display: none;
+        }
+
+        .controls {
+            margin-top: 15px;
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        button {
+            padding: 12px 18px;
+            background: #444;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #666;
+        }
+
+        .progress-bar {
+            width: 100%;
+        }
+
+        .volume-control {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .volume-control input[type="range"] {
+            writing-mode: bt-lr;
+            appearance: slider-vertical;
+            height: 180px;
+            max-height: 40vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="player-container">
+
+    <div id="dropArea">
+        Arraste e solte um vídeo MP4 aqui<br>
+        <small>(ou clique para selecionar)</small>
+    </div>
+
+    <div class="video-wrapper">
+        <video id="video" loop></video>
+
+        <div class="controls">
+
+            <!-- Barra de progresso -->
+            <input type="range" id="progressBar" class="progress-bar" min="0" max="100" value="0">
+
+            <!-- Botões principais -->
+            <div class="row">
+                <button id="back5">⏪ 5s</button>
+                <button id="pauseBtn">Pause</button>
+                <button id="forward5">⏩ 5s</button>
+            </div>
+
+            <!-- linha 2 -->
+            <div class="row">
+                <button id="muteBtn">🔊 Mute</button>
+
+                <button id="refreshBtn">🔄 Atualizar</button>
+            </div>
+
+            <!-- Velocidade -->
+            <input type="range" id="speedControl" min="0.2" max="3" step="0.1" value="1">
+            <div class="speed-info">Velocidade: <span id="speedDisplay">1.0x</span></div>
+        </div>
+    </div>
+
+    <!-- Volume lateral -->
+    <div class="volume-control" id="volumeBox">
+        <input type="range" id="volumeRange" min="0" max="1" step="0.01" value="1">
+        <div>Volume</div>
+    </div>
+
+</div>
+
+<script>
+    const dropArea = document.getElementById("dropArea");
+    const video = document.getElementById("video");
+    const controls = document.querySelector(".controls");
+    const pauseBtn = document.getElementById("pauseBtn");
+    const speedControl = document.getElementById("speedControl");
+    const speedDisplay = document.getElementById("speedDisplay");
+    const volumeRange = document.getElementById("volumeRange");
+    const volumeBox = document.getElementById("volumeBox");
+    const muteBtn = document.getElementById("muteBtn");
+    const refreshBtn = document.getElementById("refreshBtn");
+    const progressBar = document.getElementById("progressBar");
+
+    const back5 = document.getElementById("back5");
+    const forward5 = document.getElementById("forward5");
+
+    /* Impede comportamento padrão */
+    ["dragenter", "dragover", "dragleave", "drop"].forEach(event => {
+        document.addEventListener(event, e => e.preventDefault());
+    });
+
+    dropArea.addEventListener("dragover", () => dropArea.classList.add("active"));
+    dropArea.addEventListener("dragleave", () => dropArea.classList.remove("active"));
+
+    dropArea.addEventListener("drop", e => {
+        dropArea.classList.remove("active");
+        const file = e.dataTransfer.files[0];
+        loadVideo(file);
+    });
+
+    dropArea.addEventListener("click", () => {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = "video/mp4";
+        input.onchange = () => loadVideo(input.files[0]);
+        input.click();
+    });
+
+    function loadVideo(file) {
+        if (!file || !file.type.includes("mp4")) {
+            alert("Por favor, selecione um arquivo MP4.");
+            return;
+        }
+
+        const url = URL.createObjectURL(file);
+        video.src = url;
+
+        video.style.display = "block";
+        controls.style.display = "flex";
+        volumeBox.style.display = "flex";
+        dropArea.style.display = "none";
+    }
+
+    /* Play/Pause */
+    pauseBtn.addEventListener("click", () => {
+        if (video.paused) {
+            video.play();
+            pauseBtn.textContent = "Pause";
+        } else {
+            video.pause();
+            pauseBtn.textContent = "Play";
+        }
+    });
+
+    /* Velocidade */
+    speedControl.addEventListener("input", () => {
+        const speed = parseFloat(speedControl.value);
+        video.playbackRate = speed;
+        speedDisplay.textContent = speed.toFixed(1) + "x";
+    });
+
+    /* Volume vertical */
+    volumeRange.addEventListener("input", () => {
+        video.volume = volumeRange.value;
+    });
+
+    /* Mute */
+    muteBtn.addEventListener("click", () => {
+        video.muted = !video.muted;
+        muteBtn.textContent = video.muted ? "🔇 Unmute" : "🔊 Mute";
+    });
+
+    /* Avançar / voltar */
+    back5.addEventListener("click", () => video.currentTime -= 5);
+    forward5.addEventListener("click", () => video.currentTime += 5);
+
+    /* Barra de progresso */
+    video.addEventListener("timeupdate", () => {
+        progressBar.value = (video.currentTime / video.duration) * 100;
+    });
+
+    progressBar.addEventListener("input", () => {
+        video.currentTime = (progressBar.value / 100) * video.duration;
+    });
+
+    /* Atualizar (resetar player) */
+    refreshBtn.addEventListener("click", () => {
+        video.pause();
+        video.src = "";
+        dropArea.style.display = "block";
+        controls.style.display = "none";
+        volumeBox.style.display = "none";
+        progressBar.value = 0;
+        pauseBtn.textContent = "Pause";
+    });
+</script>
+
+</body>
+</html>
