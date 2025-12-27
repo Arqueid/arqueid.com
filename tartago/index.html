@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="icone.png">
     <title>Tartago</title>
 
     <style>
@@ -47,6 +46,29 @@
             border-color: #0f0;
         }
 
+        .url-box {
+            width: 100%;
+            display: flex;
+            gap: 10px;
+        }
+
+        .url-box input {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+        }
+
+        .url-box button {
+            padding: 12px 18px;
+            background: #444;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
         .video-wrapper {
             flex: 1 1 500px;
             min-width: 300px;
@@ -73,17 +95,6 @@
             gap: 10px;
         }
 
-        button {
-            padding: 12px 18px;
-            background: #444;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 15px;
-            transition: 0.2s;
-        }
-
         button:hover {
             background: #666;
         }
@@ -103,7 +114,6 @@
             writing-mode: bt-lr;
             appearance: slider-vertical;
             height: 180px;
-            max-height: 40vh;
         }
     </style>
 </head>
@@ -111,40 +121,40 @@
 
 <div class="player-container">
 
+    <!-- Drag & Drop -->
     <div id="dropArea">
         Arraste e solte um vídeo MP4 aqui<br>
         <small>(ou clique para selecionar)</small>
+    </div>
+
+    <!-- URL -->
+    <div class="url-box">
+        <input type="text" id="videoUrlInput" placeholder="Cole a URL do vídeo MP4">
+        <button id="loadUrlBtn">Carregar URL</button>
     </div>
 
     <div class="video-wrapper">
         <video id="video" loop></video>
 
         <div class="controls">
-
-            <!-- Barra de progresso -->
             <input type="range" id="progressBar" class="progress-bar" min="0" max="100" value="0">
 
-            <!-- Botões principais -->
             <div class="row">
                 <button id="back5">⏪ 5s</button>
                 <button id="pauseBtn">Pause</button>
                 <button id="forward5">⏩ 5s</button>
             </div>
 
-            <!-- linha 2 -->
             <div class="row">
                 <button id="muteBtn">🔊 Mute</button>
-
                 <button id="refreshBtn">🔄 Atualizar</button>
             </div>
 
-            <!-- Velocidade -->
             <input type="range" id="speedControl" min="0.2" max="3" step="0.1" value="1">
-            <div class="speed-info">Velocidade: <span id="speedDisplay">1.0x</span></div>
+            <div>Velocidade: <span id="speedDisplay">1.0x</span></div>
         </div>
     </div>
 
-    <!-- Volume lateral -->
     <div class="volume-control" id="volumeBox">
         <input type="range" id="volumeRange" min="0" max="1" step="0.01" value="1">
         <div>Volume</div>
@@ -164,13 +174,13 @@
     const muteBtn = document.getElementById("muteBtn");
     const refreshBtn = document.getElementById("refreshBtn");
     const progressBar = document.getElementById("progressBar");
-
     const back5 = document.getElementById("back5");
     const forward5 = document.getElementById("forward5");
+    const videoUrlInput = document.getElementById("videoUrlInput");
+    const loadUrlBtn = document.getElementById("loadUrlBtn");
 
-    /* Impede comportamento padrão */
-    ["dragenter", "dragover", "dragleave", "drop"].forEach(event => {
-        document.addEventListener(event, e => e.preventDefault());
+    ["dragenter","dragover","dragleave","drop"].forEach(e => {
+        document.addEventListener(e, ev => ev.preventDefault());
     });
 
     dropArea.addEventListener("dragover", () => dropArea.classList.add("active"));
@@ -178,34 +188,46 @@
 
     dropArea.addEventListener("drop", e => {
         dropArea.classList.remove("active");
-        const file = e.dataTransfer.files[0];
-        loadVideo(file);
+        loadVideoFile(e.dataTransfer.files[0]);
     });
 
     dropArea.addEventListener("click", () => {
         const input = document.createElement("input");
         input.type = "file";
         input.accept = "video/mp4";
-        input.onchange = () => loadVideo(input.files[0]);
+        input.onchange = () => loadVideoFile(input.files[0]);
         input.click();
     });
 
-    function loadVideo(file) {
-        if (!file || !file.type.includes("mp4")) {
-            alert("Por favor, selecione um arquivo MP4.");
-            return;
-        }
-
-        const url = URL.createObjectURL(file);
-        video.src = url;
-
+    function showPlayer() {
         video.style.display = "block";
         controls.style.display = "flex";
         volumeBox.style.display = "flex";
         dropArea.style.display = "none";
     }
 
-    /* Play/Pause */
+    function loadVideoFile(file) {
+        if (!file || !file.type.includes("mp4")) {
+            alert("Selecione um MP4 válido.");
+            return;
+        }
+        video.src = URL.createObjectURL(file);
+        showPlayer();
+    }
+
+    function loadVideoFromUrl(url) {
+        if (!url) {
+            alert("Informe uma URL válida.");
+            return;
+        }
+        video.src = url;
+        showPlayer();
+    }
+
+    loadUrlBtn.addEventListener("click", () => {
+        loadVideoFromUrl(videoUrlInput.value.trim());
+    });
+
     pauseBtn.addEventListener("click", () => {
         if (video.paused) {
             video.play();
@@ -216,29 +238,23 @@
         }
     });
 
-    /* Velocidade */
     speedControl.addEventListener("input", () => {
-        const speed = parseFloat(speedControl.value);
-        video.playbackRate = speed;
-        speedDisplay.textContent = speed.toFixed(1) + "x";
+        video.playbackRate = speedControl.value;
+        speedDisplay.textContent = speedControl.value + "x";
     });
 
-    /* Volume vertical */
     volumeRange.addEventListener("input", () => {
         video.volume = volumeRange.value;
     });
 
-    /* Mute */
     muteBtn.addEventListener("click", () => {
         video.muted = !video.muted;
         muteBtn.textContent = video.muted ? "🔇 Unmute" : "🔊 Mute";
     });
 
-    /* Avançar / voltar */
     back5.addEventListener("click", () => video.currentTime -= 5);
     forward5.addEventListener("click", () => video.currentTime += 5);
 
-    /* Barra de progresso */
     video.addEventListener("timeupdate", () => {
         progressBar.value = (video.currentTime / video.duration) * 100;
     });
@@ -247,7 +263,6 @@
         video.currentTime = (progressBar.value / 100) * video.duration;
     });
 
-    /* Atualizar (resetar player) */
     refreshBtn.addEventListener("click", () => {
         video.pause();
         video.src = "";
@@ -261,4 +276,3 @@
 
 </body>
 </html>
-
