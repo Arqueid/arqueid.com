@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>transferencia</title>
+    <link rel="icon" type="image/png" href="../favicon.png">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-color: #38bdf8;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --danger: #f43f5e;
+            --success: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 650px;
+        }
+
+        header {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-bottom: 4px;
+        }
+
+        /* Botão Limpar Tudo */
+        .clear-all {
+            background: transparent;
+            color: var(--danger);
+            border: 1px solid var(--danger);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .clear-all:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* Área de Input */
+        .input-group {
+            display: flex;
+            gap: 10px;
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 25px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 12px 15px;
+            color: white;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+        }
+
+        #add-btn {
+            background: var(--accent-color);
+            color: #0f172a;
+            border: none;
+            padding: 0 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* Lista */
+        .list-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .item {
+            background: var(--card-bg);
+            padding: 14px 18px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.03);
+            transition: transform 0.2s;
+        }
+
+        .item:hover {
+            transform: translateX(5px);
+            border-color: rgba(56, 189, 248, 0.3);
+        }
+
+        .item-content {
+            word-break: break-all;
+            margin-right: 20px;
+            line-height: 1.5;
+        }
+
+        .item-content a {
+            color: var(--accent-color);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .delete-btn {
+            color: var(--text-dim);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            padding: 5px;
+        }
+
+        .delete-btn:hover {
+            color: var(--danger);
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--text-dim);
+            padding: 50px 0;
+            border: 2px dashed #1e293b;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div>
+            <h1>TRANSFERENCIA</h1>
+            <p style="color: var(--text-dim); font-size: 0.85rem;">Lista de texto:</p>
+        </div>
+        <button id="clear-all-btn" class="clear-all" style="display: none;">Excluir Tudo</button>
+    </header>
+
+    <div class="input-group">
+        <input type="text" id="item-input" placeholder="Digite ou cole algo..." autocomplete="off">
+        <button id="add-btn">Salvar</button>
+    </div>
+
+    <div id="list" class="list-container">
+        </div>
+</div>
+
+<script>
+    const input = document.getElementById('item-input');
+    const addBtn = document.getElementById('add-btn');
+    const clearAllBtn = document.getElementById('clear-all-btn');
+    const listContainer = document.getElementById('list');
+
+    // Inicialização: Busca dados salvos (A "função de cookie/persistência")
+    document.addEventListener('DOMContentLoaded', loadData);
+
+    // Eventos
+    addBtn.addEventListener('click', addItem);
+    input.addEventListener('keypress', (e) => { if (e.key === 'Enter') addItem(); });
+    clearAllBtn.addEventListener('click', clearAll);
+
+    function addItem() {
+        const text = input.value.trim();
+        if (!text) return;
+
+        const newItem = {
+            id: Date.now(),
+            content: text
+        };
+
+        const data = getData();
+        data.push(newItem);
+        saveData(data);
+        
+        createItemElement(newItem);
+        input.value = '';
+        input.focus();
+        updateUI();
+    }
+
+    function createItemElement(item) {
+        const div = document.createElement('div');
+        div.className = 'item';
+        div.id = `item-${item.id}`;
+
+        // Trata se o conteúdo é um link
+        const displayContent = (item.content.startsWith('http')) 
+            ? `<a href="${item.content}" target="_blank">${item.content}</a>` 
+            : item.content;
+
+        div.innerHTML = `
+            <div class="item-content">${displayContent}</div>
+            <button class="delete-btn" onclick="deleteItem(${item.id})">✕</button>
+        `;
+        
+        listContainer.prepend(div); // Adiciona no topo
+    }
+
+    // Funções de Persistência (LocalStorage - substituto moderno do cookie)
+    function saveData(data) {
+        localStorage.setItem('minha_lista_dark', JSON.stringify(data));
+    }
+
+    function getData() {
+        const saved = localStorage.getItem('minha_lista_dark');
+        return saved ? JSON.parse(saved) : [];
+    }
+
+    function loadData() {
+        const data = getData();
+        data.forEach(item => createItemElement(item));
+        updateUI();
+    }
+
+    function deleteItem(id) {
+        let data = getData();
+        data = data.filter(item => item.id !== id);
+        saveData(data);
+        document.getElementById(`item-${id}`).remove();
+        updateUI();
+    }
+
+    function clearAll() {
+        if (confirm('Tem certeza que deseja apagar toda a lista?')) {
+            localStorage.removeItem('minha_lista_dark');
+            listContainer.innerHTML = '';
+            updateUI();
+        }
+    }
+
+    function updateUI() {
+        const hasItems = listContainer.children.length > 0;
+        
+        // Mostrar ou esconder botão de excluir tudo
+        clearAllBtn.style.display = hasItems ? 'block' : 'none';
+
+        // Mostrar estado vazio se não houver itens
+        if (!hasItems) {
+            listContainer.innerHTML = '<div class="empty-state">A lista está vazia.</div>';
+        } else {
+            const emptyMsg = listContainer.querySelector('.empty-state');
+            if (emptyMsg) emptyMsg.remove();
+        }
+    }
+</script>
+
+</body>
+</html>
