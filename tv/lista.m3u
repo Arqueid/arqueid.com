@@ -1,7 +1,14 @@
 #EXTM3U
-#EXTINF:123, Laurem Gostosa
-https://i.imgur.com/1JohCI2.mp4
-#EXTINF:-1, Nome do Vídeo 1
-https://i.imgur.com/mtkCQja.mp4
-#EXTINF:-1, Nome do Vídeo 2
-https://i.imgur.com/db3PgVZ.mp4
+#EXTINF:Globo
+"https://d1muf25xa12so8hp11.s27-usa-cloudfront-net.online/fontes/ozoo2/globosp.m3u8"
+#EXTINF:Sbt
+"https://aovivo.maissbt.com/indexMobile.m3u8"
+#EXTINF:Record News
+"https://rnw-rn-tcl-roku-syndication.otteravision.com/rnw/rn/rnw_rn.m3u8"
+#EXTINF: Cartoon Network
+"https://rnw-rn-tcl-roku-syndication.otteravision.com/rnw/rn/rnw_rn.m3u8"
+#EXTINF: CNN Brasil
+"https://video01.soultv.com.br/cnnbrasil/cnnbrasil/playlist.m3u8"
+#EXTINF: Aparecida
+"https://caikrondatacenter.com.br/tvaparecida/tvaparecida.stream/playlist.m3u8"
+
