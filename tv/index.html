@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arqueid Tv</title>
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <style>
+    body {
+      background-color: #111;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      color: #0f0;
+      text-shadow: 0 0 5px #0f0;
+      margin-bottom: 10px;
+    }
+
+    .tv-frame {
+      background: #222;
+      border: 10px solid #444;
+      border-radius: 15px;
+      padding: 10px;
+      box-shadow: 0 0 30px #000;
+      width: 800px;
+      max-width: 95%;
+      margin-bottom: 20px;
+    }
+
+    video {
+      width: 100%;
+      border-radius: 5px;
+      background-color: #000;
+      display: block;
+    }
+
+    /* Painel de Controle (Estilo Remoto) */
+    .remote-control {
+      background-color: #333;
+      padding: 15px;
+      border-radius: 10px;
+      border: 2px solid #555;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      align-items: center;
+      width: 800px;
+      max-width: 95%;
+    }
+
+    .channel-display {
+      width: 100%;
+    }
+
+    select {
+      width: 100%;
+      padding: 10px;
+      font-size: 18px;
+      background-color: #000;
+      color: #0f0;
+      border: 1px solid #555;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .buttons-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    button {
+      background-color: #444;
+      color: #fff;
+      border: 1px solid #666;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      min-width: 80px;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background-color: #0f0;
+      color: #000;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .btn-action { font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <h1>🖥️ Arqueid TV</h1>
+
+  <div class="tv-frame">
+    <video id="video"></video>
+  </div>
+
+  <div class="remote-control">
+    
+    <div class="channel-display">
+      <select id="channelSelect">
+        <option value="https://d1muf25xa12so8hp11.s27-usa-cloudfront-net.online/fontes/ozoo2/globosp.m3u8">01 - Globo SP</option>
+        <option value="https://aovivo.maissbt.com/indexMobile.m3u8">02 - SBT</option>
+        <option value="https://cdn.jmvstream.com/w/LVW-10842/LVW10842_513N26MDBL/chunklist.m3u8">03 - TV Record</option>
+        <option value="https://video09.logicahost.com.br/redebrasiloficial/redebrasiloficial/playlist.m3u8">04 - Rede Brasil</option>
+        <option value="https://player-tvcultura.stream.uol.com.br/live/tvcultura.m3u8">05 - TV Cultura</option>
+        <option value="https://rnw-rn-tcl-roku-syndication.otteravision.com/rnw/rn/rnw_rn.m3u8">06 - Record News</option>
+        <option value="https://cdn.jmvstream.com/w/LVW-9716/LVW9716_HbtQtezcaw/playlist.m3u8">07 - TV Aparecida</option>
+        <option value="https://amazonsat.brasilstream.com.br/hls/amazonsat/index.m3u8">08 - Amazon Sat</option>
+        <option value="https://cdn.jmvstream.com/w/LVW-9715/LVW9715_12B26T62tm/playlist.m3u8">09 - Adesso TV</option>
+      </select>
+    </div>
+
+    <div class="buttons-row">
+      <button onclick="changeChannel(-1)">⏮ Canal Ant.</button>
+      <button onclick="togglePlay()" class="btn-action">⏯ Play/Pause</button>
+      <button onclick="changeChannel(1)">Canal Prox. ⏭</button>
+    </div>
+
+    <div class="buttons-row">
+      <button onclick="adjustVolume(-0.1)">🔉 Vol -</button>
+      <button onclick="adjustVolume(0.1)">🔊 Vol +</button>
+      <button onclick="toggleMute()">🔇 Mute</button>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script>
+    const video = document.getElementById('video');
+    const channelSelect = document.getElementById('channelSelect');
+    let hls;
+
+    // Função principal para carregar o canal
+    function playChannel(url) {
+      if (Hls.isSupported()) {
+        if (hls) {
+          hls.destroy();
+        }
+        hls = new Hls();
+        hls.loadSource(url);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, function() {
+          video.play().catch(e => console.log("Autoplay bloqueado pelo navegador, aperte Play."));
+        });
+      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = url;
+        video.addEventListener('loadedmetadata', function() {
+          video.play();
+        });
+      }
+    }
+
+    // Carregar canal ao selecionar na lista
+    channelSelect.addEventListener('change', function () {
+      playChannel(this.value);
+    });
+
+    // --- Funções dos Botões ---
+
+    // Play e Pause
+    function togglePlay() {
+      if (video.paused) {
+        video.play();
+      } else {
+        video.pause();
+      }
+    }
+
+    // Mudar de Canal pelos botões (Anterior / Próximo)
+    function changeChannel(direction) {
+      const currentSort = channelSelect.selectedIndex;
+      let newSort = currentSort + direction;
+      
+      // Se chegar no fim, volta pro começo (loop)
+      if (newSort < 0) newSort = channelSelect.options.length - 1;
+      if (newSort >= channelSelect.options.length) newSort = 0;
+
+      channelSelect.selectedIndex = newSort;
+      playChannel(channelSelect.value);
+    }
+
+    // Controle de Volume
+    function adjustVolume(amount) {
+      let newVol = video.volume + amount;
+      if (newVol > 1) newVol = 1;
+      if (newVol < 0) newVol = 0;
+      video.volume = newVol;
+    }
+
+    // Mute
+    function toggleMute() {
+      video.muted = !video.muted;
+    }
+
+    // Inicializa o primeiro canal
+    playChannel(channelSelect.value);
+
+  </script>
+</body>
+</html>
