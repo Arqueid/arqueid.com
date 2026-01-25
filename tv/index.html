@@ -114,19 +114,21 @@
     
     <div class="channel-display">
       <select id="channelSelect">
-        <option value="https://d1muf25xa12so8hp11.s27-usa-cloudfront-net.online/fontes/ozoo2/globosp.m3u8">01 - Globo SP</option>
-        <option value="https://aovivo.maissbt.com/indexMobile.m3u8">02 - SBT</option>
-        <option value="https://cdn.jmvstream.com/w/LVW-10842/LVW10842_513N26MDBL/chunklist.m3u8">03 - TV Record</option>
-        <option value="https://video09.logicahost.com.br/redebrasiloficial/redebrasiloficial/playlist.m3u8">04 - Rede Brasil</option>
-        <option value="https://player-tvcultura.stream.uol.com.br/live/tvcultura.m3u8">05 - TV Cultura</option>
-        <option value="https://rnw-rn-tcl-roku-syndication.otteravision.com/rnw/rn/rnw_rn.m3u8">06 - Record News</option>
-        <option value="https://cdn.jmvstream.com/w/LVW-9716/LVW9716_HbtQtezcaw/playlist.m3u8">07 - TV Aparecida</option>
-        <option value="https://amazonsat.brasilstream.com.br/hls/amazonsat/index.m3u8">08 - Amazon Sat</option>
-        <option value="https://cdn.jmvstream.com/w/LVW-9715/LVW9715_12B26T62tm/playlist.m3u8">09 - Adesso TV</option>
+        <option value="https://d1muf25xa12so8hp11.s27-usa-cloudfront-net.online/fontes/ozoo2/globosp.m3u8">01 - Globo São Paulo</option>
+        <option value="https://d1muf25xa12so8hp11.s27-usa-cloudfront-net.online/fontes/ozoo2/globorj.m3u8">02 - Globo Rio de Janeiro</option>
+        <option value="https://aovivo.maissbt.com/indexMobile.m3u8">03 - SBT</option>
+        <option value="https://cdn.jmvstream.com/w/LVW-10842/LVW10842_513N26MDBL/chunklist.m3u8">04 - TV Record</option>
+        <option value="https://video09.logicahost.com.br/redebrasiloficial/redebrasiloficial/playlist.m3u8">05 - Rede Brasil</option>
+        <option value="https://player-tvcultura.stream.uol.com.br/live/tvcultura.m3u8">06 - TV Cultura</option>
+        <option value="https://rnw-rn-tcl-roku-syndication.otteravision.com/rnw/rn/rnw_rn.m3u8">07 - Record News</option>
+        <option value="https://cdn.jmvstream.com/w/LVW-9716/LVW9716_HbtQtezcaw/playlist.m3u8">08 - TV Aparecida</option>
+        <option value="https://amazonsat.brasilstream.com.br/hls/amazonsat/index.m3u8">09 - Amazon Sat</option>
+        <option value="https://cdn.jmvstream.com/w/LVW-9715/LVW9715_12B26T62tm/playlist.m3u8">10 - Adesso TV</option>
       </select>
     </div>
 
     <div class="buttons-row">
+      <button onclick="toggleFullscreen()">🖥️ Tela Cheia</button>
       <button onclick="changeChannel(-1)">⏮ Canal Ant.</button>
       <button onclick="togglePlay()" class="btn-action">⏯ Play/Pause</button>
       <button onclick="changeChannel(1)">Canal Prox. ⏭</button>
@@ -172,6 +174,23 @@
     });
 
     // --- Funções dos Botões ---
+
+    // Tela Cheia
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        if (video.requestFullscreen) {
+          video.requestFullscreen();
+        } else if (video.webkitRequestFullscreen) { /* Safari */
+          video.webkitRequestFullscreen();
+        } else if (video.msRequestFullscreen) { /* IE11 */
+          video.msRequestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
 
     // Play e Pause
     function togglePlay() {
