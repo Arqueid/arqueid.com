@@ -6,12 +6,12 @@
 const bancoDeDados = [
     {
         id: 1,
-        titulo: "Lançamento do novo Portal Dark Mode agita a web",
-        resumo: "Desenvolvedores elogiam a interface limpa e a velocidade de carregamento do novo layout inspirado em grandes portais.",
-        categoria: "TECNOLOGIA",
-        tempo: "há 2 horas",
-        imagem: "https://via.placeholder.com/320x180/b71c1c/ffffff?text=FOTO+16:9", // Link da imagem 16:9
-        link: "https://www.google.com" // Link para onde vai ao clicar
+        titulo: "VEGAS PRO",
+        resumo: "Programa de edição de video Sony Vegas para criar edições de video",
+        categoria: "EDITOR DE VIDEO",
+        tempo: "18/02/2026",
+        imagem: "https://i.imgur.com/ypqlIsF.jpeg", // Link da imagem 16:9
+        link: "artigos/vegas.html" // Link para onde vai ao clicar
     },
     {
         id: 2,
@@ -40,4 +40,5 @@ const bancoDeDados = [
         imagem: "https://via.placeholder.com/320x180/333333/ffffff?text=JS+FUTURO",
         link: "https://developer.mozilla.org"
     }
+
 ];
