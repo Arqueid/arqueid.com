@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <title>Arqueid - TV Ao Vivo</title>
+    <style>
+        /* --- ESTILOS GERAIS DO SITE (MANTIDOS) --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        /* Barras de Navegação */
+        .top-bar {
+            background-color: #1f1f1f;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 12px;
+            font-weight: bold;
+            border-bottom: 1px solid #333;
+        }
+        .top-bar a { margin-right: 20px; color: #888; transition: color 0.2s; }
+        .top-bar a:hover { color: #fff; }
+
+        .main-header {
+            background-color: #b71c1c;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            position: relative;
+            z-index: 100;
+        }
+
+        .menu-trigger { display: flex; align-items: center; cursor: pointer; color: #fff; }
+        .hamburger-icon { font-size: 24px; margin-right: 10px; }
+        .menu-label { font-weight: bold; font-size: 14px; }
+
+        .search-box { display: flex; align-items: center; }
+        .search-box input {
+            background-color: #8c1b1b;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            color: #fff;
+            outline: none;
+            width: 200px;
+        }
+        .search-icon { margin-left: -30px; color: #fff; cursor: pointer; }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed; top: 0; left: -300px; width: 300px; height: 100%;
+            background-color: #1e1e1e; box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+            transition: left 0.3s ease; z-index: 200; padding-top: 60px;
+        }
+        .sidebar.active { left: 0; }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 30px; cursor: pointer; color: #fff; }
+        .sidebar ul { list-style: none; }
+        .sidebar li { border-bottom: 1px solid #333; }
+        .sidebar a { display: block; padding: 15px 20px; font-size: 16px; color: #ccc; }
+        .sidebar a:hover { background-color: #333; color: #fff; }
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 150; }
+        .overlay.active { display: block; }
+
+        /* Área de Conteúdo */
+        .content-area {
+            max-width: 900px; /* Aumentei um pouco para caber a TV */
+            margin: 40px auto;
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centraliza a TV */
+        }
+
+        footer {
+            background-color: #1f1f1f; padding: 20px; text-align: center;
+            border-top: 1px solid #333; font-size: 14px; color: #888; margin-top: 40px;
+        }
+
+        /* --- ESTILOS ESPECÍFICOS DA TV (MIGRADOS) --- */
+        .tv-titulo {
+            color: #0f0;
+            text-shadow: 0 0 5px #0f0;
+            margin-bottom: 20px;
+            font-size: 28px;
+            text-align: center;
+        }
+
+        .tv-frame {
+            background: #222;
+            border: 10px solid #444;
+            border-radius: 15px;
+            padding: 10px;
+            box-shadow: 0 0 30px #000;
+            width: 100%; /* Ocupa 100% da content-area */
+            max-width: 800px;
+            margin-bottom: 20px;
+        }
+
+        video {
+            width: 100%;
+            border-radius: 5px;
+            background-color: #000;
+            display: block;
+        }
+
+        .remote-control {
+            background-color: #333;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #555;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .channel-display { width: 100%; }
+        
+        .remote-control select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #000;
+            color: #0f0;
+            border: 1px solid #555;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .buttons-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .remote-control button {
+            background-color: #444;
+            color: #fff;
+            border: 1px solid #666;
+            padding: 10px 15px;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .remote-control button:hover {
+            background-color: #0f0;
+            color: #000;
+        }
+
+        .remote-control button:active { transform: scale(0.98); }
+        .btn-action { font-weight: bold; border-color: #888 !important; }
+
+    </style>
+</head>
+<body>
+
+    <nav class="top-bar">
+        <a href="downloads/" target="_blank">Downloads</a>
+        <a href="tartago/" target="_blank">Tartago</a>
+        <a href="detalhe/" target="_blank">Detalhe</a>
+        <a href="cepdeapiai/" target="_blank">Cep</a>
+        <a href="tv.html" style="color: #fff;">Tv</a> </nav>
+
+    <div class="main-header">
+        <div class="menu-trigger" onclick="toggleMenu()">
+            <span class="hamburger-icon">&#9776;</span> 
+            <span class="menu-label">MENU</span>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="campoBuscaHome" placeholder="BUSCAR" onkeypress="verificarEnter(event)">
+            <span class="search-icon" onclick="realizarBusca()">&#128269;</span>
+        </div>
+    </div>
+
+    <div class="overlay" onclick="toggleMenu()"></div> 
+    <aside class="sidebar" id="sidebarMenu">
+        <span class="close-btn" onclick="toggleMenu()">&times;</span>
+        <ul>
+            <li><a href="#">Sony Vegas</a></li>
+            <li><a href="#">Virtual dj</a></li>
+            <li><a href="#">Efeito Sonoro</a></li>
+        </ul>
+    </aside>
+
+    <main class="content-area">
+        
+        <h1 class="tv-titulo">🖥️ Arqueid TV</h1>
+
+        <div class="tv-frame">
+            <video id="video"></video>
+        </div>
+
+        <div class="remote-control">
+            <div class="channel-display">
+                <select id="channelSelect">
+                    <option value="https://d1muf25xa12so8hp11.s27-usa-cloudfront-net.online/fontes/ozoo2/globosp.m3u8">01 - Globo São Paulo</option>
+                    <option value="https://d1muf25xa12so8hp11.s27-usa-cloudfront-net.online/fontes/ozoo2/globorj.m3u8">02 - Globo Rio de Janeiro</option>
+                    <option value="https://aovivo.maissbt.com/indexMobile.m3u8">03 - SBT</option>
+                    <option value="https://cdn.jmvstream.com/w/LVW-10842/LVW10842_513N26MDBL/chunklist.m3u8">04 - TV Record</option>
+                    <option value="https://video09.logicahost.com.br/redebrasiloficial/redebrasiloficial/playlist.m3u8">05 - Rede Brasil</option>
+                    <option value="https://player-tvcultura.stream.uol.com.br/live/tvcultura.m3u8">06 - TV Cultura</option>
+                    <option value="https://rnw-rn-tcl-roku-syndication.otteravision.com/rnw/rn/rnw_rn.m3u8">07 - Record News</option>
+                    <option value="https://cdn.jmvstream.com/w/LVW-9716/LVW9716_HbtQtezcaw/playlist.m3u8">08 - TV Aparecida</option>
+                    <option value="https://amazonsat.brasilstream.com.br/hls/amazonsat/index.m3u8">09 - Amazon Sat</option>
+                    <option value="https://cdn.jmvstream.com/w/LVW-9715/LVW9715_12B26T62tm/playlist.m3u8">10 - Adesso TV</option>
+                </select>
+            </div>
+
+            <div class="buttons-row">
+                <button onclick="toggleFullscreen()">🖥️ Tela Cheia</button>
+                <button onclick="changeChannel(-1)">⏮ Ant.</button>
+                <button onclick="togglePlay()" class="btn-action">⏯ Play/Pause</button>
+                <button onclick="changeChannel(1)">Prox. ⏭</button>
+            </div>
+
+            <div class="buttons-row">
+                <button onclick="adjustVolume(-0.1)">🔉 Vol -</button>
+                <button onclick="adjustVolume(0.1)">🔊 Vol +</button>
+                <button onclick="toggleMute()">🔇 Mute</button>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Arqueid - Todos os direitos reservados.</p>
+        <p>Apiaí, Vale do Ribeira, SP.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+    <script>
+        // --- FUNÇÕES DO LAYOUT E BUSCA ---
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebarMenu');
+            const overlay = document.querySelector('.overlay');
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        function verificarEnter(event) {
+            if (event.key === "Enter") {
+                realizarBusca();
+            }
+        }
+
+        function realizarBusca() {
+            var termo = document.getElementById('campoBuscaHome').value;
+            if (termo) {
+                // Como este arquivo está na raiz, chama direto busca.html
+                window.location.href = "busca.html?q=" + encodeURIComponent(termo);
+            }
+        }
+
+        // --- FUNÇÕES DA TV (PLAYER) ---
+        const video = document.getElementById('video');
+        const channelSelect = document.getElementById('channelSelect');
+        let hls;
+
+        function playChannel(url) {
+            if (Hls.isSupported()) {
+                if (hls) hls.destroy();
+                hls = new Hls();
+                hls.loadSource(url);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                    video.play().catch(e => console.log("Autoplay bloqueado, aperte Play."));
+                });
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = url;
+                video.addEventListener('loadedmetadata', function() {
+                    video.play();
+                });
+            }
+        }
+
+        channelSelect.addEventListener('change', function () {
+            playChannel(this.value);
+        });
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                if (video.requestFullscreen) video.requestFullscreen();
+                else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
+                else if (video.msRequestFullscreen) video.msRequestFullscreen();
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        }
+
+        function togglePlay() {
+            if (video.paused) video.play();
+            else video.pause();
+        }
+
+        function changeChannel(direction) {
+            const currentSort = channelSelect.selectedIndex;
+            let newSort = currentSort + direction;
+            
+            if (newSort < 0) newSort = channelSelect.options.length - 1;
+            if (newSort >= channelSelect.options.length) newSort = 0;
+
+            channelSelect.selectedIndex = newSort;
+            playChannel(channelSelect.value);
+        }
+
+        function adjustVolume(amount) {
+            let newVol = video.volume + amount;
+            if (newVol > 1) newVol = 1;
+            if (newVol < 0) newVol = 0;
+            video.volume = newVol;
+        }
+
+        function toggleMute() {
+            video.muted = !video.muted;
+        }
+
+        // Iniciar player
+        playChannel(channelSelect.value);
+    </script>
+
+</body>
+</html>
