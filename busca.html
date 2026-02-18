@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Modelo/Busca</title>
+    <script src="dados.js"></script>
+    <style>
+        /* RESET E CORES GERAIS */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { background-color: #121212; color: #e0e0e0; }
+        a { text-decoration: none; color: inherit; }
+
+        /* CABEÇALHO (Igual ao Home) */
+        .top-bar { background-color: #1f1f1f; height: 40px; display: flex; align-items: center; padding: 0 20px; font-size: 12px; font-weight: bold; border-bottom: 1px solid #333; }
+        .top-bar a { margin-right: 20px; color: #888; }
+        .top-bar a:hover { color: #fff; }
+        
+        .main-header { background-color: #b71c1c; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; }
+        .menu-trigger { display: flex; align-items: center; cursor: pointer; color: #fff; font-weight: bold; font-size: 14px; }
+        .hamburger-icon { font-size: 24px; margin-right: 10px; }
+
+        /* ÁREA DE RESULTADOS */
+        .container-busca {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .titulo-busca {
+            font-size: 24px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 15px;
+            color: #fff;
+        }
+
+        /* ESTRUTURA DO CARD DE NOTÍCIA (FOTO ESQUERDA + TEXTO DIREITA) */
+        .resultado-item {
+            display: flex; /* Coloca imagem e texto lado a lado */
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #2a2a2a; /* Linha divisória discreta */
+        }
+
+        /* Imagem 16:9 Fixa */
+        .resultado-img-link {
+            flex-shrink: 0; /* Impede a imagem de esmagar */
+            margin-right: 20px;
+        }
+        
+        .resultado-img {
+            width: 320px;  /* Largura fixa */
+            height: 180px; /* Altura para manter 16:9 */
+            object-fit: cover;
+            border-radius: 4px;
+            background-color: #333;
+            transition: opacity 0.2s;
+        }
+
+        .resultado-img:hover { opacity: 0.8; }
+
+        /* Coluna de Texto */
+        .resultado-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .res-categoria {
+            color: #b71c1c; /* Vermelho destaque */
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .res-titulo {
+            font-size: 22px;
+            color: #fff;
+            font-weight: bold;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .res-titulo:hover { color: #b71c1c; }
+
+        .res-resumo {
+            font-size: 15px;
+            color: #aaa;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .res-tempo {
+            font-size: 11px;
+            color: #666;
+            margin-top: auto; /* Empurra para baixo se sobrar espaço */
+        }
+
+        /* Mensagem de erro */
+        .sem-resultados {
+            text-align: center;
+            padding: 50px;
+            color: #666;
+            font-size: 18px;
+        }
+
+        /* Responsividade para celular (imagem em cima, texto embaixo) */
+        @media (max-width: 768px) {
+            .resultado-item { flex-direction: column; }
+            .resultado-img { width: 100%; height: auto; aspect-ratio: 16/9; margin-bottom: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="top-bar">
+        <a href="index.html">Voltar para Home</a>
+    </nav>
+    <div class="main-header">
+        <div class="menu-trigger">
+            <span class="hamburger-icon">&#9776;</span>
+            <span class="menu-label">MENU</span>
+        </div>
+    </div>
+
+    <div class="container-busca">
+        <h1 class="titulo-busca" id="tituloPagina">Buscando...</h1>
+        
+        <div id="listaResultados"></div>
+    </div>
+
+    <script>
+        // 1. Pega o termo que veio da Home pela URL (?q=termo)
+        const params = new URLSearchParams(window.location.search);
+        const termoBusca = params.get('q'); // Pega o texto
+
+        const container = document.getElementById('listaResultados');
+        const tituloEl = document.getElementById('tituloPagina');
+
+        // Se não tiver termo, avisa
+        if (!termoBusca) {
+            tituloEl.innerText = "Nenhum termo digitado";
+        } else {
+            tituloEl.innerText = 'Resultados para: "' + termoBusca + '"';
+            
+            // 2. Filtra o "Banco de Dados" (dados.js)
+            // Converte tudo para minúsculo para facilitar a busca
+            const resultados = bancoDeDados.filter(item => {
+                const termoLower = termoBusca.toLowerCase();
+                return item.titulo.toLowerCase().includes(termoLower) || 
+                       item.resumo.toLowerCase().includes(termoLower);
+            });
+
+            // 3. Monta o HTML se tiver resultados
+            if (resultados.length > 0) {
+                let htmlFinal = "";
+
+                resultados.forEach(noticia => {
+                    htmlFinal += `
+                        <div class="resultado-item">
+                            <a href="${noticia.link}" target="_blank" class="resultado-img-link">
+                                <img src="${noticia.imagem}" class="resultado-img" alt="Imagem da notícia">
+                            </a>
+                            
+                            <div class="resultado-info">
+                                <span class="res-categoria">${noticia.categoria}</span>
+                                <a href="${noticia.link}" target="_blank" class="res-titulo">
+                                    ${noticia.titulo}
+                                </a>
+                                <p class="res-resumo">${noticia.resumo}</p>
+                                <span class="res-tempo">${noticia.tempo}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                container.innerHTML = htmlFinal;
+
+            } else {
+                // Se não achar nada
+                container.innerHTML = '<div class="sem-resultados">Termo não encontrado. Tente outra palavra.</div>';
+            }
+        }
+    </script>
+</body>
+</html>

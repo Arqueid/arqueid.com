@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <title>Arqueid</title>
+    <meta name="description" content="Arqueid Design e criação de conteúdo web, imagem e documentação em video.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:url" content="https://arqueid.com.br/">
+    <style>
+        /* =========================================
+           RESET E ESTILOS GERAIS (Modo Noturno)
+           ========================================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background-color: #121212; /* Fundo muito escuro */
+            color: #e0e0e0; /* Texto quase branco */
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* =========================================
+           1. BARRA SUPERIOR (Topo - Opções globais)
+           ========================================= */
+        .top-bar {
+            background-color: #1f1f1f; /* Cinza escuro */
+            height: 40px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 12px;
+            font-weight: bold;
+            border-bottom: 1px solid #333;
+        }
+
+        .top-bar a {
+            margin-right: 20px;
+            color: #888; /* Texto cinza para destaque menor */
+            transition: color 0.2s;
+        }
+
+        .top-bar a:hover {
+            color: #fff;
+        }
+
+        /* =========================================
+           2. BARRA DE MENU PRINCIPAL (Vermelha/Destaque)
+           ========================================= */
+        .main-header {
+            background-color: #b71c1c; /* Vermelho escuro (estilo G1 dark) */
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Separa menu da busca */
+            padding: 0 20px;
+            position: relative;
+            z-index: 100;
+        }
+
+        /* Lado Esquerdo: Menu Hambúrguer + Texto MENU */
+        .menu-trigger {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .hamburger-icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+        .menu-label {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* Lado Direito: Busca */
+        .search-box {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box input {
+            background-color: #8c1b1b; /* Vermelho mais escuro que o fundo */
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            color: #fff;
+            outline: none;
+            width: 200px;
+        }
+
+        .search-box input::placeholder {
+            color: #dcbaba;
+        }
+
+        .search-icon {
+            margin-left: -30px; /* Joga o ícone para dentro do input */
+            color: #fff;
+            cursor: pointer;
+        }
+
+        /* =========================================
+           3. MENU LATERAL VERTICAL (Escondido)
+           ========================================= */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -300px; /* Começa escondido à esquerda */
+            width: 300px;
+            height: 100%;
+            background-color: #1e1e1e;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+            transition: left 0.3s ease; /* Animação de deslize */
+            z-index: 200;
+            padding-top: 60px;
+        }
+
+        .sidebar.active {
+            left: 0; /* Mostra o menu */
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li {
+            border-bottom: 1px solid #333;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 15px 20px;
+            font-size: 16px;
+            color: #ccc;
+        }
+
+        .sidebar a:hover {
+            background-color: #333;
+            color: #fff;
+        }
+
+        /* Sombra de fundo quando menu abre */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 150;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        /* =========================================
+           4. ÁREA DE CONTEÚDO (Grid)
+           ========================================= */
+        .content-area {
+            max-width: 1100px;
+            margin: 40px auto; /* Centraliza na tela */
+            padding: 20px;
+            border: 2px dashed #444; /* Borda tracejada para indicar área vazia */
+            min-height: 400px;
+            text-align: center;
+            color: #666;
+        }
+
+    /* =========================================
+           ESTILOS DA HOME (DESTAQUE + GRADE)
+           ========================================= */
+        
+        /* Layout Geral da Área Principal */
+        .home-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* 1. O GRANDE DESTAQUE (Manchete) */
+        .destaque-principal {
+            border-bottom: 1px solid #333;
+            padding-bottom: 30px;
+        }
+
+        .destaque-img-wrapper {
+            width: 100%;
+            height: 400px; /* Altura fixa imponente */
+            overflow: hidden;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+
+        .destaque-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Cobre a área sem distorcer */
+            transition: transform 0.3s;
+        }
+
+        .destaque-principal:hover .destaque-img {
+            transform: scale(1.02); /* Zoom leve ao passar o mouse */
+        }
+
+        .destaque-categoria {
+            color: #b71c1c;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .destaque-titulo {
+            font-size: 36px; /* Fonte Gigante */
+            color: #fff;
+            font-weight: bold;
+            line-height: 1.1;
+            margin-bottom: 10px;
+        }
+        
+        .destaque-titulo:hover { color: #b71c1c; }
+
+        .destaque-resumo {
+            font-size: 18px;
+            color: #aaa;
+            max-width: 800px;
+        }
+
+        /* 2. A GRADE SECUNDÁRIA (3 colunas abaixo) */
+        .grade-secundaria {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 colunas iguais */
+            gap: 20px;
+        }
+
+        .card-secundario .card-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .card-secundario h3 {
+            font-size: 18px;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+        
+        .card-secundario h3:hover { color: #b71c1c; }
+
+        .card-secundario p {
+            font-size: 13px;
+            color: #999;
+        }
+
+        /* Responsividade para celular */
+        @media (max-width: 768px) {
+            .destaque-img-wrapper { height: 200px; }
+            .destaque-titulo { font-size: 24px; }
+            .grade-secundaria { grid-template-columns: 1fr; } /* Vira 1 coluna no celular */
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="top-bar">
+        <a href="downloads/" target="_blank">Downloads</a>
+        <a href="tartago/" target="_blank">Tartago</a>
+        <a href="detalhe/" target="_blank">Detalhe</a>
+        <a href="cepdeapiai/" target="_blank">Cep</a>
+        <a href="tv/" target="_blank">Tv</a>
+    </nav>
+
+    <div class="main-header">
+        <div class="menu-trigger" onclick="toggleMenu()">
+            <span class="hamburger-icon">&#9776;</span> <span class="menu-label">MENU</span>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="campoBuscaHome" placeholder="BUSCAR" onkeypress="verificarEnter(event)">
+            <span class="search-icon" onclick="realizarBusca()">&#128269;</span>
+        </div>
+    </div>
+
+    <div class="overlay" onclick="toggleMenu()"></div> <aside class="sidebar" id="sidebarMenu">
+        <span class="close-btn" onclick="toggleMenu()">&times;</span>
+        <ul>
+            <li><a href="#" target="_blank">Sony Vegas</a></li>
+            <li><a href="#" target="_blank">Virtual dj</a></li>
+            <li><a href="#" target="_blank">Efeito Sonoro</a></li>
+        </ul>
+    </aside>
+
+    <main class="content-area">
+        <div class="home-grid">
+            <div id="espaco-destaque"></div>
+            
+            <div id="espaco-secundarias" class="grade-secundaria"></div>
+        </div>
+    </main>
+
+    <script>
+        // Função que roda assim que a página carrega
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // Verifica se o bancoDeDados existe e tem itens
+            if (typeof bancoDeDados !== 'undefined' && bancoDeDados.length > 0) {
+                
+                // --- 1. PREENCHER O DESTAQUE (Primeiro item: índice 0) ---
+                const destaque = bancoDeDados[0];
+                const divDestaque = document.getElementById('espaco-destaque');
+
+                divDestaque.innerHTML = `
+                    <div class="destaque-principal">
+                        <a href="${destaque.link}" target="_blank">
+                            <div class="destaque-img-wrapper">
+                                <img src="${destaque.imagem}" class="destaque-img" alt="${destaque.titulo}">
+                            </div>
+                            <span class="destaque-categoria">${destaque.categoria}</span>
+                            <h2 class="destaque-titulo">${destaque.titulo}</h2>
+                            <p class="destaque-resumo">${destaque.resumo}</p>
+                        </a>
+                    </div>
+                `;
+
+                // --- 2. PREENCHER AS SECUNDÁRIAS (Ítems 1, 2 e 3) ---
+                // O método .slice(1, 4) pega do índice 1 até o 4 (não incluso), ou seja: 1, 2, 3.
+                const secundarias = bancoDeDados.slice(1, 4); 
+                const divSecundarias = document.getElementById('espaco-secundarias');
+                
+                let htmlSecundario = '';
+
+                secundarias.forEach(item => {
+                    htmlSecundario += `
+                        <div class="card-secundario">
+                            <a href="${item.link}" target="_blank">
+                                <img src="${item.imagem}" class="card-img" alt="${item.titulo}">
+                                <span style="font-size: 10px; color:#b71c1c; font-weight:bold">${item.categoria}</span>
+                                <h3>${item.titulo}</h3>
+                                <p>${item.resumo.substring(0, 80)}...</p> </a>
+                        </div>
+                    `;
+                });
+
+                divSecundarias.innerHTML = htmlSecundario;
+            }
+        });
+    </script>
+
+<script src="dados.js"></script>
+
+    <script>
+        // Função simples para abrir/fechar o menu
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebarMenu');
+            const overlay = document.querySelector('.overlay');
+            
+            // Adiciona ou remove a classe 'active' que faz o menu aparecer
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+    </script>
+
+    <script>
+        // Função para capturar o Enter
+        function verificarEnter(event) {
+            if (event.key === "Enter") {
+                realizarBusca();
+            }
+        }
+
+        // Função que pega o texto e manda para a busca.html
+        function realizarBusca() {
+            var termo = document.getElementById('campoBuscaHome').value;
+            if (termo) {
+                // Redireciona para busca.html enviando o termo na URL (ex: busca.html?q=termo)
+                window.location.href = "busca.html?q=" + encodeURIComponent(termo);
+            }
+        }
+
+        // Mantenha aqui a função do menu toggleMenu() que já existia...
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebarMenu');
+            const overlay = document.querySelector('.overlay');
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+    </script>
+
+</body>
+</html>
