@@ -15,12 +15,12 @@ const bancoDeDados = [
     },
     {
         id: 2,
-        titulo: "Tutorial: Como criar menus responsivos com CSS",
-        resumo: "Aprenda passo a passo como fazer o menu hambúrguer funcionar sem usar frameworks pesados.",
-        categoria: "PROGRAMAÇÃO",
-        tempo: "há 5 horas",
-        imagem: "foto.jpg",
-        link: "https://www.w3schools.com"
+        titulo: "Monitor Principal Do Notbook com Problemas",
+        resumo: "Como Conectar a Tela do Computador Notbook para duas telas duplicar e estender os monitores, substituindo monitor principal",
+        categoria: "RESOLVER PROBLEMA",
+        tempo: "21/02/2026",
+        imagem: "https://i.imgur.com/2HHQezh.jpeg",
+        link: "artigos/tela.html"
     },
     {
         id: 3,
@@ -42,3 +42,4 @@ const bancoDeDados = [
     }
 
 ];
+
