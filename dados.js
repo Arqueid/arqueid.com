@@ -22,15 +22,7 @@ const bancoDeDados = [
         imagem: "https://i.imgur.com/2HHQezh.jpeg",
         link: "artigos/tela.html"
     },
-    {
-        id: 3,
-        titulo: "Como Trancar o BitLocker Novamente Sem Desligar o PC",
-        resumo: "bitlocker não permite trancar nativamente aprenda como trancar o bitlocker",
-        categoria: "CMD",
-        tempo: "24/02/2026",
-        imagem: "https://i.imgur.com/M30Mapm.jpeg",
-        link: "artigos/bitLocker.html"
-    },
+    
     {
         id: 4,
         titulo: "O futuro do Javascript no desenvolvimento Front-end",
@@ -42,6 +34,7 @@ const bancoDeDados = [
     }
 
 ];
+
 
 
 
