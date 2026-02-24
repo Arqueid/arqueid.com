@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" href="../favicon.png">
+    <title>BitLocker</title>
+    <style>
+        /* RESET E ESTILOS GERAIS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* 1. BARRA SUPERIOR */
+        .top-bar {
+            background-color: #1f1f1f;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 12px;
+            font-weight: bold;
+            border-bottom: 1px solid #333;
+        }
+
+        .top-bar a {
+            margin-right: 20px;
+            color: #888;
+            transition: color 0.2s;
+        }
+
+        .top-bar a:hover {
+            color: #fff;
+        }
+
+        /* 2. BARRA DE MENU PRINCIPAL */
+        .main-header {
+            background-color: #b71c1c;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            position: relative;
+            z-index: 100;
+        }
+
+        .menu-trigger {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .hamburger-icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+        .menu-label {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box input {
+            background-color: #8c1b1b;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            color: #fff;
+            outline: none;
+            width: 200px;
+        }
+
+        .search-icon {
+            margin-left: -30px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        /* 3. MENU LATERAL */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 300px;
+            height: 100%;
+            background-color: #1e1e1e;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+            transition: left 0.3s ease;
+            z-index: 200;
+            padding-top: 60px;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li {
+            border-bottom: 1px solid #333;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 15px 20px;
+            font-size: 16px;
+            color: #ccc;
+        }
+
+        .sidebar a:hover {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 150;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        /* 4. ÁREA DO ARTIGO */
+        .content-area {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            flex: 1;
+        }
+
+        .artigo-titulo {
+            font-size: 32px;
+            color: #fff;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .artigo-subtitulo {
+            font-size: 24px;
+            color: #b71c1c;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
+        }
+
+        .artigo-imagem {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .artigo-texto {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+
+        /* Código de comando no texto */
+        .codigo-cmd {
+            display: block;
+            background-color: #2b2b2b;
+            color: #4CAF50;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 16px;
+            margin: 10px 0;
+            border-left: 4px solid #b71c1c;
+        }
+
+        /* 5. RODAPÉ */
+        footer {
+            background-color: #1f1f1f;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #333;
+            font-size: 14px;
+            color: #888;
+            margin-top: 40px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="top-bar">
+        <a href="https://arqueid.com.br/">Home</a> 
+        <a href="https://arqueid.com.br/downloads/">Downloads</a>
+        <a href="https://arqueid.com.br/tartago/">Tartago</a>
+        <a href="https://arqueid.com.br/detalhe/">Detalhe</a>
+        <a href="https://arqueid.com.br/cepdeapiai/">Cep</a>
+        <a href="https://arqueid.com.br/tv/">Tv</a>
+    </nav>
+
+    <div class="main-header">
+        <div class="menu-trigger" onclick="toggleMenu()">
+            <span class="hamburger-icon">&#9776;</span> 
+            <span class="menu-label">MENU</span>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="campoBuscaHome" placeholder="BUSCAR" onkeypress="verificarEnter(event)">
+            <span class="search-icon" onclick="realizarBusca()">&#128269;</span>
+        </div>
+    </div>
+
+    <div class="overlay" onclick="toggleMenu()"></div> 
+    <aside class="sidebar" id="sidebarMenu">
+        <span class="close-btn" onclick="toggleMenu()">&times;</span>
+        <ul>
+            <li><a href="#">Sony Vegas</a></li>
+            <li><a href="#">Virtual dj</a></li>
+            <li><a href="#">Efeito Sonoro</a></li>
+        </ul>
+    </aside>
+
+    <main class="content-area">
+        <article>
+            <h1 class="artigo-titulo">Como Trancar o BitLocker Novamente Sem Desligar o PC</h1>
+            
+            <p class="artigo-texto">
+               O Windows não possui um botão de "Trancar" para o BitLocker na sua interface normal. Depois de colocar a senha e destrancar um HD ou Pen Drive, a única forma de trancar novamente sem reiniciar o computador é usando o Prompt de Comando (CMD).
+            </p>
+
+            <h2 class="artigo-subtitulo">Passo 1: Descobrir a letra da unidade</h2>
+            <p class="artigo-texto">1. Abra o <strong>Explorador de Arquivos</strong> (Meu Computador / Este Computador).</p>
+            <p class="artigo-texto">2. Procure o pen drive, HD ou partição que está com o ícone do cadeado aberto.</p>
+            <p class="artigo-texto">3. Anote a letra que aparece entre parênteses ao lado do nome dele (Exemplo: <strong>D:</strong>, <strong>E:</strong>, <strong>F:</strong>).</p>
+
+            <h2 class="artigo-subtitulo">Passo 2: Abrir o Prompt de Comando como Administrador</h2>
+            <p class="artigo-texto">1. Clique no botão <strong>Iniciar</strong> do Windows.</p>
+            <p class="artigo-texto">2. Digite <strong>cmd</strong> no campo de busca.</p>
+            <p class="artigo-texto">3. No lado direito do menu, clique em <strong>Executar como administrador</strong>.</p>
+            <p class="artigo-texto">4. Se aparecer uma tela azul de confirmação perguntando se permite alterações, clique em <strong>Sim</strong>.</p>
+
+            <h2 class="artigo-subtitulo">Passo 3: Executar o comando de bloqueio</h2>
+            <p class="artigo-texto">1. Na tela preta que se abriu, digite o comando abaixo:</p>
+            
+            <span class="codigo-cmd">manage-bde -lock X:</span>
+            
+            <p class="artigo-texto">2. <strong>Atenção:</strong> Apague a letra <strong>X</strong> e coloque a letra que você anotou no Passo 1. Por exemplo, se o seu pen drive for a letra E, você deve digitar <strong>manage-bde -lock E:</strong></p>
+            <p class="artigo-texto">3. Aperte a tecla <strong>Enter</strong> no teclado.</p>
+            <p class="artigo-texto">Se der tudo certo, aparecerá uma mensagem confirmando que o volume foi bloqueado. O cadeado voltará a ficar fechado.</p>
+
+            <h2 class="artigo-subtitulo">Passo 4: Forçar o bloqueio (Caso dê erro)</h2>
+            <p class="artigo-texto">Se o sistema mostrar uma mensagem dizendo que a unidade está em uso e não pode ser bloqueada, significa que tem algum arquivo aberto puxando dados dela.</p>
+            <p class="artigo-texto">1. Feche fotos, vídeos, documentos ou pastas que estejam abertos dentro desse pen drive/HD.</p>
+            <p class="artigo-texto">2. Digite o comando abaixo para forçar o fechamento e trancar na marra (substituindo o X pela sua letra):</p>
+            
+            <span class="codigo-cmd">manage-bde -lock X: -ForceDismount</span>
+            
+            <p class="artigo-texto">3. Aperte a tecla <strong>Enter</strong>.</p>
+            <p class="artigo-texto">Pronto. A unidade será ejetada do sistema internamente e trancada com sucesso.</p>
+
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Arqueid</p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebarMenu');
+            const overlay = document.querySelector('.overlay');
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        function verificarEnter(event) {
+            if (event.key === "Enter") {
+                realizarBusca();
+            }
+        }
+
+        function realizarBusca() {
+            var termo = document.getElementById('campoBuscaHome').value;
+            if (termo) {
+                window.location.href = "../busca.html?q=" + encodeURIComponent(termo);
+            }
+        }
+    </script>
+
+</body>
+</html>
