@@ -24,12 +24,12 @@ const bancoDeDados = [
     },
     {
         id: 3,
-        titulo: "Tutorial: Como criar menus responsivos com CSS",
-        resumo: "Aprenda passo a passo como fazer o menu hambúrguer funcionar sem usar frameworks pesados.",
-        categoria: "PROGRAMAÇÃO",
-        tempo: "há 5 horas",
-        imagem: "foto.jpg",
-        link: "https://www.w3schools.com"
+        titulo: "Como Trancar o BitLocker Novamente Sem Desligar o PC",
+        resumo: "O Windows não possui um botão de "Trancar" para o BitLocker na sua interface normal. Depois de colocar a senha e destrancar um HD ou Pen Drive, a única forma de trancar novamente sem reiniciar o computador é usando o Prompt de Comando (CMD).",
+        categoria: "CMD",
+        tempo: "24/02/2026",
+        imagem: "https://i.imgur.com/M30Mapm.jpeg",
+        link: "artigos/bitLocker.html"
     },
     {
         id: 4,
@@ -42,4 +42,5 @@ const bancoDeDados = [
     }
 
 ];
+
 
