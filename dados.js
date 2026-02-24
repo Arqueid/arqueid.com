@@ -22,6 +22,15 @@ const bancoDeDados = [
         imagem: "https://i.imgur.com/2HHQezh.jpeg",
         link: "artigos/tela.html"
     },
+    {
+        id: 3,
+        titulo: "trancar o bitLocker pelo prompt de comando",
+        resumo: "aprenda trancar a criptografia do windows novmente pelo bitlocker",
+        categoria: "RESOLVER PROBLEMA",
+        tempo: "24/02/2026",
+        imagem: "https://i.imgur.com/M30Mapm.jpeg",
+        link: "artigos/bitLocker.html"
+    },
     
     {
         id: 4,
@@ -34,6 +43,7 @@ const bancoDeDados = [
     }
 
 ];
+
 
 
 
