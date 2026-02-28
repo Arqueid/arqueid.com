@@ -34,15 +34,16 @@ const bancoDeDados = [
     
     {
         id: 4,
-        titulo: "O futuro do Javascript no desenvolvimento Front-end",
-        resumo: "Especialistas discutem as novas atualizações da linguagem e o que esperar para 2026.",
-        categoria: "MERCADO",
+        titulo: "Como Baixar Fotos Vídeos e Stories do Instagram pelo Inspecionar",
+        resumo: "Baixar arquivos de imagem e vídeo do Instagram no computador usando a ferramenta nativa do navegador. Nenhuma extensão é necessária.",
+        categoria: "RESOLVER PROBLEMA",
         tempo: "há 1 dia",
-        imagem: "https://via.placeholder.com/320x180/333333/ffffff?text=JS+FUTURO",
-        link: "https://developer.mozilla.org"
+        imagem: "https://i.imgur.com/5OBWf3Y.jpeg",
+        link: "artigos/instagram.html"
     }
 
 ];
+
 
 
 
