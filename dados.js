@@ -37,12 +37,13 @@ const bancoDeDados = [
         titulo: "Como Baixar Fotos Vídeos e Stories do Instagram pelo Inspecionar",
         resumo: "Baixar arquivos de imagem e vídeo do Instagram no computador usando a ferramenta nativa do navegador. Nenhuma extensão é necessária.",
         categoria: "RESOLVER PROBLEMA",
-        tempo: "há 1 dia",
+        tempo: "28/02/2026",
         imagem: "https://i.imgur.com/5OBWf3Y.jpeg",
         link: "artigos/instagram.html"
     }
 
 ];
+
 
 
 
