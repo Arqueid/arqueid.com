@@ -4,6 +4,15 @@
 // os 4 Primeiros tem destaque principalmente o 1
 // digite final para ir ao fm das IDs
 const bancoDeDados = [
+     {
+        id: 5,
+        titulo: "Sublime Text Portatil com Autocompletar",
+        resumo: "versão portavel do editor sublime text",
+        categoria: "EDITOR DE CÓDIGOS",
+        tempo: "07/03/2026",
+        imagem: "https://i.imgur.com/2qm71h8.jpeg",
+        link: "artigos/sublime.html"
+    },
     {
         id: 1,
         titulo: "VEGAS PRO",
@@ -44,6 +53,7 @@ const bancoDeDados = [
    
 
 ];
+
 
 
 
