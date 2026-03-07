@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" href="../favicon.png">
+    <title>Arqueid / Sublime Text</title>
+    
+    <style>
+        /* CSS: Aqui controlamos o visual da página. Para mudar cores ou tamanhos, altere os valores abaixo. */
+        
+        /* RESET E ESTILOS GERAIS - Remove margens padrão e define a fonte */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* Fundo escuro e texto claro para a página toda */
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Remove sublinhado de todos os links */
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* 1. BARRA SUPERIOR - Links de navegação extras no topo */
+        /* Para mudar a cor de fundo, altere o background-color */
+        .top-bar {
+            background-color: #1f1f1f;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 12px;
+            font-weight: bold;
+            border-bottom: 1px solid #333;
+        }
+
+        .top-bar a {
+            margin-right: 20px;
+            color: #888;
+            transition: color 0.2s;
+        }
+
+        .top-bar a:hover {
+            color: #fff;
+        }
+
+        /* 2. BARRA DE MENU PRINCIPAL - Faixa vermelha com botão de menu e busca */
+        .main-header {
+            background-color: #b71c1c; /* Cor vermelha do menu */
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            position: relative;
+            z-index: 100;
+        }
+
+        .menu-trigger {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .hamburger-icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+        .menu-label {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* Estilos da caixa de pesquisa */
+        .search-box {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box input {
+            background-color: #8c1b1b;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            color: #fff;
+            outline: none;
+            width: 200px;
+        }
+
+        .search-icon {
+            margin-left: -30px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        /* 3. MENU LATERAL - Oculto por padrão, desliza da esquerda */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -300px; /* Esconde o menu fora da tela */
+            width: 300px;
+            height: 100%;
+            background-color: #1e1e1e;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+            transition: left 0.3s ease; /* Efeito de deslizar */
+            z-index: 200;
+            padding-top: 60px;
+        }
+
+        .sidebar.active {
+            left: 0; /* Traz o menu para dentro da tela quando ativo */
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li {
+            border-bottom: 1px solid #333;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 15px 20px;
+            font-size: 16px;
+            color: #ccc;
+        }
+
+        .sidebar a:hover {
+            background-color: #333;
+            color: #fff;
+        }
+
+        /* Fundo escuro semitransparente que aparece atrás do menu lateral */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 150;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        /* 4. ÁREA DO ARTIGO - Container central onde fica o conteúdo de texto */
+        .content-area {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            flex: 1;
+        }
+
+        .artigo-titulo {
+            font-size: 32px;
+            color: #fff;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .artigo-subtitulo {
+            font-size: 24px;
+            color: #b71c1c;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
+        }
+
+        .artigo-imagem {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .artigo-texto {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+
+        /* Botão de download customizado */
+        .btn-download {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 15px 0;
+            transition: background-color 0.3s;
+        }
+
+        .btn-download:hover {
+            background-color: #45a049;
+        }
+
+        /* 5. RODAPÉ */
+        footer {
+            background-color: #1f1f1f;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #333;
+            font-size: 14px;
+            color: #888;
+            margin-top: 40px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="top-bar">
+        <a href="https://arqueid.com.br/">Home</a> 
+        <a href="https://arqueid.com.br/downloads/">Downloads</a>
+        <a href="https://arqueid.com.br/tartago/">Tartago</a>
+        <a href="https://arqueid.com.br/detalhe/">Detalhe</a>
+        <a href="https://arqueid.com.br/cepdeapiai/">Cep</a>
+        <a href="https://arqueid.com.br/tv/">Tv</a>
+    </nav>
+
+    <div class="main-header">
+        <div class="menu-trigger" onclick="toggleMenu()">
+            <span class="hamburger-icon">&#9776;</span> 
+            <span class="menu-label">MENU</span>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="campoBuscaHome" placeholder="BUSCAR" onkeypress="verificarEnter(event)">
+            <span class="search-icon" onclick="realizarBusca()">&#128269;</span>
+        </div>
+    </div>
+
+    <div class="overlay" onclick="toggleMenu()"></div> 
+    
+    <aside class="sidebar" id="sidebarMenu">
+        <span class="close-btn" onclick="toggleMenu()">&times;</span>
+        <ul>
+            <li><a href="#">Sony Vegas</a></li>
+            <li><a href="#">Virtual dj</a></li>
+            <li><a href="#">Efeito Sonoro</a></li>
+        </ul>
+    </aside>
+
+    <main class="content-area">
+        
+        <article>
+            <h1 class="artigo-titulo">Sublime Text Portátil com Autocompletar (Emmet)</h1>
+            
+            <p class="artigo-texto">
+               <strong>Editor de código leve, portátil e pronto para uso.</strong>
+            </p>
+
+            <a href="https://www.mediafire.com/file/8no76ogaoh3xpmh/Sublime+Text+Port%C3%A1til.7z/file" target="_blank" class="btn-download">
+                ⬇️ Baixar Sublime Text Portátil
+            </a>
+
+            <h2 class="artigo-subtitulo">Vantagens da Versão Portátil</h2>
+            <p class="artigo-texto">
+                O Sublime Text portátil não requer instalação no Windows. Ele pode ser executado diretamente de um pen drive ou salvo em qualquer pasta do seu disco rígido. 
+            </p>
+            <p class="artigo-texto">
+                Todos os dados de configuração, como cores de fundo (temas) e plugins instalados, ficam armazenados localmente dentro de uma pasta chamada <code>Data</code>. Isso permite manter o seu ambiente de trabalho intacto em qualquer computador.
+            </p>
+
+            <h2 class="artigo-subtitulo">Plugin Emmet (Autocompletar)</h2>
+            <p class="artigo-texto">
+                Esta versão já inclui o plugin Emmet previamente configurado. O Emmet é uma ferramenta que acelera a escrita de código HTML e CSS.
+            </p>
+            <p class="artigo-texto">
+                <strong>Como usar o autocompletar:</strong>
+            </p>
+            <p class="artigo-texto">1. Crie um novo arquivo e salve com a extensão <code>.html</code>.</p>
+            <p class="artigo-texto">2. Digite o sinal de exclamação <code>!</code> no editor.</p>
+            <p class="artigo-texto">3. Pressione a tecla <strong>Tab</strong>.</p>
+            <p class="artigo-texto">
+                A estrutura básica de um documento HTML será gerada instantaneamente. O mesmo atalho (digitar abreviação e apertar Tab) funciona para criar dezenas de tags complexas rapidamente.
+            </p>
+
+        </article>
+        </main>
+
+    <footer>
+        <p>&copy; 2026 Arqueid</p>
+    </footer>
+
+    <script>
+        // Função para abrir e fechar o menu lateral
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebarMenu');
+            const overlay = document.querySelector('.overlay');
+            // Adiciona ou remove a classe 'active' que faz os elementos aparecerem na tela
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        // Função que verifica se o usuário apertou a tecla Enter na caixa de busca
+        function verificarEnter(event) {
+            if (event.key === "Enter") {
+                realizarBusca();
+            }
+        }
+
+        // Função que pega o texto digitado e envia para a página de busca
+        function realizarBusca() {
+            var termo = document.getElementById('campoBuscaHome').value;
+            if (termo) {
+                // O "../" volta uma pasta antes de carregar o arquivo busca.html
+                window.location.href = "../busca.html?q=" + encodeURIComponent(termo);
+            }
+        }
+    </script>
+
+</body>
+</html>
