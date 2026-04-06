@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>DJ Player</title>
+    <link rel="stylesheet" href="style.css">
+     <meta name="robots" content="noindex, nofollow">
+     <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+
+    <div id="display-global">AGUARDANDO MÚSICA...</div>
+
+    <div class="container-principal">
+        
+        <div id="deck-a" class="deck deck-vermelho" ondrop="soltarMusica(event, 'a')" ondragover="permitirSoltar(event)">
+            <h2>DECK A <span id="tempo-a" class="visor-tempo">00:00</span></h2>
+            <img src="disc-spinning.gif" class="disco" id="disco-a" alt="Disco Deck A">
+            <div class="controles">
+                <button onclick="tocar('a')">PLAY</button>
+                <button onclick="pausar('a')">PAUSE</button>
+                <button onclick="parar('a')">STOP</button>
+                
+                <input type="range" id="vol-a" min="0" max="1" step="0.01" value="0.5" orient="vertical" oninput="mudarVolume('a', this.value)">
+            </div>
+            <audio id="audio-a"></audio>
+        </div>
+
+        <div class="area-central">
+            <div class="busca-container">
+                <input type="text" id="campo-busca" placeholder="BUSCAR MÚSICA OU TAG..." onkeyup="buscarMusicas()">
+            </div>
+            <div id="lista-resultados"></div>
+        </div>
+
+        <div id="deck-b" class="deck deck-azul" ondrop="soltarMusica(event, 'b')" ondragover="permitirSoltar(event)">
+            <h2>DECK B <span id="tempo-b" class="visor-tempo">00:00</span></h2>
+            <img src="disc-spinning.gif" class="disco" id="disco-b" alt="Disco Deck B">
+            <div class="controles">
+                <button onclick="tocar('b')">PLAY</button>
+                <button onclick="pausar('b')">PAUSE</button>
+                <button onclick="parar('b')">STOP</button>
+                
+                <input type="range" id="vol-b" min="0" max="1" step="0.01" value="0.5" orient="vertical" oninput="mudarVolume('b', this.value)">
+            </div>
+            <audio id="audio-b"></audio>
+        </div>
+
+    </div>
+
+    <div class="area-vinhetas">
+        <h3>VINHETAS</h3>
+        <div class="grid-vinhetas">
+            <div class="vinheta-slot" id="v1" ondrop="soltarVinheta(event, 1)" ondragover="permitirSoltar(event)" onclick="tocarVinheta(1)"><span id="texto-v1">Vazio 1</span><audio id="audio-v1"></audio></div>
+            <div class="vinheta-slot" id="v2" ondrop="soltarVinheta(event, 2)" ondragover="permitirSoltar(event)" onclick="tocarVinheta(2)"><span id="texto-v2">Vazio 2</span><audio id="audio-v2"></audio></div>
+            <div class="vinheta-slot" id="v3" ondrop="soltarVinheta(event, 3)" ondragover="permitirSoltar(event)" onclick="tocarVinheta(3)"><span id="texto-v3">Vazio 3</span><audio id="audio-v3"></audio></div>
+            <div class="vinheta-slot" id="v4" ondrop="soltarVinheta(event, 4)" ondragover="permitirSoltar(event)" onclick="tocarVinheta(4)"><span id="texto-v4">Vazio 4</span><audio id="audio-v4"></audio></div>
+            <div class="vinheta-slot" id="v5" ondrop="soltarVinheta(event, 5)" ondragover="permitirSoltar(event)" onclick="tocarVinheta(5)"><span id="texto-v5">Vazio 5</span><audio id="audio-v5"></audio></div>
+            <div class="vinheta-slot" id="v6" ondrop="soltarVinheta(event, 6)" ondragover="permitirSoltar(event)" onclick="tocarVinheta(6)"><span id="texto-v6">Vazio 6</span><audio id="audio-v6"></audio></div>
+            <div class="vinheta-slot" id="v7" ondrop="soltarVinheta(event, 7)" ondragover="permitirSoltar(event)" onclick="tocarVinheta(7)"><span id="texto-v7">Vazio 7</span><audio id="audio-v7"></audio></div>
+            <div class="vinheta-slot" id="v8" ondrop="soltarVinheta(event, 8)" ondragover="permitirSoltar(event)" onclick="tocarVinheta(8)"><span id="texto-v8">Vazio 8</span><audio id="audio-v8"></audio></div>
+            <div class="vinheta-slot" id="v9" ondrop="soltarVinheta(event, 9)" ondragover="permitirSoltar(event)" onclick="tocarVinheta(9)"><span id="texto-v9">Vazio 9</span><audio id="audio-v9"></audio></div>
+        </div>
+    </div>
+
+    <script src="listademusicas.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
