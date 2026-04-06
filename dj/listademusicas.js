@@ -4,21 +4,21 @@
 // O campo 'link' deve ser o URL direto do MP3 (ex: catbox.moe).
 const listaDeMusicas = [
     {
-        titulo: "Batida Eletro",
-        artista: "DJ Fulano",
-        link: "musica.mp3", // Substitua pelo link real
-        tags: ["exemplo", "dance", "pista"]
+        titulo: "Dominique",
+        artista: "Giane",
+        link: "https://files.catbox.moe/plt03l.mp3", // Substitua pelo link real
+        tags: ["antiga", "mpb", "dominique"]
     },
     {
-        titulo: "Rock Pesado",
-        artista: "Banda Rock",
-        link: "https://files.catbox.moe/exemplo2.mp3", // Substitua pelo link real
-        tags: ["rock", "guitarra", "forte"]
+        titulo: "vinheta djwillian",
+        artista: "vinheta",
+        link: "https://files.catbox.moe/htncnz.mp3", // Substitua pelo link real
+        tags: ["dj", "djwillian", "vinheta"]
     },
     {
-        titulo: "Vinheta Abertura",
-        artista: "Locutor",
-        link: "https://files.catbox.moe/exemplo3.mp3", // Substitua pelo link real
-        tags: ["vinheta", "voz", "abertura"]
+        titulo: "efeito transição",
+        artista: "vinheta",
+        link: "https://files.catbox.moe/e5gtnt.mp3", // Substitua pelo link real
+        tags: ["transição", "vinheta", "efeito"]
     }
 ];
