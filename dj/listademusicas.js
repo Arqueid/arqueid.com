@@ -16,7 +16,7 @@ const listaDeMusicas = [
         tags: ["dj", "djwillian", "vinheta"]
     },
     {
-        titulo: "efeito transição",
+        titulo: "efeito transicao",
         artista: "vinheta",
         link: "https://files.catbox.moe/e5gtnt.mp3", // Substitua pelo link real
         tags: ["transição", "vinheta", "efeito"]
