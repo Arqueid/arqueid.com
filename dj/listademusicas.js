@@ -4,6 +4,12 @@
 // O campo 'link' deve ser o URL direto do MP3 (ex: catbox.moe).
 const listaDeMusicas = [
     {
+        titulo: "Pretty Little Baby",
+        artista: "Connie Francis",
+        link: "https://files.catbox.moe/e4yxqe.mp3", // Substitua pelo link real
+        tags: ["baby", "antiga", "internacional"]
+    },
+    {
         titulo: "Dominique",
         artista: "Giane",
         link: "https://files.catbox.moe/plt03l.mp3", // Substitua pelo link real
