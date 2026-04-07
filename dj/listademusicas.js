@@ -5,10 +5,28 @@
 const listaDeMusicas = [
     
     {
+        titulo: "quer namorar comigo",
+        artista: "calcinha preta",
+        link: "https://files.catbox.moe/amguwq.mp3", // Substitua pelo link real
+        tags: ["quer namorar comigo", "calcinha preta", "forro"]
+    },
+    {
+        titulo: "som de cristal",
+        artista: "trio parada dura",
+        link: "https://files.catbox.moe/fwkapt.mp3", // Substitua pelo link real
+        tags: ["som de cristal", "trio parada dura", "sertanejo"]
+    },
+    {
+        titulo: "som de cristal",
+        artista: "joaquim e manuel",
+        link: "https://files.catbox.moe/irljp5.mp3", // Substitua pelo link real
+        tags: ["som de cristal", "joaquim e manuel", "raiz"]
+    },
+    {
         titulo: "boate azul",
         artista: "joaquim e manuel",
         link: "https://files.catbox.moe/63ixnz.mp3", // Substitua pelo link real
-        tags: ["sertanejo raiz", "joaquim e manuel", "raiz"]
+        tags: ["sertanejo raiz", "joaquim e manuel", "boate azul"]
     },
     
     {
