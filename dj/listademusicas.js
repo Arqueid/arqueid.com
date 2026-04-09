@@ -5,13 +5,6 @@
 const listaDeMusicas = [
     
     {
-        titulo: "voce nao e mais assim",
-        artista: "zeze di camargo e luciano",
-        link: "https://files.catbox.moe/7h60b5.mp3", // Substitua pelo link real
-        tags: ["sertanejo", "classico", "zeze di camargo e luciano"]
-    },
-    
-    {
         titulo: "quer namorar comigo",
         artista: "calcinha preta",
         link: "https://files.catbox.moe/amguwq.mp3", // Substitua pelo link real
