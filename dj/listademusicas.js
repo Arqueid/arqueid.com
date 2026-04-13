@@ -5,6 +5,12 @@
 const listaDeMusicas = [
     
     {
+        titulo: "aquecimento das meninas",
+        artista: "dj malboro",
+        link: "https://files.catbox.moe/amguwq.mp3", // Substitua pelo link real
+        tags: ["funk", "malboro", "gemido"]
+    },
+    {
         titulo: "quer namorar comigo",
         artista: "calcinha preta",
         link: "https://files.catbox.moe/amguwq.mp3", // Substitua pelo link real
