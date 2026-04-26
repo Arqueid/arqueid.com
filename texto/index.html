@@ -1,13 +1,98 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Texto Portavel</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copiar Texto</title>
+    <style>
+        /* GUIA PARA O FUTURO PROGRAMADOR: ESTILOS (CSS) */
+        
+        /* O estilo do 'body' define o fundo geral e o alinhamento. */
+        /* Aplicado modo dark (escuro) por padrão. */
+        /* Para mudar a cor de fundo, altere o valor de 'background-color'. */
+        body {
+            background-color: #121212; 
+            color: #ffffff; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Mantém o conteúdo centralizado na vertical */
+            align-items: center; /* Mantém o conteúdo centralizado na horizontal */
+            min-height: 100vh; 
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Estilo da área que envolve o texto. */
+        /* Para remover este contorno, delete esta classe aqui no CSS e a respectiva <div> no HTML abaixo. */
+        .caixa-texto {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid #333;
+            max-width: 90%; /* Evita que o texto quebre o layout no Android */
+        }
+
+        /* Estilo do botão. */
+        /* O padding grande (15px 32px) garante que a área de toque seja confortável no Android. */
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 32px;
+            text-align: center;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Efeito de clique no botão para feedback visual na tela. */
+        button:active {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
 
-	<center><p>http://majorbrigshq.digital:8880/get.php?username=williamindsidney&password=umv9d81f&type=m3u&output=m3u8</p></center>
-	
+    <div class="caixa-texto">
+        <p id="texto-alvo">http://majorbrigshq.digital:8880/get.php?username=williamindsidney&password=umv9d81f&type=m3u&output=m3u8</p>
+    </div>
+
+    <button onclick="copiarTexto()" id="botao-copiar">Copiar Texto</button>
+
+    <script>
+        /* GUIA PARA O FUTURO PROGRAMADOR: LÓGICA (JAVASCRIPT) */
+
+        // Função responsável por ler o texto e enviar para a área de transferência.
+        function copiarTexto() {
+            // PASSO 1: Localizar o texto.
+            // A variável 'textoParaCopiar' extrai apenas o texto limpo de dentro do elemento com id 'texto-alvo'.
+            // Para adicionar a cópia de um texto diferente, altere 'texto-alvo' para o ID do novo elemento criado no HTML.
+            const textoParaCopiar = document.getElementById('texto-alvo').innerText;
+
+            // PASSO 2: Executar a cópia.
+            // navigator.clipboard.writeText é a API moderna que funciona perfeitamente em Desktop e Android.
+            navigator.clipboard.writeText(textoParaCopiar)
+                .then(() => {
+                    // PASSO 3: Feedback de Sucesso.
+                    // Se a cópia funcionar, alteramos o texto do botão temporariamente para avisar o usuário.
+                    const botao = document.getElementById('botao-copiar');
+                    botao.innerText = 'Copiado!';
+
+                    // Este temporizador (setTimeout) faz o botão voltar ao texto original após 2000 milissegundos (2 segundos).
+                    // Para remover esse efeito de piscar/voltar o texto, apague todo o bloco setTimeout.
+                    setTimeout(() => {
+                        botao.innerText = 'Copiar Texto';
+                    }, 2000);
+                })
+                .catch(err => {
+                    // PASSO 4: Tratamento de Erro.
+                    // Caso o navegador ou o Android bloqueie a cópia por falta de permissão, um alerta é exibido.
+                    console.error('Erro na cópia: ', err);
+                    alert('Não foi possível copiar o texto.');
+                });
+        }
+    </script>
 </body>
 </html>
