@@ -3,6 +3,8 @@
 
 // os 4 Primeiros tem destaque principalmente o 1
 // digite final para ir ao fm das IDs
+
+// BUSQUE POR " FINAL DO ARTIGO " PARA IR AO ULTIMO ARTIGO ESCRITO
 const bancoDeDados = [
      {
         id: 5,
@@ -61,7 +63,7 @@ const bancoDeDados = [
         link: "artigos/drenando_o_titanic.html"
     }
    
-
+// FINAL DO ARTIGO
 ];
 
 
