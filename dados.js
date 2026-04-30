@@ -49,6 +49,16 @@ const bancoDeDados = [
         tempo: "28/02/2026",
         imagem: "https://i.imgur.com/5OBWf3Y.jpeg",
         link: "artigos/instagram.html"
+    },
+
+     {
+        id: 6,
+        titulo: "Documentário drenando o Titanic",
+        resumo: "Documentário Sobre o Navio titanic drenando e o revelando do oceano",
+        categoria: "Filme",
+        tempo: "30/04/2026",
+        imagem: "https://i.imgur.com/GhcBu0C.jpeg",
+        link: "artigos/drenando_o_titanic.html"
     }
    
 
