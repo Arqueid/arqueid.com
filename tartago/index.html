@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" href="icone.png">
+    <title>Tartago</title>
+
+    <!-- 
+      Biblioteca HLS.js
+      Necessária para decodificar e reproduzir listas de vídeo em formato m3u e m3u8 nativamente no navegador.
+      Para remover o suporte a m3u, basta apagar esta linha <script>. 
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+    <style>
+        /* Estilos gerais da página. Para mudar a cor de fundo, altere o "background" no "body" */
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #111;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        /* Container principal do player. Para mudar a largura, ajuste o "max-width" */
+        .player-container {
+            width: 100%;
+            max-width: 900px;
+            background: #222;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #000;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* Área de arrastar arquivos. Para mudar a cor da borda, altere "border" */
+        #dropArea {
+            width: 100%;
+            border: 2px dashed #555;
+            border-radius: 10px;
+            padding: 40px;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        #dropArea.active {
+            background: #333;
+            border-color: #0f0;
+        }
+
+        /* Caixa de entrada da URL e botão */
+        .url-box {
+            width: 100%;
+            display: flex;
+            gap: 10px;
+        }
+
+        .url-box input {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+        }
+
+        .url-box button {
+            padding: 12px 18px;
+            background: #444;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* Container do vídeo */
+        .video-wrapper {
+            flex: 1 1 500px;
+            min-width: 300px;
+        }
+
+        video {
+            width: 100%;
+            max-height: 65vh;
+            border-radius: 10px;
+            background: #000;
+            display: none;
+        }
+
+        /* Botões e controles de reprodução */
+        .controls {
+            margin-top: 15px;
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap; /* Adicionado para evitar que os botões quebrem o layout em telas menores */
+        }
+
+        button:hover {
+            background: #666;
+        }
+
+        .progress-bar {
+            width: 100%;
+        }
+
+        /* Controle de volume vertical */
+        .volume-control {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .volume-control input[type="range"] {
+            writing-mode: bt-lr;
+            appearance: slider-vertical;
+            height: 180px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="player-container">
+
+    <div id="dropArea">
+        Arraste e solte um vídeo MP4 ou WebM aqui<br>
+        <small>(ou clique para selecionar)</small>
+    </div>
+
+    <div class="url-box">
+        <!-- Texto do placeholder alterado para informar o suporte a m3u/m3u8 -->
+        <input type="text" id="videoUrlInput" placeholder="Cole a URL do vídeo MP4, WebM ou m3u/m3u8">
+        <button id="loadUrlBtn">Carregar URL</button>
+    </div>
+
+    <div class="video-wrapper">
+        <video id="video" loop></video>
+
+        <div class="controls">
+            <input type="range" id="progressBar" class="progress-bar" min="0" max="100" value="0">
+
+            <div class="row">
+                <button id="back5">⏪ 5s</button>
+                <button id="pauseBtn">Play</button>
+                <button id="forward5">⏩ 5s</button>
+            </div>
+
+            <div class="row">
+                <button id="muteBtn">🔊 Mute</button>
+                <button id="refreshBtn">🔄 Atualizar</button>
+                <!-- 
+                  Botão Picture-in-Picture adicionado. 
+                  Para remover o botão da interface, apague a tag <button> inteira abaixo. 
+                -->
+                <button id="pipBtn">📺 Picture</button>
+            </div>
+
+            <input type="range" id="speedControl" min="0.2" max="3" step="0.1" value="1">
+            <div>Velocidade: <span id="speedDisplay">1.0x</span></div>
+        </div>
+    </div>
+
+    <div class="volume-control" id="volumeBox">
+        <input type="range" id="volumeRange" min="0" max="1" step="0.01" value="1">
+        <div>Volume</div>
+    </div>
+
+</div>
+
+<script>
+    // Referências aos elementos HTML. Para interagir com um novo elemento criado no HTML, crie uma constante aqui usando document.getElementById
+    const dropArea = document.getElementById("dropArea");
+    const video = document.getElementById("video");
+    const controls = document.querySelector(".controls");
+    const pauseBtn = document.getElementById("pauseBtn");
+    const speedControl = document.getElementById("speedControl");
+    const speedDisplay = document.getElementById("speedDisplay");
+    const volumeRange = document.getElementById("volumeRange");
+    const volumeBox = document.getElementById("volumeBox");
+    const muteBtn = document.getElementById("muteBtn");
+    const refreshBtn = document.getElementById("refreshBtn");
+    const pipBtn = document.getElementById("pipBtn"); // Nova constante referenciando o botão PiP
+    const progressBar = document.getElementById("progressBar");
+    const back5 = document.getElementById("back5");
+    const forward5 = document.getElementById("forward5");
+    const videoUrlInput = document.getElementById("videoUrlInput");
+    const loadUrlBtn = document.getElementById("loadUrlBtn");
+
+    // Variável para armazenar a instância do HLS caso uma URL m3u seja carregada
+    let hlsInstance = null;
+
+    /*
+     * Impede que o navegador abra o arquivo de vídeo em uma nova aba ao arrastar para a tela
+     * Para remover a função de arrastar e soltar, apague este bloco e os listeners de dropArea abaixo
+     */
+    ["dragenter","dragover","dragleave","drop"].forEach(e => {
+        document.addEventListener(e, ev => ev.preventDefault());
+    });
+
+    // Adiciona e remove efeitos visuais quando o arquivo está sobre a área
+    dropArea.addEventListener("dragover", () => dropArea.classList.add("active"));
+    dropArea.addEventListener("dragleave", () => dropArea.classList.remove("active"));
+
+    // Executa a leitura do arquivo quando ele é solto na área
+    dropArea.addEventListener("drop", e => {
+        dropArea.classList.remove("active");
+        loadVideoFile(e.dataTransfer.files[0]);
+    });
+
+    /*
+     * Abre o seletor de arquivos ao clicar na área
+     * Para adicionar suporte a novos formatos no Windows Explorer, adicione a extensão no "input.accept" separada por vírgula (ex: video/mp4, video/webm, video/avi)
+     */
+    dropArea.addEventListener("click", () => {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = "video/mp4, video/webm"; // Suporte para WebM adicionado aqui
+        input.onchange = () => loadVideoFile(input.files[0]);
+        input.click();
+    });
+
+    /*
+     * Exibe os controles do player e esconde a área de upload inicial
+     * Para ocultar novos elementos quando o vídeo iniciar, adicione elemento.style.display = "none"
+     */
+    function showPlayer() {
+        video.style.display = "block";
+        controls.style.display = "flex";
+        volumeBox.style.display = "flex";
+        dropArea.style.display = "none";
+    }
+
+    /*
+     * Limpa a instância do HLS se existir para evitar vazamento de memória ou sobreposição de vídeos
+     * Função interna de manutenção
+     */
+    function destroyHls() {
+        if (hlsInstance) {
+            hlsInstance.destroy();
+            hlsInstance = null;
+        }
+    }
+
+    /*
+     * Valida o arquivo carregado e insere no player de vídeo
+     * Para aceitar novos formatos além de mp4 e webm, adicione uma nova verificação '&& !file.type.includes("novoformato")' no IF
+     */
+    function loadVideoFile(file) {
+        destroyHls(); // Destrói processo hls anterior caso estivesse rodando uma url m3u
+
+        // Validação de formato atualizada para aceitar mp4 e webm
+        if (!file || (!file.type.includes("mp4") && !file.type.includes("webm"))) {
+            alert("Selecione um arquivo MP4 ou WebM válido.");
+            return;
+        }
+        video.src = URL.createObjectURL(file);
+        showPlayer();
+    }
+
+    /*
+     * Carrega o vídeo a partir de um link inserido pelo usuário
+     * Bloco atualizado para interceptar formatos .m3u ou .m3u8 usando a biblioteca HLS.js ou fallback nativo (Safari)
+     * Para desativar a leitura de m3u, remova toda a verificação IF que contém 'includes(".m3u")' e deixe apenas video.src = url;
+     */
+    function loadVideoFromUrl(url) {
+        if (!url) {
+            alert("Informe uma URL válida.");
+            return;
+        }
+
+        destroyHls(); // Limpa estado anterior
+
+        const lowerUrl = url.toLowerCase();
+
+        // Verifica se a string da URL contém a extensão de lista HLS
+        if (lowerUrl.includes(".m3u") || lowerUrl.includes(".m3u8")) {
+            // Verifica se o navegador suporta o decodificador hls.js
+            if (Hls.isSupported()) {
+                hlsInstance = new Hls();
+                hlsInstance.loadSource(url);
+                hlsInstance.attachMedia(video);
+                hlsInstance.on(Hls.Events.MANIFEST_PARSED, function () {
+                    video.play();
+                    pauseBtn.textContent = "Pause";
+                });
+            } 
+            // Fallback para navegadores como Safari que rodam m3u/m3u8 nativamente sem bibliotecas extras
+            else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = url;
+                video.addEventListener('loadedmetadata', function () {
+                    video.play();
+                    pauseBtn.textContent = "Pause";
+                });
+            } else {
+                alert("Seu navegador não suporta a reprodução de listas m3u.");
+                return;
+            }
+        } else {
+            // Comportamento padrão mantido intacto para MP4, WebM ou outros links diretos
+            video.src = url;
+        }
+
+        showPlayer();
+    }
+
+    // Ação do botão de carregar link
+    loadUrlBtn.addEventListener("click", () => {
+        loadVideoFromUrl(videoUrlInput.value.trim());
+    });
+
+    /*
+     * Controle de Play/Pause
+     * Para alterar o texto dos botões durante a ação, modifique as strings "Pause" e "Play"
+     */
+    pauseBtn.addEventListener("click", () => {
+        if (video.paused) {
+            video.play();
+            pauseBtn.textContent = "Pause";
+        } else {
+            video.pause();
+            pauseBtn.textContent = "Play";
+        }
+    });
+
+    /*
+     * Controle de Velocidade do Vídeo
+     */
+    speedControl.addEventListener("input", () => {
+        video.playbackRate = speedControl.value;
+        speedDisplay.textContent = speedControl.value + "x";
+    });
+
+    /*
+     * Controle de Volume
+     */
+    volumeRange.addEventListener("input", () => {
+        video.volume = volumeRange.value;
+    });
+
+    /*
+     * Botão para mutar/desmutar o áudio
+     */
+    muteBtn.addEventListener("click", () => {
+        video.muted = !video.muted;
+        muteBtn.textContent = video.muted ? "🔇 Unmute" : "🔊 Mute";
+    });
+
+    /*
+     * Botões de retroceder e avançar 5 segundos
+     * Para alterar o tempo de salto, mude o valor de "5" para os segundos desejados
+     */
+    back5.addEventListener("click", () => video.currentTime -= 5);
+    forward5.addEventListener("click", () => video.currentTime += 5);
+
+    /*
+     * Atualiza a barra de progresso conforme o vídeo avança
+     */
+    video.addEventListener("timeupdate", () => {
+        if (!isNaN(video.duration)) {
+            progressBar.value = (video.currentTime / video.duration) * 100;
+        }
+    });
+
+    /*
+     * Permite avançar o vídeo arrastando a barra de progresso
+     */
+    progressBar.addEventListener("input", () => {
+        if (!isNaN(video.duration)) {
+            video.currentTime = (progressBar.value / 100) * video.duration;
+        }
+    });
+
+    /*
+     * Botão de reiniciar/voltar ao início (Fecha o vídeo atual e mostra a tela inicial)
+     * Para manter algo visível, altere o valor de style.display de "none" para "block" ou "flex"
+     */
+    refreshBtn.addEventListener("click", async () => {
+        // Encerra o modo Picture in Picture antes de atualizar, se estiver ativo
+        if (document.pictureInPictureElement) {
+            await document.exitPictureInPicture();
+        }
+        
+        video.pause();
+        video.src = "";
+        destroyHls(); // Para o download de pacotes m3u em segundo plano
+        
+        dropArea.style.display = "block";
+        controls.style.display = "none";
+        volumeBox.style.display = "none";
+        progressBar.value = 0;
+        pauseBtn.textContent = "Pause";
+    });
+
+    /*
+     * Ativação e desativação do modo Picture-in-Picture
+     * Para remover esta funcionalidade, basta apagar este bloco e o ouvinte de evento
+     */
+    pipBtn.addEventListener("click", async () => {
+        try {
+            // Se o PiP já estiver ativo, ele desativa
+            if (document.pictureInPictureElement) {
+                await document.exitPictureInPicture();
+            } 
+            // Se não estiver ativo e o vídeo estiver carregado, ele ativa
+            else if (video.readyState !== 0) {
+                await video.requestPictureInPicture();
+            } else {
+                alert("Nenhum vídeo carregado para usar o Picture-in-Picture.");
+            }
+        } catch (error) {
+            console.error("Erro no Picture-in-Picture:", error);
+            alert("Aconteceu um erro ou seu navegador não suporta a função Picture-in-Picture.");
+        }
+    });
+</script>
+
+</body>
+</html>
