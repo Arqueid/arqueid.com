@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <title>Arqueid</title>
+    <meta name="description" content="Arqueid Design e criação de conteúdo web, imagem e documentação em video.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:url" content="https://arqueid.com.br/">
+    <style>
+        /* ======================================================================
+           ESTILO CSS - TEMA ESCURO MODERNO
+           Guia para o programador:
+           - Para alterar a cor de fundo da página, modifique o 'background-color' em 'body'.
+           - Para alterar a cor da caixa central, modifique 'background-color' em '#login-container'.
+           - Para alterar a cor do botão, modifique 'background-color' em 'button'.
+           - Para adicionar novos estilos, insira as regras CSS abaixo.
+        ======================================================================= */
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #login-container {
+            background-color: #1e1e1e;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            width: 300px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 24px;
+            font-weight: normal;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #b3b3b3;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #333333;
+            border-radius: 4px;
+            background-color: #2c2c2c;
+            color: #ffffff;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #6200ea;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #6200ea;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #7c4dff;
+        }
+
+        #mensagem {
+            margin-top: 20px;
+            font-size: 14px;
+            min-height: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="login-container">
+        <h2>Acesso ao Sistema</h2>
+        
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" placeholder="Digite seu e-mail">
+        
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" placeholder="Digite sua senha">
+        
+        <button id="btn-entrar">Entrar</button>
+        
+        <p id="mensagem" style="font-weight: bold;"></p>
+    </div>
+
+    <script type="module">
+        // 1. IMPORTAÇÃO DOS MÓDULOS
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        // 2. CHAVES DE CONEXÃO
+        const firebaseConfig = {
+            apiKey: "AIzaSyAo6qUEbkjs9XHaOa32YttJISC1oIwoMCI",
+            authDomain: "sistemaloginarqueidbr.firebaseapp.com",
+            projectId: "sistemaloginarqueidbr",
+            storageBucket: "sistemaloginarqueidbr.firebasestorage.app",
+            messagingSenderId: "463919580730",
+            appId: "1:463919580730:web:5dd95aaf3a8063c69cd703"
+        };
+
+        // 3. INICIALIZAÇÃO
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // 4. MAPEAMENTO DE ELEMENTOS
+        const campoEmail = document.getElementById('email');
+        const campoSenha = document.getElementById('senha');
+        const botaoEntrar = document.getElementById('btn-entrar');
+        const textoMensagem = document.getElementById('mensagem');
+
+        // 5. FUNÇÃO DE LOGIN
+        botaoEntrar.addEventListener('click', () => {
+            const email = campoEmail.value;
+            const senha = campoSenha.value;
+
+            signInWithEmailAndPassword(auth, email, senha)
+            .then((resultado) => {
+                textoMensagem.style.color = "#4caf50"; 
+                textoMensagem.innerText = "Login aprovado. Acessando o sistema...";
+                window.location.href = 'homi.html'; 
+            })
+            .catch((erro) => {
+                textoMensagem.style.color = "#f44336"; 
+                textoMensagem.innerText = "Acesso negado. Verifique os dados digitados.";
+            });
+        });
+    </script>
+</body>
+</html>
