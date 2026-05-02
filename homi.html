@@ -287,7 +287,7 @@
 
     </style>
 </head>
-<body>
+<body style="display: none;">
 
     <nav class="top-bar">
         <a href="downloads/" target="_blank">Downloads</a>
@@ -410,6 +410,35 @@
             sidebar.classList.toggle('active');
             overlay.classList.toggle('active');
         }
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        // Chaves de Conexão do Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAo6qUEbkjs9XHaOa32YttJISC1oIwoMCI",
+            authDomain: "sistemaloginarqueidbr.firebaseapp.com",
+            projectId: "sistemaloginarqueidbr",
+            storageBucket: "sistemaloginarqueidbr.firebasestorage.app",
+            messagingSenderId: "463919580730",
+            appId: "1:463919580730:web:5dd95aaf3a8063c69cd703"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Verifica a sessão. Se estiver logado, exibe a página. Se não, manda para o login.
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // Usuário confirmado, altera o body de 'none' para 'block' revelando o site
+                document.body.style.display = 'block';
+            } else {
+                // Bloqueado, redireciona sem mostrar o site
+                window.location.href = 'login.html';
+            }
+        });
     </script>
 
 </body>
