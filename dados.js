@@ -61,6 +61,16 @@ const bancoDeDados = [
         tempo: "30/04/2026",
         imagem: "https://i.imgur.com/GhcBu0C.jpeg",
         link: "artigos/drenando_o_titanic.html"
+    },
+
+     {
+        id: 7,
+        titulo: "Chaves A Casa Da Bruxa",
+        resumo: "Seriado Chaves entra na casa da dona clotilde",
+        categoria: "Seriado",
+        tempo: "03/05/2026",
+        imagem: "https://files.catbox.moe/h7dlca.jpg",
+        link: "artigos/chaves_a_casa_da_bruxa.html"
     }
    
 // FINAL DO ARTIGO
