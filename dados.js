@@ -80,7 +80,7 @@ const bancoDeDados = [
         categoria: "Documentário",
         tempo: "07/03/2026",
         imagem: "https://files.catbox.moe/n9lj8m.png",
-        link: "Documentario_onze_de_setembro_tv_record.html"
+        link: "artigos/Documentario_onze_de_setembro_tv_record.html"
     },
    
 // FINAL DO ARTIGO
