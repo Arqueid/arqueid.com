@@ -71,7 +71,17 @@ const bancoDeDados = [
         tempo: "03/05/2026",
         imagem: "https://files.catbox.moe/h7dlca.jpg",
         link: "artigos/chaves_a_casa_da_bruxa.html"
-    }
+    },
+
+     {
+        id: 8,
+        titulo: "Documentário do 11 de setembro tv Recor",
+        resumo: "A reportagem da TV Record mostra com exclusividade uma área chamada de Fresh Kills, em Nova York, conhecida como o antigo depósito de lixo que recebeu os destroços das torres gêmeas e os restos mortais das vítimas após os atentados de 11 de setembro. No local, foram coletados 4.200 restos mortais que levaram à identificação de 300 vítimas do World Trade Center",
+        categoria: "Documentário",
+        tempo: "07/03/2026",
+        imagem: "https://files.catbox.moe/n9lj8m.png",
+        link: "Documentario_onze_de_setembro_tv_record.html"
+    },
    
 // FINAL DO ARTIGO
 ];
