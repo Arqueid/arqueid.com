@@ -22,7 +22,7 @@ const bancoDeDados = [
         categoria: "EDITOR DE VIDEO",
         tempo: "18/02/2026",
         imagem: "https://i.imgur.com/ypqlIsF.jpeg", // Link da imagem 16:9
-        link: "artigos/vegas.html" // Link para onde vai ao clicar
+        link: "https://arqueid.com.br/artigos/vegas.html" // Link para onde vai ao clicar
     },
     {
         id: 2,
@@ -31,7 +31,7 @@ const bancoDeDados = [
         categoria: "RESOLVER PROBLEMA",
         tempo: "21/02/2026",
         imagem: "https://i.imgur.com/2HHQezh.jpeg",
-        link: "artigos/tela.html"
+        link: "https://arqueid.com.br/artigos/tela.html"
     },
     {
         id: 3,
@@ -40,7 +40,7 @@ const bancoDeDados = [
         categoria: "RESOLVER PROBLEMA",
         tempo: "24/02/2026",
         imagem: "https://i.imgur.com/M30Mapm.jpeg",
-        link: "artigos/bitLocker.html"
+        link: "https://arqueid.com.br/artigos/bitLocker.html"
     },
     
     {
@@ -50,7 +50,7 @@ const bancoDeDados = [
         categoria: "RESOLVER PROBLEMA",
         tempo: "28/02/2026",
         imagem: "https://i.imgur.com/5OBWf3Y.jpeg",
-        link: "artigos/instagram.html"
+        link: "https://arqueid.com.br/artigos/instagram.html"
     },
 
      {
@@ -60,7 +60,7 @@ const bancoDeDados = [
         categoria: "Filme",
         tempo: "30/04/2026",
         imagem: "https://i.imgur.com/GhcBu0C.jpeg",
-        link: "artigos/drenando_o_titanic.html"
+        link: "https://arqueid.com.br/artigos/drenando_o_titanic.html"
     },
 
      {
@@ -70,7 +70,7 @@ const bancoDeDados = [
         categoria: "Seriado",
         tempo: "03/05/2026",
         imagem: "https://files.catbox.moe/h7dlca.jpg",
-        link: "artigos/chaves_a_casa_da_bruxa.html"
+        link: "https://arqueid.com.br/artigos/chaves_a_casa_da_bruxa.html"
     },
 
      {
@@ -80,7 +80,7 @@ const bancoDeDados = [
         categoria: "Documentário",
         tempo: "07/03/2026",
         imagem: "https://files.catbox.moe/n9lj8m.png",
-        link: "artigos/Documentario_onze_de_setembro_tv_record.html"
+        link: "https://arqueid.com.br/artigos/Documentario_onze_de_setembro_tv_record.html"
     },
    
 // FINAL DO ARTIGO
