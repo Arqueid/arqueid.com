@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Tube - Home</title>
+    <link rel="stylesheet" href="estilo.css">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" href="https://arqueid.com.br/favicon.png">
+</head>
+<body>
+
+    <div class="cabecalho">
+        <h2>Mini Tube</h2>
+        <form action="busca.html" method="GET">
+            <input type="text" name="q" placeholder="Buscar vídeos..." required>
+            <button type="submit">Buscar</button>
+        </form>
+    </div>
+
+    <div id="container-videos" class="grid-videos">
+        </div>
+
+    <script src="dados.js"></script>
+    <script>
+        // GUIA FUTURO PROGRAMADOR: Lógica de renderização da Home
+        
+        // 1. Identifica o container onde os itens serão adicionados
+        const container = document.getElementById('container-videos');
+
+        // 2. Verifica se o arquivo dados.js possui array e se não está vazio
+        if (!bancoDeVideos || bancoDeVideos.length === 0) {
+            container.innerHTML = '<p class="mensagem-erro">Ainda não contém video</p>';
+        } else {
+            // 3. Cria uma cópia do array, embaralha e extrai no máximo 10 itens
+            let videosSorteados = embaralharArray([...bancoDeVideos]).slice(0, 10);
+
+            // 4. Constrói a estrutura HTML para cada vídeo do sorteio e insere no container.
+            // Para adicionar novas informações (como data ou views), insira tags HTML dentro da estrutura de crase (` `) abaixo.
+            videosSorteados.forEach(video => {
+                const cartao = `
+                    <a href="player.html?v=${video.idUnico}" class="cartao-video">
+                        <img src="${video.urlCapa}" alt="Capa">
+                        <h4>${video.titulo}</h4>
+                        <p>${video.descricao.substring(0, 50)}...</p>
+                    </a>
+                `;
+                container.innerHTML += cartao;
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Tube - Busca</title>
+    <link rel="stylesheet" href="estilo.css">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" href="https://arqueid.com.br/favicon.png">
+</head>
+<body>
+
+    <div class="cabecalho">
+        <button onclick="window.location.href='https://arqueid.com.br/tube'" class="btn-voltar">Voltar</button>
+        <form action="busca.html" method="GET">
+            <input type="text" name="q" placeholder="Nova busca..." required>
+            <button type="submit">Buscar</button>
+        </form>
+    </div>
+
+    <h3 id="titulo-resultados">Resultados da busca:</h3>
+    
+    <div id="container-resultados" class="lista-busca">
+        </div>
+
+    <script src="dados.js"></script>
+    <script>
+        // GUIA FUTURO PROGRAMADOR: Lógica do mecanismo de Busca
+        
+        // 1. Captura o parâmetro 'q' direto da URL (ex: busca.html?q=termo)
+        const parametrosDaUrl = new URLSearchParams(window.location.search);
+        const termoBusca = parametrosDaUrl.get('q');
+        const containerResultados = document.getElementById('container-resultados');
+
+        // 2. Executa a busca somente se houver um termo
+        if (termoBusca) {
+            // Padroniza para minúsculo para evitar erros de case sensitive (Maiúsculo/Minúsculo)
+            const termoMinusculo = termoBusca.toLowerCase();
+
+            // 3. Filtra a array bancoDeVideos do arquivo dados.js
+            const resultados = bancoDeVideos.filter(video => {
+                const tituloBate = video.titulo.toLowerCase().includes(termoMinusculo);
+                const tagBate = video.tags.some(tag => tag.toLowerCase().includes(termoMinusculo));
+                return tituloBate || tagBate;
+            });
+
+            // 4. Renderiza os blocos HTML baseados no filtro.
+            // Para modificar a exibição dos resultados na tela de busca, altere o HTML na crase abaixo.
+            if (resultados.length > 0) {
+                resultados.forEach(video => {
+                    const cartao = `
+                        <a href="player.html?v=${video.idUnico}" class="item-busca">
+                            <img src="${video.urlCapa}" alt="Capa">
+                            <div>
+                                <h2>${video.titulo}</h2>
+                                <p>${video.descricao}</p>
+                            </div>
+                        </a>
+                    `;
+                    containerResultados.innerHTML += cartao;
+                });
+            } else {
+                containerResultados.innerHTML = '<p>Nenhum vídeo encontrado para esta busca.</p>';
+            }
+        } else {
+            containerResultados.innerHTML = '<p>Digite algo para buscar.</p>';
+        }
+    </script>
+</body>
+    
+</html>

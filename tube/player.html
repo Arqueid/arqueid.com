@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Tube - Player</title>
+    <link rel="stylesheet" href="estilo.css">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" href="https://arqueid.com.br/favicon.png">
+</head>
+<body>
+
+    <div class="cabecalho">
+        <button onclick="window.location.href='https://arqueid.com.br/tub'" class="btn-voltar">Voltar</button>
+        <form action="busca.html" method="GET">
+            <input type="text" name="q" placeholder="Buscar vídeos..." required>
+            <button type="submit">Buscar</button>
+        </form>
+    </div>
+
+    <div class="layout-player">
+        <div class="area-video">
+            <video id="meuVideo" preload="metadata"></video>
+            
+            <div class="controles-customizados">
+                <button onclick="document.getElementById('meuVideo').play()">Play</button>
+                <button onclick="document.getElementById('meuVideo').pause()">Pause</button>
+                <button onclick="pararVideo()">Stop</button>
+                <button onclick="ativarPip()">Picture in Picture</button>
+            </div>
+
+            <h2 id="titulo-video">Carregando...</h2>
+            <p id="descricao-video"></p>
+        </div>
+
+        <div class="area-recomendados" id="container-recomendados">
+            <h3>Recomendados</h3>
+            </div>
+    </div>
+
+    <script src="dados.js"></script>
+    <script>
+        // GUIA FUTURO PROGRAMADOR: Funções operacionais do Player
+        
+        // O HTML5 nativo não possui função 'Stop'. A função abaixo pausa o vídeo e retorna o tempo de reprodução para zero.
+        function pararVideo() {
+            const vid = document.getElementById('meuVideo');
+            vid.pause();
+            vid.currentTime = 0;
+        }
+
+        // Verifica o estado atual do Picture in Picture e alterna entre abrir/fechar.
+        async function ativarPip() {
+            const vid = document.getElementById('meuVideo');
+            if (vid !== document.pictureInPictureElement) {
+                await vid.requestPictureInPicture();
+            } else {
+                await document.exitPictureInPicture();
+            }
+        }
+
+        // GUIA FUTURO PROGRAMADOR: Lógica de Carregamento dos Dados
+        const parametrosDaUrl = new URLSearchParams(window.location.search);
+        const idVideoAtual = parametrosDaUrl.get('v');
+        const elementoVideo = document.getElementById('meuVideo');
+        const containerRecomendados = document.getElementById('container-recomendados');
+
+        // Procura a ID correspondente no array do arquivo dados.js
+        const videoEncontrado = bancoDeVideos.find(v => v.idUnico === idVideoAtual);
+
+        if (videoEncontrado) {
+            // Insere os atributos e textos nos elementos HTML da tela
+            elementoVideo.src = videoEncontrado.urlVideo;
+            document.getElementById('titulo-video').innerText = videoEncontrado.titulo;
+            document.getElementById('descricao-video').innerText = videoEncontrado.descricao;
+
+            // Lógica de filtro para os Recomendados
+            // Exclui o vídeo atual em reprodução e filtra apenas vídeos com 'idGrupo' idêntico
+            const videosMesmoGrupo = bancoDeVideos.filter(v => 
+                v.idGrupo === videoEncontrado.idGrupo && v.idUnico !== videoEncontrado.idUnico
+            );
+
+            // Embaralha o array filtrado e aplica limite máximo de 10 recomendações
+            let recomendadosSorteados = embaralharArray([...videosMesmoGrupo]).slice(0, 10);
+
+            // Renderiza as caixas laterais dos vídeos recomendados
+            // Para modificar visual ou dados dos recomendados, edite a crase abaixo.
+            if (recomendadosSorteados.length > 0) {
+                recomendadosSorteados.forEach(video => {
+                    const cartao = `
+                        <a href="player.html?v=${video.idUnico}" class="item-recomenda">
+                            <img src="${video.urlCapa}" alt="Capa">
+                            <strong>${video.titulo}</strong>
+                        </a>
+                    `;
+                    containerRecomendados.innerHTML += cartao;
+                });
+            } else {
+                containerRecomendados.innerHTML += '<p>Nenhum vídeo relacionado.</p>';
+            }
+
+        } else {
+            // Tratamento de erro caso o ID na URL não exista no dados.js
+            document.getElementById('titulo-video').innerText = "Vídeo não encontrado";
+            document.getElementById('descricao-video').innerText = "Verifique o link ou retorne para a home.";
+        }
+    </script>
+</body>
+</html>
