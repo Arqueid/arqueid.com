@@ -13,7 +13,7 @@ const bancoDeDados = [
         categoria: "EDITOR DE CÓDIGOS",
         tempo: "07/03/2026",
         imagem: "https://i.imgur.com/2qm71h8.jpeg",
-        link: "https://arqueid.com.br/artigos/bitLocker.html"
+        link: "https://arqueid.com.br/artigos/sublime.html"
     },
     {
         id: 1,
