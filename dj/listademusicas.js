@@ -5,6 +5,12 @@
 const listaDeMusicas = [
     
     {
+        titulo: "Hino Nacional Brasileiro",
+        artista: "Exército Brasileiro",
+        link: "https://files.catbox.moe/b6cjwe.mp3", // Substitua pelo link real
+        tags: ["hino", "nacional", "brasil"]
+    },
+    {
         titulo: "aquecimento das meninas",
         artista: "dj malboro",
         link: "https://files.catbox.moe/f5d494.mp3", // Substitua pelo link real
