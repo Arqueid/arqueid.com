@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>transferencia</title>
-    <link rel="icon" type="image/png" href="../favicon.png">
+    <title>Marcar</title>
     <style>
+        /* 
+           GUIA DE CORES E ESTILOS (CSS)
+           Para alterar as cores do projeto, modifique os valores hexadecimais abaixo.
+        */
         :root {
             --bg-color: #0f172a;
             --card-bg: #1e293b;
@@ -15,6 +18,7 @@
             --text-dim: #94a3b8;
             --danger: #f43f5e;
             --success: #10b981;
+            --border-color: rgba(255,255,255,0.1);
         }
 
         * {
@@ -29,137 +33,222 @@
             color: var(--text-main);
             display: flex;
             justify-content: center;
-            padding: 40px 20px;
+            padding: 30px 15px;
             min-height: 100vh;
         }
 
         .container {
             width: 100%;
-            max-width: 650px;
+            max-width: 900px;
         }
 
         header {
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-
-        h1 {
-            font-size: 1.5rem;
-            color: var(--accent-color);
-            margin-bottom: 4px;
-        }
-
-        /* Botão Limpar Tudo */
-        .clear-all {
-            background: transparent;
-            color: var(--danger);
-            border: 1px solid var(--danger);
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: all 0.2s;
-        }
-
-        .clear-all:hover {
-            background: var(--danger);
-            color: white;
-        }
-
-        /* Área de Input */
-        .input-group {
-            display: flex;
-            gap: 10px;
-            background: var(--card-bg);
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255,255,255,0.05);
-            margin-bottom: 25px;
-        }
-
-        input[type="text"] {
-            flex: 1;
-            background: #0f172a;
-            border: 1px solid #334155;
-            border-radius: 8px;
-            padding: 12px 15px;
-            color: white;
-            outline: none;
-            font-size: 1rem;
-        }
-
-        input[type="text"]:focus {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
-        }
-
-        #add-btn {
-            background: var(--accent-color);
-            color: #0f172a;
-            border: none;
-            padding: 0 20px;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        /* Lista */
-        .list-container {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .item {
-            background: var(--card-bg);
-            padding: 14px 18px;
-            border-radius: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid rgba(255,255,255,0.03);
-            transition: transform 0.2s;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
-        .item:hover {
-            transform: translateX(5px);
-            border-color: rgba(56, 189, 248, 0.3);
-        }
-
-        .item-content {
-            word-break: break-all;
-            margin-right: 20px;
-            line-height: 1.5;
-        }
-
-        .item-content a {
+        h1 {
+            font-size: 1.8rem;
             color: var(--accent-color);
-            text-decoration: underline;
-            text-underline-offset: 3px;
+            text-transform: uppercase;
+        }
+
+        /* 
+           BARRA DE BUSCA
+           Para modificar o tamanho da barra, altere o width aqui.
+        */
+        .search-bar {
+            flex: 1;
+            min-width: 250px;
+            max-width: 400px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: white;
+            outline: none;
+        }
+
+        /* 
+           FORMULÁRIO DE ADIÇÃO 
+           Para adicionar novos campos visuais, insira no HTML e ajuste o grid aqui.
+        */
+        .input-group {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .input-group input, .input-group select {
+            background: var(--bg-color);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 12px;
+            color: white;
+            outline: none;
+            width: 100%;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: var(--accent-color);
+        }
+
+        .input-full {
+            grid-column: span 2;
+        }
+
+        button.btn-primary {
+            background: var(--accent-color);
+            color: #0f172a;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            grid-column: span 2;
+            transition: 0.2s;
+        }
+
+        button.btn-primary:hover {
+            opacity: 0.9;
+        }
+
+        /* 
+           SISTEMA DE ABAS (CATEGORIAS)
+        */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .tab-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-dim);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-color);
+            color: #0f172a;
+            font-weight: bold;
+            border-color: var(--accent-color);
+        }
+
+        /* 
+           GRID DE ITENS (CARDS)
+        */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .card-cover {
+            width: 100%;
+            height: 140px;
+            background-color: #334155;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card-body {
+            padding: 15px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--accent-color);
+        }
+
+        .card-type {
+            font-size: 0.75rem;
+            background: #334155;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 10px;
+            align-self: flex-start;
+        }
+
+        .card-content {
+            font-size: 0.9rem;
+            color: var(--text-main);
+            word-break: break-all;
+            margin-bottom: 15px;
+            flex: 1;
+        }
+
+        .card-content a {
+            color: var(--accent-color);
+        }
+
+        .card-tags {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-bottom: 10px;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border-color);
+            padding-top: 10px;
         }
 
         .delete-btn {
-            color: var(--text-dim);
             background: transparent;
             border: none;
+            color: var(--danger);
             cursor: pointer;
             font-weight: bold;
-            padding: 5px;
         }
 
-        .delete-btn:hover {
-            color: var(--danger);
-        }
-
-        .empty-state {
-            text-align: center;
-            color: var(--text-dim);
-            padding: 50px 0;
-            border: 2px dashed #1e293b;
-            border-radius: 12px;
+        /* Responsividade do Formulário */
+        @media (max-width: 600px) {
+            .input-group {
+                grid-template-columns: 1fr;
+            }
+            .input-full {
+                grid-column: span 1;
+            }
+            button.btn-primary {
+                grid-column: span 1;
+            }
         }
     </style>
 </head>
@@ -167,118 +256,213 @@
 
 <div class="container">
     <header>
-        <div>
-            <h1>TRANSFERENCIA</h1>
-            <p style="color: var(--text-dim); font-size: 0.85rem;">Lista de texto:</p>
+        <h1>MARCAR</h1>
+        <div class="search-bar">
+            <!-- Campo de busca por tags ou nome -->
+            <input type="text" id="search-input" placeholder="Buscar por tags ou nome...">
         </div>
-        <button id="clear-all-btn" class="clear-all" style="display: none;">Excluir Tudo</button>
     </header>
 
+    <!-- ÁREA DO FORMULÁRIO DE CADASTRO -->
     <div class="input-group">
-        <input type="text" id="item-input" placeholder="Digite ou cole algo..." autocomplete="off">
-        <button id="add-btn">Salvar</button>
+        <select id="item-type">
+            <option value="link">Link</option>
+            <option value="texto">Texto</option>
+            <option value="imagem">Imagem</option>
+            <option value="video">Vídeo</option>
+        </select>
+        <input type="text" id="item-title" placeholder="Nome / Título da marcação">
+        
+        <input type="text" id="item-content" class="input-full" placeholder="Cole o Link ou digite o Texto aqui...">
+        
+        <input type="text" id="item-cover" class="input-full" placeholder="Link da imagem de capa (opcional)">
+        
+        <input type="text" id="item-tags" class="input-full" placeholder="Tags para busca (ex: tutorial, css, santos, filme)">
+        
+        <button id="add-btn" class="btn-primary">Salvar Marcação</button>
     </div>
 
-    <div id="list" class="list-container">
-        </div>
+    <!-- ABAS DE NAVEGAÇÃO -->
+    <div class="tabs" id="tabs-container">
+        <button class="tab-btn active" data-filter="todos">Todos</button>
+        <button class="tab-btn" data-filter="texto">Textos</button>
+        <button class="tab-btn" data-filter="link">Links</button>
+        <button class="tab-btn" data-filter="imagem">Imagens</button>
+        <button class="tab-btn" data-filter="video">Vídeos</button>
+    </div>
+
+    <!-- LOCAL ONDE OS CARDS APARECEM -->
+    <div id="grid" class="grid-container">
+        <!-- O JS injeta o conteúdo aqui -->
+    </div>
 </div>
 
 <script>
-    const input = document.getElementById('item-input');
+    /* 
+       GUIA PARA O FUTURO PROGRAMADOR (JAVASCRIPT)
+       Este script gerencia o cadastro, exibição, busca e exclusão dos itens salvos no navegador.
+    */
+
+    // 1. MAPEAMENTO DE ELEMENTOS HTML
+    // Aqui pegamos os IDs do HTML para o JavaScript poder controlá-los.
+    const titleInput = document.getElementById('item-title');
+    const contentInput = document.getElementById('item-content');
+    const coverInput = document.getElementById('item-cover');
+    const tagsInput = document.getElementById('item-tags');
+    const typeSelect = document.getElementById('item-type');
     const addBtn = document.getElementById('add-btn');
-    const clearAllBtn = document.getElementById('clear-all-btn');
-    const listContainer = document.getElementById('list');
+    const searchInput = document.getElementById('search-input');
+    const gridContainer = document.getElementById('grid');
+    const tabButtons = document.querySelectorAll('.tab-btn');
 
-    // Inicialização: Busca dados salvos (A "função de cookie/persistência")
-    document.addEventListener('DOMContentLoaded', loadData);
+    // Variável global para saber qual aba está ativa no momento.
+    let currentFilter = 'todos';
 
-    // Eventos
+    // 2. INICIALIZAÇÃO
+    // Quando a página carregar, a função updateUI é chamada para listar os itens.
+    document.addEventListener('DOMContentLoaded', updateUI);
+
+    // 3. EVENTOS DE CLIQUE E DIGITAÇÃO
     addBtn.addEventListener('click', addItem);
-    input.addEventListener('keypress', (e) => { if (e.key === 'Enter') addItem(); });
-    clearAllBtn.addEventListener('click', clearAll);
+    
+    // Busca em tempo real conforme o usuário digita
+    searchInput.addEventListener('input', updateUI);
 
+    // Lógica de clique nas abas (Filtros)
+    tabButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            // Remove a classe 'active' de todos os botões
+            tabButtons.forEach(b => b.classList.remove('active'));
+            // Adiciona a classe 'active' no botão clicado
+            e.target.classList.add('active');
+            
+            // Pega o valor do atributo 'data-filter' do HTML (ex: 'video', 'texto')
+            currentFilter = e.target.getAttribute('data-filter');
+            
+            // Atualiza a tela com o novo filtro
+            updateUI();
+        });
+    });
+
+    // 4. FUNÇÃO PARA ADICIONAR NOVO ITEM
+    // Para adicionar novos dados (ex: uma nova coluna de "autor"), crie a variável aqui e adicione no objeto newItem.
     function addItem() {
-        const text = input.value.trim();
-        if (!text) return;
+        const title = titleInput.value.trim();
+        const content = contentInput.value.trim();
+        const cover = coverInput.value.trim();
+        const tags = tagsInput.value.trim();
+        const type = typeSelect.value;
 
+        // Validação simples: exige pelo menos conteúdo
+        if (!content) {
+            alert('Por favor, preencha pelo menos o link/texto principal.');
+            return;
+        }
+
+        // Cria o objeto com os dados
         const newItem = {
-            id: Date.now(),
-            content: text
+            id: Date.now(), // Gera um ID único baseado na data/hora
+            title: title || 'Sem título',
+            content: content,
+            cover: cover || '', // Se não tiver capa, fica vazio
+            tags: tags,
+            type: type
         };
 
+        // Puxa a lista atual, adiciona o novo e salva novamente
         const data = getData();
-        data.push(newItem);
+        data.unshift(newItem); // unshift adiciona no topo (início do array)
         saveData(data);
         
-        createItemElement(newItem);
-        input.value = '';
-        input.focus();
+        // Limpa o formulário após salvar
+        titleInput.value = '';
+        contentInput.value = '';
+        coverInput.value = '';
+        tagsInput.value = '';
+        
+        // Atualiza a tela
         updateUI();
     }
 
-    function createItemElement(item) {
-        const div = document.createElement('div');
-        div.className = 'item';
-        div.id = `item-${item.id}`;
-
-        // Trata se o conteúdo é um link
-        const displayContent = (item.content.startsWith('http')) 
-            ? `<a href="${item.content}" target="_blank">${item.content}</a>` 
-            : item.content;
-
-        div.innerHTML = `
-            <div class="item-content">${displayContent}</div>
-            <button class="delete-btn" onclick="deleteItem(${item.id})">✕</button>
-        `;
-        
-        listContainer.prepend(div); // Adiciona no topo
-    }
-
-    // Funções de Persistência (LocalStorage - substituto moderno do cookie)
+    // 5. FUNÇÕES DE BANCO DE DADOS (LocalStorage)
+    // O nome 'marcar_dados_v1' é a chave salva no navegador.
     function saveData(data) {
-        localStorage.setItem('minha_lista_dark', JSON.stringify(data));
+        localStorage.setItem('marcar_dados_v1', JSON.stringify(data));
     }
 
     function getData() {
-        const saved = localStorage.getItem('minha_lista_dark');
+        const saved = localStorage.getItem('marcar_dados_v1');
         return saved ? JSON.parse(saved) : [];
     }
 
-    function loadData() {
-        const data = getData();
-        data.forEach(item => createItemElement(item));
-        updateUI();
-    }
-
+    // 6. FUNÇÃO PARA EXCLUIR ITEM
     function deleteItem(id) {
-        let data = getData();
-        data = data.filter(item => item.id !== id);
-        saveData(data);
-        document.getElementById(`item-${id}`).remove();
-        updateUI();
-    }
-
-    function clearAll() {
-        if (confirm('Tem certeza que deseja apagar toda a lista?')) {
-            localStorage.removeItem('minha_lista_dark');
-            listContainer.innerHTML = '';
+        if (confirm('Excluir esta marcação?')) {
+            let data = getData();
+            // Filtra removendo o item que tem o ID clicado
+            data = data.filter(item => item.id !== id);
+            saveData(data);
             updateUI();
         }
     }
 
+    // 7. FUNÇÃO PRINCIPAL DE RENDERIZAÇÃO (Atualizar a Tela)
+    // Esta função é o "motor". Ela lê o banco, aplica os filtros (abas) e a busca (texto), e desenha o HTML.
     function updateUI() {
-        const hasItems = listContainer.children.length > 0;
-        
-        // Mostrar ou esconder botão de excluir tudo
-        clearAllBtn.style.display = hasItems ? 'block' : 'none';
+        gridContainer.innerHTML = ''; // Limpa a tela antes de desenhar
+        const data = getData();
+        const searchTerm = searchInput.value.toLowerCase().trim();
 
-        // Mostrar estado vazio se não houver itens
-        if (!hasItems) {
-            listContainer.innerHTML = '<div class="empty-state">A lista está vazia.</div>';
-        } else {
-            const emptyMsg = listContainer.querySelector('.empty-state');
-            if (emptyMsg) emptyMsg.remove();
+        // Filtra os dados com base na aba e na barra de busca
+        const filteredData = data.filter(item => {
+            // Filtro da Aba
+            const matchTab = (currentFilter === 'todos') || (item.type === currentFilter);
+            
+            // Filtro da Busca (Procura no título ou nas tags)
+            const matchSearch = (item.title.toLowerCase().includes(searchTerm)) || 
+                                (item.tags.toLowerCase().includes(searchTerm));
+
+            return matchTab && matchSearch;
+        });
+
+        // Se não houver itens após o filtro
+        if (filteredData.length === 0) {
+            gridContainer.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-dim); padding: 40px;">Nenhuma marcação encontrada.</div>';
+            return;
         }
+
+        // Desenha cada item filtrado na tela
+        // Para alterar o layout do card HTML, modifique a estrutura abaixo.
+        filteredData.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'card';
+
+            // Define a imagem de capa. Se não tiver, exibe um fundo cinza liso.
+            const coverStyle = item.cover ? `background-image: url('${item.cover}');` : '';
+
+            // Formatação do conteúdo: se for link, cria tag <a>, se não, exibe texto puro.
+            let displayContent = item.content;
+            if (item.content.startsWith('http')) {
+                displayContent = `<a href="${item.content}" target="_blank">Acessar Link ↗</a>`;
+            }
+
+            // Monta o HTML interno do Card
+            card.innerHTML = `
+                <div class="card-cover" style="${coverStyle}"></div>
+                <div class="card-body">
+                    <span class="card-type">${item.type.toUpperCase()}</span>
+                    <div class="card-title">${item.title}</div>
+                    <div class="card-tags">Tags: ${item.tags || '-'}</div>
+                    <div class="card-content">${displayContent}</div>
+                    
+                    <div class="card-footer">
+                        <button class="delete-btn" onclick="deleteItem(${item.id})">Excluir</button>
+                    </div>
+                </div>
+            `;
+            
+            gridContainer.appendChild(card);
+        });
     }
 </script>
 
