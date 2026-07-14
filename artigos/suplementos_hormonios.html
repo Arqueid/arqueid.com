@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" href="../favicon.png">
+    <!-- Título da página. Para alterar, modifique o texto dentro da tag title -->
+    <title>Arqueid / Hormônios e Suplementos</title>
+    <style>
+        /* RESET E ESTILOS GERAIS */
+        /* Para modificar a fonte base ou margens globais, edite este bloco */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* Estrutura principal da página. Para mudar a cor de fundo (tema), altere o background-color abaixo */
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* 1. BARRA SUPERIOR */
+        /* Para mudar a altura ou cor da barra do topo, edite as propriedades abaixo */
+        .top-bar {
+            background-color: #1f1f1f;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 12px;
+            font-weight: bold;
+            border-bottom: 1px solid #333;
+        }
+
+        .top-bar a {
+            margin-right: 20px;
+            color: #888;
+            transition: color 0.2s;
+        }
+
+        .top-bar a:hover {
+            color: #fff;
+        }
+
+        /* 2. BARRA DE MENU PRINCIPAL */
+        /* Para alterar a cor vermelha de destaque, modifique o background-color */
+        .main-header {
+            background-color: #b71c1c;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            position: relative;
+            z-index: 100;
+        }
+
+        .menu-trigger {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .hamburger-icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+        .menu-label {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Estilo da caixa de busca. Altere background-color para mudar a cor do fundo do input */
+        .search-box input {
+            background-color: #8c1b1b;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            color: #fff;
+            outline: none;
+            width: 200px;
+        }
+
+        .search-icon {
+            margin-left: -30px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        /* 3. MENU LATERAL */
+        /* Para mudar a largura do menu lateral, altere o 'width' e o 'left' (negativo) */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 300px;
+            height: 100%;
+            background-color: #1e1e1e;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+            transition: left 0.3s ease;
+            z-index: 200;
+            padding-top: 60px;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li {
+            border-bottom: 1px solid #333;
+        }
+
+        /* Estilos dos links do menu lateral. Para adicionar hover, modifique .sidebar a:hover */
+        .sidebar a {
+            display: block;
+            padding: 15px 20px;
+            font-size: 16px;
+            color: #ccc;
+        }
+
+        .sidebar a:hover {
+            background-color: #333;
+            color: #fff;
+        }
+
+        /* Fundo escuro ao abrir o menu lateral */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 150;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        /* 4. ÁREA DO ARTIGO */
+        /* Para ajustar a largura máxima do texto do artigo, modifique max-width */
+        .content-area {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            flex: 1;
+        }
+
+        /* Título principal do artigo (H1) */
+        .artigo-titulo {
+            font-size: 32px;
+            color: #fff;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        /* Subtítulos do artigo (H2). Para alterar a cor da linha divisória, modifique border-bottom */
+        .artigo-subtitulo {
+            font-size: 24px;
+            color: #b71c1c;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
+        }
+
+        /* Parágrafos de texto padrão. Para alterar o tamanho da fonte, modifique font-size */
+        .artigo-texto {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+
+        /* Listas dentro do artigo */
+        .artigo-lista {
+            margin-left: 20px;
+            margin-bottom: 15px;
+            color: #ccc;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        
+        .artigo-lista li {
+            margin-bottom: 8px;
+        }
+
+        /* 5. RODAPÉ */
+        footer {
+            background-color: #1f1f1f;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #333;
+            font-size: 14px;
+            color: #888;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BARRA SUPERIOR: Para adicionar um novo link, copie e cole uma tag <a> ajustando o href -->
+    <nav class="top-bar">
+        <a href="https://arqueid.com.br/">Home</a> 
+        <a href="https://arqueid.com.br/downloads/">Downloads</a>
+        <a href="https://arqueid.com.br/tartago/">Tartago</a>
+        <a href="https://arqueid.com.br/detalhe/">Detalhe</a>
+        <a href="https://arqueid.com.br/cepdeapiai/">Cep</a>
+        <a href="https://arqueid.com.br/tv/">Tv</a>
+    </nav>
+
+    <!-- CABEÇALHO PRINCIPAL E BUSCA -->
+    <div class="main-header">
+        <div class="menu-trigger" onclick="toggleMenu()">
+            <span class="hamburger-icon">&#9776;</span> 
+            <span class="menu-label">MENU</span>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="campoBuscaHome" placeholder="BUSCAR" onkeypress="verificarEnter(event)">
+            <span class="search-icon" onclick="realizarBusca()">&#128269;</span>
+        </div>
+    </div>
+
+    <!-- MENU LATERAL OCULTO: Para adicionar um item no menu, insira um <li><a>Novo Item</a></li> dentro da tag <ul> -->
+    <div class="overlay" onclick="toggleMenu()"></div> 
+    <aside class="sidebar" id="sidebarMenu">
+        <span class="close-btn" onclick="toggleMenu()">&times;</span>
+        <ul>
+            <li><a href="#">Sony Vegas</a></li>
+            <li><a href="#">Virtual dj</a></li>
+            <li><a href="#">Efeito Sonoro</a></li>
+        </ul>
+    </aside>
+
+    <!-- CONTEÚDO PRINCIPAL DO ARTIGO -->
+    <!-- Para adicionar um novo bloco de texto, use <h2 class="artigo-subtitulo"> seguido de <p class="artigo-texto"> -->
+    <main class="content-area">
+        <article>
+            <h1 class="artigo-titulo">Guia de Hormônios e Suplementação: Extração, SHBG e Testosterona</h1>
+            
+            <h2 class="artigo-subtitulo">Extração e Produção: Como os Nutrientes Viram Suplementos</h2>
+            <p class="artigo-texto">
+                <strong>Magnésio e Zinco:</strong> São minerais abundantes na crosta terrestre. A extração é feita via mineração em grandes jazidas (como a magnesita na Bahia para o Magnésio). A rocha bruta é triturada, passa por calcinação em fornos, reage com ácidos fortes (como ácido clorídrico), e o líquido resultante é filtrado. A água é evaporada para a obtenção dos cristais puros do sal mineral, que depois é seco, triturado, pesado e encapsulado pelas farmacêuticas.
+            </p>
+            <p class="artigo-texto">
+                <strong>Boro:</strong> Extraído de minerais de borato (como bórax) na superfície, majoritariamente nos EUA e Turquia. Passa por processo similar de reações com água e ácido para isolar compostos químicos como o citrato de boro, que é vendido em pó para a indústria.
+            </p>
+            <p class="artigo-texto">
+                <strong>Vitamina B6 (Piridoxina):</strong> Diferente dos minerais, não é viável extraí-la de plantas para suplementação devido ao custo. É produzida de forma 100% sintética em laboratório. Reatores químicos industriais combinam precursores orgânicos para copiar a estrutura molecular exata da piridoxina (uma das formas naturais da B6). O corpo humano não distingue a origem sintética da natural, pois a molécula é idêntica e é ativada no fígado para o cérebro.
+            </p>
+
+            <h2 class="artigo-subtitulo">O Papel da Proteína SHBG no Organismo</h2>
+            <p class="artigo-texto">
+                A SHBG (Globulina Ligadora de Hormônios Sexuais) é uma proteína fabricada pelo fígado. Ela não é "ruim", é um mecanismo vital de sobrevivência e transporte. Como a testosterona é baseada em gordura e o sangue é água, a SHBG age como um veículo para transportar o hormônio.
+            </p>
+            <p class="artigo-texto">
+                <strong>O que aconteceria sem a SHBG:</strong> Haveria um pico tóxico imediato de testosterona livre nas células, seguido por rápida filtração e eliminação do hormônio pelos rins e fígado. O sistema endócrino entraria em colapso. A SHBG serve como um tanque de reserva de liberação gradual.
+            </p>
+            <p class="artigo-texto">
+                <strong>O lado negativo:</strong> A testosterona que está "presa" à proteína SHBG no sangue fica inativa. O corpo não pode usá-la. Apenas a fração que não se liga à SHBG é a testosterona livre, pronta para uso.
+            </p>
+
+            <h2 class="artigo-subtitulo">Mecanismo do Boro, Magnésio e Zinco no SHBG</h2>
+            <p class="artigo-texto">
+                Para aumentar a Testosterona Livre, é necessário reduzir a interferência excessiva da SHBG. Minerais atuam nesse processo:
+            </p>
+            <ul class="artigo-lista">
+                <li><strong>Boro:</strong> Age no fígado reduzindo a transcrição genética que fabrica a proteína SHBG. O fígado produz menos SHBG, deixando mais testosterona solta.</li>
+                <li><strong>Magnésio:</strong> Funciona por bloqueio físico. Ele se acopla ao SHBG no mesmo espaço em que a testosterona entraria. Quando o hormônio chega, a vaga está ocupada e ele permanece livre.</li>
+                <li><strong>Zinco:</strong> Mantém a estabilidade. Baixo zinco sinaliza ao fígado para produzir mais SHBG. Manter os níveis de zinco altos impede a fabricação excessiva dessa proteína.</li>
+            </ul>
+
+            <h2 class="artigo-subtitulo">Sinergia ZMA e Boro: Maximização e Proteção</h2>
+            <p class="artigo-texto">
+                A junção de Zinco, Magnésio e Boro gera um efeito em cadeia (sinergia). O Boro corta o volume total de SHBG. O Magnésio ocupa as moléculas de SHBG que ainda restam. Isso maximiza o pico de testosterona livre. 
+            </p>
+            <p class="artigo-texto">
+                <strong>A Importância do Zinco (Bloqueio da Aromatase):</strong> Ter muita testosterona livre gera um risco. O corpo possui uma enzima chamada Aromatase, que transforma o excesso de testosterona livre em Estrogênio (hormônio feminino). O Zinco é o único mineral que atua fisicamente bloqueando a enzima aromatase, impedindo a conversão e blindando o perfil hormonal masculino.
+            </p>
+
+            <h2 class="artigo-subtitulo">O que o corpo faz com a Testosterona Livre</h2>
+            <p class="artigo-texto">
+                A Testosterona Livre (não ligada ao SHBG) penetra ativamente nas células de órgãos e tecidos executando funções específicas masculinas:
+            </p>
+            <ul class="artigo-lista">
+                <li><strong>Sistema Físico/Muscular:</strong> Sintetiza proteínas para hipertrofia das fibras musculares, aumenta força e promove retenção de cálcio nos ossos. Mantém a espermatogênese e pelos do corpo.</li>
+                <li><strong>Libido (Desejo Sexual):</strong> A testosterona livre atua em tempo real saturando receptores neurológicos no cérebro. Aliada a neurotransmissores como dopamina, ela converte o impulso hormonal em desejo sexual ativo e manutenção de ereção.</li>
+                <li><strong>Voz Grave:</strong> Funciona de forma diferente da libido. O hormônio livre atua nas cordas vocais apenas durante a puberdade, engrossando a laringe de forma permanente. Na fase adulta, a voz continuará grave independentemente de os níveis de testosterona estarem altos ou baixos.</li>
+            </ul>
+
+        </article>
+    </main>
+
+    <!-- RODAPÉ: Para alterar os dados do rodapé, modifique o texto dentro da tag <p> -->
+    <footer>
+        <p>&copy; Julho 2026 Arqueid</p>
+    </footer>
+
+    <!-- SCRIPTS JS -->
+    <script>
+        // Função toggleMenu: Ativada pelo clique no ícone de sanduíche. 
+        // Adiciona ou remove a classe 'active' da barra lateral e da camada de sombra (overlay),
+        // realizando o efeito visual de entrada e saída da gaveta do menu.
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebarMenu');
+            const overlay = document.querySelector('.overlay');
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        // Função verificarEnter: Escuta as teclas digitadas no campo de busca.
+        // Se a tecla for 'Enter', aciona a função de realizarBusca().
+        function verificarEnter(event) {
+            if (event.key === "Enter") {
+                realizarBusca();
+            }
+        }
+
+        // Função realizarBusca: Captura o valor digitado no input.
+        // Se houver texto, redireciona o usuário para a página de busca passando a string por URL (método GET).
+        // Use encodeURIComponent para tratar espaços e caracteres especiais na URL.
+        function realizarBusca() {
+            var termo = document.getElementById('campoBuscaHome').value;
+            if (termo) {
+                window.location.href = "../busca.html?q=" + encodeURIComponent(termo);
+            }
+        }
+    </script>
+
+</body>
+</html>
