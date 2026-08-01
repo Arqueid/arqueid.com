@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="https://arqueid.com.br/favicon.png">
+    <title>Arqueid/Nota</title>
+    <meta name="description" content="Arqueid Design e criação de conteúdo web, imagem e documentação em video.">
+     <meta name="robots" content="noindex, nofollow">
+    <meta property="og:url" content="https://arqueid.com.br/">
+    <style>
+        /* 
+         * GUIA PARA O PROGRAMADOR: ESTILOS (CSS)
+         * Aqui são definidas as variáveis de cor para facilitar a troca em tempo real.
+         * Para alterar valores padrão, modifique o root.
+         */
+        
+        :root {
+            --cor-fundo-tela: #1a1a1a;
+            --cor-texto-tela: #ffffff;
+            --cor-fundo-titulo: transparent;
+            --cor-texto-titulo: #ffffff;
+            --cor-fundo-paragrafo: transparent;
+            --cor-texto-paragrafo: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #222;
+        }
+
+        /* Painel lateral com rolagem para suportar mais botões */
+        #painel-ferramentas {
+            width: 300px;
+            background-color: #111;
+            color: #fff;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.5);
+            z-index: 10;
+            overflow-y: auto;
+        }
+
+        #painel-ferramentas h2, #painel-ferramentas h3 {
+            margin: 5px 0;
+            text-align: center;
+        }
+
+        #painel-ferramentas h3 {
+            font-size: 0.9rem;
+            color: #aaa;
+            border-bottom: 1px solid #444;
+            padding-bottom: 5px;
+            margin-top: 15px;
+        }
+
+        #painel-ferramentas button, #painel-ferramentas label.btn-upload {
+            padding: 8px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-align: center;
+            transition: 0.2s;
+        }
+
+        #painel-ferramentas button:hover, #painel-ferramentas label.btn-upload:hover {
+            background-color: #45a049;
+        }
+
+        .seletor-cor {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        #btn-gerar {
+            background-color: #008CBA !important;
+            margin-top: 20px;
+            font-weight: bold;
+            padding: 15px !important;
+            font-size: 1.1rem !important;
+        }
+
+        #btn-gerar:hover {
+            background-color: #007B9E !important;
+        }
+
+        /* Área de edição principal */
+        #area-edicao {
+            flex-grow: 1;
+            padding: 40px;
+            overflow-y: auto;
+            background-color: var(--cor-fundo-tela);
+            color: var(--cor-texto-tela);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 
+         * Configuração dos blocos que podem ser arrastados
+         */
+        .bloco-conteudo {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid transparent;
+            cursor: grab; /* Indica que o elemento pode ser arrastado */
+            background-color: transparent;
+        }
+
+        .bloco-conteudo:active {
+            cursor: grabbing;
+        }
+
+        .bloco-conteudo:hover {
+            border: 1px dashed #666;
+        }
+
+        /* Classe aplicada via JS enquanto o elemento está sendo arrastado */
+        .arrastando {
+            opacity: 0.4;
+            border: 2px dashed #008CBA;
+        }
+
+        .btn-excluir {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: #ff4c4c;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            display: none;
+            font-weight: bold;
+            z-index: 5;
+        }
+
+        .bloco-conteudo:hover .btn-excluir {
+            display: block;
+        }
+
+        /* Estilização individual baseada nas variáveis CSS */
+        h1 { 
+            background-color: var(--cor-fundo-titulo);
+            color: var(--cor-texto-titulo);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 0;
+        }
+        
+        p { 
+            background-color: var(--cor-fundo-paragrafo);
+            color: var(--cor-texto-paragrafo);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 0;
+            line-height: 1.6; 
+        }
+
+        h1[contenteditable], p[contenteditable] { 
+            outline: none; 
+        }
+
+        /* Regra obrigatória: Imagens e Vídeos em 16:9 */
+        img, video, iframe { 
+            width: 100%; 
+            aspect-ratio: 16/9; /* Mantém a proporção exigida */
+            object-fit: cover; 
+            border-radius: 8px; 
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Menu Lateral -->
+    <div id="painel-ferramentas">
+        <h2>Construtor</h2>
+        
+        <h3>Cores da Página</h3>
+        <div class="seletor-cor">
+            <label>Fundo Tela:</label>
+            <input type="color" id="cor-fundo-tela" value="#1a1a1a" onchange="atualizarVariavelCss('--cor-fundo-tela', this.value)">
+        </div>
+        <div class="seletor-cor">
+            <label>Texto Tela:</label>
+            <input type="color" id="cor-texto-tela" value="#ffffff" onchange="atualizarVariavelCss('--cor-texto-tela', this.value)">
+        </div>
+
+        <h3>Cores do Título</h3>
+        <div class="seletor-cor">
+            <label>Fundo Título:</label>
+            <!-- Inicia preto transparente para parecer invisível mas ser editável -->
+            <input type="color" id="cor-fundo-titulo" value="#000000" onchange="atualizarVariavelCss('--cor-fundo-titulo', this.value)">
+        </div>
+        <div class="seletor-cor">
+            <label>Texto Título:</label>
+            <input type="color" id="cor-texto-titulo" value="#ffffff" onchange="atualizarVariavelCss('--cor-texto-titulo', this.value)">
+        </div>
+
+        <h3>Cores do Parágrafo</h3>
+        <div class="seletor-cor">
+            <label>Fundo Parágrafo:</label>
+            <input type="color" id="cor-fundo-paragrafo" value="#000000" onchange="atualizarVariavelCss('--cor-fundo-paragrafo', this.value)">
+        </div>
+        <div class="seletor-cor">
+            <label>Texto Parágrafo:</label>
+            <input type="color" id="cor-texto-paragrafo" value="#ffffff" onchange="atualizarVariavelCss('--cor-texto-paragrafo', this.value)">
+        </div>
+
+        <h3>Inserir Elementos</h3>
+        <button onclick="adicionarTitulo()">+ Título</button>
+        <button onclick="adicionarParagrafo()">+ Parágrafo</button>
+        
+        <label for="input-imagem" class="btn-upload">+ Imagem (Arquivo)</label>
+        <input type="file" id="input-imagem" accept="image/*" style="display: none;" onchange="adicionarImagemArquivo(event)">
+        
+        <button onclick="adicionarImagemLink()">+ Imagem (Link)</button>
+
+        <label for="input-video" class="btn-upload">+ Vídeo (Arquivo)</label>
+        <input type="file" id="input-video" accept="video/*" style="display: none;" onchange="adicionarVideoArquivo(event)">
+        
+        <button onclick="adicionarVideoLink()">+ Vídeo (Link YouTube/Direto)</button>
+
+        <button id="btn-gerar" onclick="gerarPaginaFinal()">Gerar Página</button>
+    </div>
+
+    <!-- Tela do site construído -->
+    <div id="area-edicao">
+        <!-- O conteúdo inicial é gerado dinamicamente via JS na inicialização -->
+    </div>
+
+    <script>
+        /*
+         * GUIA PARA O PROGRAMADOR: JAVASCRIPT
+         * 
+         * COMO ADICIONAR UM NOVO COMPONENTE:
+         * 1. Crie uma função (ex: adicionarBotao()).
+         * 2. Defina o HTML da tag desejada e passe para injetarBloco(`<button>Meu Botão</button>`).
+         * 3. No HTML do painel lateral, adicione `<button onclick="adicionarBotao()">+ Botão</button>`.
+         * 
+         * COMO REMOVER UM COMPONENTE:
+         * 1. Apague o botão respectivo no HTML do painel lateral.
+         * 2. Apague a função correspondente aqui no JavaScript.
+         */
+
+        const areaEdicao = document.getElementById('area-edicao');
+
+        // FUNÇÃO: Injeta HTML, cria container, adiciona botão excluir e eventos de arrastar
+        function injetarBloco(htmlInterno) {
+            const divContainer = document.createElement('div');
+            divContainer.className = 'bloco-conteudo';
+            divContainer.setAttribute('draggable', 'true'); // Permite arrastar
+            
+            const btnExcluir = `<button class="btn-excluir" onclick="this.parentNode.remove()">X</button>`;
+            divContainer.innerHTML = btnExcluir + htmlInterno;
+            
+            // Adiciona os eventos de Drag and Drop a este novo bloco
+            adicionarEventosArrastar(divContainer);
+
+            areaEdicao.appendChild(divContainer);
+        }
+
+        // TEXTOS
+        function adicionarTitulo() {
+            injetarBloco(`<h1 contenteditable="true">Novo Título</h1>`);
+        }
+
+        function adicionarParagrafo() {
+            injetarBloco(`<p contenteditable="true">Novo parágrafo. Edite o texto aqui.</p>`);
+        }
+
+        // IMAGENS
+        function adicionarImagemArquivo(event) {
+            const arquivo = event.target.files[0];
+            if (arquivo) {
+                const leitor = new FileReader();
+                leitor.onload = (e) => injetarBloco(`<img src="${e.target.result}" alt="Imagem">`);
+                leitor.readAsDataURL(arquivo);
+            }
+            event.target.value = ''; // Reseta input
+        }
+
+        function adicionarImagemLink() {
+            const url = prompt("Cole o link (URL) da imagem:");
+            if (url) injetarBloco(`<img src="${url}" alt="Imagem via Link">`);
+        }
+
+        // VÍDEOS
+        function adicionarVideoArquivo(event) {
+            const arquivo = event.target.files[0];
+            if (arquivo) {
+                const leitor = new FileReader();
+                leitor.onload = (e) => {
+                    injetarBloco(`<video src="${e.target.result}" controls></video>`);
+                }
+                leitor.readAsDataURL(arquivo);
+            }
+            event.target.value = ''; // Reseta input
+        }
+
+        function adicionarVideoLink() {
+            let url = prompt("Cole o link do vídeo (YouTube ou arquivo direto MP4):");
+            if (url) {
+                // Converte link comum do youtube para link de iframe (embed)
+                if (url.includes("youtube.com/watch?v=")) {
+                    url = url.replace("watch?v=", "embed/");
+                } else if (url.includes("youtu.be/")) {
+                    url = url.replace("youtu.be/", "youtube.com/embed/");
+                }
+                
+                if(url.includes("embed")) {
+                    injetarBloco(`<iframe src="${url}" allowfullscreen></iframe>`);
+                } else {
+                    injetarBloco(`<video src="${url}" controls></video>`);
+                }
+            }
+        }
+
+        // CORES
+        function atualizarVariavelCss(variavel, valor) {
+            document.documentElement.style.setProperty(variavel, valor);
+        }
+
+        // DRAG AND DROP (ARRASTAR E SOLTAR)
+        function adicionarEventosArrastar(elemento) {
+            elemento.addEventListener('dragstart', () => {
+                elemento.classList.add('arrastando');
+            });
+
+            elemento.addEventListener('dragend', () => {
+                elemento.classList.remove('arrastando');
+            });
+        }
+
+        areaEdicao.addEventListener('dragover', (e) => {
+            e.preventDefault(); // Necessário para permitir o "soltar"
+            const elementoApos = obterElementoAposArrastar(areaEdicao, e.clientY);
+            const elementoArrastado = document.querySelector('.arrastando');
+            
+            if (elementoApos == null) {
+                areaEdicao.appendChild(elementoArrastado);
+            } else {
+                areaEdicao.insertBefore(elementoArrastado, elementoApos);
+            }
+        });
+
+        // Função matemática para descobrir a posição do mouse e onde inserir o elemento
+        function obterElementoAposArrastar(container, y) {
+            const elementosArrastaveis = [...container.querySelectorAll('.bloco-conteudo:not(.arrastando)')];
+
+            return elementosArrastaveis.reduce((maisProximo, filho) => {
+                const caixa = filho.getBoundingClientRect();
+                const offset = y - caixa.top - caixa.height / 2;
+                
+                if (offset < 0 && offset > maisProximo.offset) {
+                    return { offset: offset, element: filho };
+                } else {
+                    return maisProximo;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+
+        // GERAÇÃO DA PÁGINA FINAL
+        function gerarPaginaFinal() {
+            const telaClonada = areaEdicao.cloneNode(true);
+
+            // Limpa controles visuais para a versão final
+            telaClonada.querySelectorAll('.btn-excluir').forEach(btn => btn.remove());
+            telaClonada.querySelectorAll('.bloco-conteudo').forEach(bloco => {
+                bloco.removeAttribute('draggable');
+                bloco.style.border = 'none';
+                bloco.style.cursor = 'default';
+            });
+            telaClonada.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+
+            // Resgata variáveis de cor atuais
+            const estiloRaiz = getComputedStyle(document.documentElement);
+            const varCss = (nome) => estiloRaiz.getPropertyValue(nome).trim();
+
+            const codigoHTMLNovo = `
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Gerada</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 40px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: ${varCss('--cor-fundo-tela')};
+            color: ${varCss('--cor-texto-tela')};
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .bloco-conteudo {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h1 { 
+            background-color: ${varCss('--cor-fundo-titulo')};
+            color: ${varCss('--cor-texto-titulo')};
+            padding: 10px;
+            border-radius: 5px;
+            margin: 0;
+        }
+        p { 
+            background-color: ${varCss('--cor-fundo-paragrafo')};
+            color: ${varCss('--cor-texto-paragrafo')};
+            padding: 10px;
+            border-radius: 5px;
+            margin: 0;
+            line-height: 1.6; 
+        }
+        img, video, iframe {
+            width: 100%;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            border-radius: 8px;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    ${telaClonada.innerHTML}
+</body>
+</html>`;
+
+            const guiaJanela = window.open();
+            guiaJanela.document.write(codigoHTMLNovo);
+            guiaJanela.document.close();
+        }
+
+        // Inicializa a tela com conteúdo padrão de exemplo
+        window.onload = () => {
+            adicionarTitulo();
+            adicionarParagrafo();
+            injetarBloco(`<img src="https://via.placeholder.com/1280x720/444/fff?text=Imagem+16:9" alt="Modelo">`);
+        };
+    </script>
+</body>
+</html>
