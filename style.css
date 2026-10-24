@@ -1,0 +1,358 @@
+/* ==========================================================================
+   ARQUIVO: style.css
+   ESTILOS GERAIS, MENU, HOME E BUSCA
+   ========================================================================== */
+
+/* 1. RESET E ESTILOS GERAIS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* 2. BARRA SUPERIOR */
+.top-bar {
+    background-color: #1f1f1f;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    font-size: 12px;
+    font-weight: bold;
+    border-bottom: 1px solid #333;
+}
+
+.top-bar a {
+    margin-right: 20px;
+    color: #888;
+    transition: color 0.2s;
+}
+
+.top-bar a:hover {
+    color: #fff;
+}
+
+/* 3. BARRA DE MENU PRINCIPAL */
+.main-header {
+    background-color: #b71c1c;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    position: relative;
+    z-index: 100;
+}
+
+.menu-trigger {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #fff;
+}
+
+.hamburger-icon {
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+.menu-label {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+}
+
+.search-box input {
+    background-color: #8c1b1b;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    color: #fff;
+    outline: none;
+    width: 200px;
+}
+
+.search-box input::placeholder {
+    color: #dcbaba;
+}
+
+.search-icon {
+    margin-left: -30px;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* 4. MENU LATERAL E OVERLAY */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -300px;
+    width: 300px;
+    height: 100%;
+    background-color: #1e1e1e;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+    transition: left 0.3s ease;
+    z-index: 200;
+    padding-top: 60px;
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 30px;
+    cursor: pointer;
+    color: #fff;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar li {
+    border-bottom: 1px solid #333;
+}
+
+.sidebar a {
+    display: block;
+    padding: 15px 20px;
+    font-size: 16px;
+    color: #ccc;
+}
+
+.sidebar a:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 150;
+}
+
+.overlay.active {
+    display: block;
+}
+
+/* 5. RODAPÉ */
+footer {
+    background-color: #1f1f1f;
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid #333;
+    font-size: 14px;
+    color: #888;
+    margin-top: auto;
+}
+
+/* 6. ESTILOS DA PÁGINA INICIAL (HOME) */
+.content-area {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 20px;
+    flex: 1;
+}
+
+.home-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.destaque-principal {
+    border-bottom: 1px solid #333;
+    padding-bottom: 30px;
+}
+
+.destaque-img-wrapper {
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+
+.destaque-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.destaque-principal:hover .destaque-img {
+    transform: scale(1.02);
+}
+
+.destaque-categoria {
+    color: #b71c1c;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 14px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.destaque-titulo {
+    font-size: 36px;
+    color: #fff;
+    font-weight: bold;
+    line-height: 1.1;
+    margin-bottom: 10px;
+}
+
+.destaque-titulo:hover { color: #b71c1c; }
+
+.destaque-resumo {
+    font-size: 18px;
+    color: #aaa;
+    max-width: 800px;
+}
+
+.grade-secundaria {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.card-secundario .card-img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.card-secundario h3 {
+    font-size: 18px;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.card-secundario h3:hover { color: #b71c1c; }
+
+.card-secundario p {
+    font-size: 13px;
+    color: #999;
+}
+
+@media (max-width: 768px) {
+    .destaque-img-wrapper { height: 200px; }
+    .destaque-titulo { font-size: 24px; }
+    .grade-secundaria { grid-template-columns: 1fr; }
+}
+
+/* 7. ESTILOS DA PÁGINA DE BUSCA */
+.container-busca {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+    flex: 1;
+}
+
+.titulo-busca {
+    font-size: 24px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 15px;
+    color: #fff;
+}
+
+.resultado-item {
+    display: flex;
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.resultado-img-link {
+    flex-shrink: 0;
+    margin-right: 20px;
+}
+
+.resultado-img {
+    width: 320px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 4px;
+    background-color: #333;
+    transition: opacity 0.2s;
+}
+
+.resultado-img:hover { opacity: 0.8; }
+
+.resultado-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.res-categoria {
+    color: #b71c1c;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.res-titulo {
+    font-size: 22px;
+    color: #fff;
+    font-weight: bold;
+    margin-bottom: 10px;
+    line-height: 1.2;
+}
+
+.res-titulo:hover { color: #b71c1c; }
+
+.res-resumo {
+    font-size: 15px;
+    color: #aaa;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+.res-tempo {
+    font-size: 11px;
+    color: #666;
+    margin-top: auto;
+}
+
+.sem-resultados {
+    text-align: center;
+    padding: 50px;
+    color: #666;
+    font-size: 18px;
+}
+
+@media (max-width: 768px) {
+    .resultado-item { flex-direction: column; }
+    .resultado-img { width: 100%; height: auto; aspect-ratio: 16/9; margin-bottom: 15px; }
+}

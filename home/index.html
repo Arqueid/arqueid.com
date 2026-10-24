@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <title>Arqueid</title>
+    <meta name="description" content="Arqueid Design e criação de conteúdo web, imagem e documentação em video.">
+    <meta name="robots" content="noindex, nofollow">
+    <meta property="og:url" content="https://arqueid.com.br/">
+    
+    <!-- APENAS O ARQUIVO CSS EXTERNO -->
+    <link rel="stylesheet" href="../style.css">
+</head>
+<!-- 
+  GUIA PARA O PROGRAMADOR:
+  - O atributo 'style="display: none;"' esconde o conteúdo inicialmente para evitar 
+    que a página apareça por um instante antes da verificação do login.
+  - Para remover a proteção no futuro: apague o 'style="display: none;"' do body 
+    e remova a linha do script 'seguranca.js' abaixo.
+-->
+<body style="display: none;">
+
+    <main class="content-area">
+        <div class="home-grid">
+            <div id="espaco-destaque"></div>
+            <div id="espaco-secundarias" class="grade-secundaria"></div>
+        </div>
+    </main>
+
+    <!-- SCRIPTS -->
+    <script src="https://files.catbox.moe/4r7g84.js"></script>
+    <script src="../menu.js"></script>
+    
+    <!-- SCRIPT DE SEGURANÇA: Usa '../' porque está na pasta interna 'home' -->
+    <script type="module" src="../seguranca.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof bancoDeDados !== 'undefined' && bancoDeDados.length > 0) {
+                
+                const destaque = bancoDeDados[0];
+                const divDestaque = document.getElementById('espaco-destaque');
+
+                divDestaque.innerHTML = `
+                    <div class="destaque-principal">
+                        <a href="${destaque.link}" target="_blank">
+                            <div class="destaque-img-wrapper">
+                                <img src="${destaque.imagem}" class="destaque-img" alt="${destaque.titulo}">
+                            </div>
+                            <span class="destaque-categoria">${destaque.categoria}</span>
+                            <h2 class="destaque-titulo">${destaque.titulo}</h2>
+                            <p class="destaque-resumo">${destaque.resumo}</p>
+                        </a>
+                    </div>
+                `;
+
+                const secundarias = bancoDeDados.slice(1, 4); 
+                const divSecundarias = document.getElementById('espaco-secundarias');
+                let htmlSecundario = '';
+
+                secundarias.forEach(item => {
+                    htmlSecundario += `
+                        <div class="card-secundario">
+                            <a href="${item.link}" target="_blank">
+                                <img src="${item.imagem}" class="card-img" alt="${item.titulo}">
+                                <span style="font-size: 10px; color:#b71c1c; font-weight:bold">${item.categoria}</span>
+                                <h3>${item.titulo}</h3>
+                                <p>${item.resumo.substring(0, 80)}...</p>
+                            </a>
+                        </div>
+                    `;
+                });
+
+                divSecundarias.innerHTML = htmlSecundario;
+            }
+        });
+    </script>
+</body>
+</html>
