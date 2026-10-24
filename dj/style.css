@@ -1,0 +1,163 @@
+@font-face {
+    font-family: 'LCDFont';
+    src: url('LCD.ttf') format('truetype');
+}
+
+body {
+    background-color: #000; 
+    color: #0f0; 
+    font-family: 'LCDFont', monospace;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}
+
+#display-global {
+    font-size: 30px;
+    background-color: #111;
+    border: 2px solid #333;
+    padding: 10px;
+    margin-bottom: 20px;
+    color: #0ff;
+}
+
+.container-principal {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.deck {
+    width: 30%;
+    border: 3px solid;
+    padding: 20px;
+    background-color: #111;
+    border-radius: 10px;
+}
+
+.deck-vermelho { border-color: red; }
+.deck-azul { border-color: blue; }
+
+/* MODIFICAÇÃO: Configura o giro pelo CSS assumindo uma imagem estática */
+.disco {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%; 
+    margin: 10px auto;
+    display: block;
+    opacity: 0.3; 
+    transition: opacity 0.3s;
+    /* Aplica a animação, mas mantém em estado pausado por padrão */
+    animation: girar 2s linear infinite;
+    animation-play-state: paused;
+}
+
+/* Quando o botão PLAY for clicado, o JS adiciona esta classe */
+.disco.rodando {
+    opacity: 1; 
+    animation-play-state: running; /* Faz a imagem girar */
+}
+
+@keyframes girar {
+    100% { transform: rotate(360deg); }
+}
+
+.controles {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+button {
+    font-family: 'LCDFont', monospace;
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #555;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+input[type=range][orient=vertical] {
+    writing-mode: bt-lr; 
+    -webkit-appearance: slider-vertical; 
+    width: 8px;
+    height: 80px;
+    cursor: pointer;
+}
+
+.area-central {
+    width: 35%;
+}
+
+#campo-busca {
+    width: 100%;
+    padding: 10px;
+    font-family: 'LCDFont', monospace;
+    background-color: #222;
+    color: #0f0;
+    border: 1px solid #555;
+    box-sizing: border-box;
+}
+
+#lista-resultados {
+    margin-top: 10px;
+    max-height: 400px;
+    overflow-y: auto;
+    text-align: left;
+}
+
+.item-musica {
+    background-color: #222;
+    border: 1px solid #444;
+    padding: 10px;
+    margin-bottom: 5px;
+    cursor: grab; 
+}
+
+.area-vinhetas {
+    margin-top: 30px;
+    border: 2px solid #555;
+    padding: 20px;
+    background-color: #111;
+}
+
+.grid-vinhetas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 10px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.vinheta-slot {
+    background-color: #222;
+    border: 1px solid #777;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 12px;
+    overflow: hidden;
+}
+
+.vinheta-slot:hover {
+    background-color: #444;
+}
+/* Estilo do cronômetro decrescente */
+.visor-tempo {
+    font-size: 20px;
+    color: #ff0; /* Cor amarela para destacar do texto principal */
+    margin-left: 15px;
+    background-color: #222;
+    padding: 2px 8px;
+    border: 1px solid #555;
+    border-radius: 4px;
+}

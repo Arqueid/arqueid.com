@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" href="../favicon.png">
+    <title>Arqueid - Downloads</title>
+    <style>
+        /* RESET E ESTILOS GERAIS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* 1. BARRA SUPERIOR */
+        .top-bar {
+            background-color: #1f1f1f;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 12px;
+            font-weight: bold;
+            border-bottom: 1px solid #333;
+        }
+
+        .top-bar a {
+            margin-right: 20px;
+            color: #888;
+            transition: color 0.2s;
+        }
+
+        .top-bar a:hover {
+            color: #fff;
+        }
+
+        /* 2. BARRA DE MENU PRINCIPAL */
+        .main-header {
+            background-color: #b71c1c;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            position: relative;
+            z-index: 100;
+        }
+
+        .menu-trigger {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .hamburger-icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+        .menu-label {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box input {
+            background-color: #8c1b1b;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            color: #fff;
+            outline: none;
+            width: 200px;
+        }
+
+        .search-icon {
+            margin-left: -30px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        /* 3. MENU LATERAL */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 300px;
+            height: 100%;
+            background-color: #1e1e1e;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+            transition: left 0.3s ease;
+            z-index: 200;
+            padding-top: 60px;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li {
+            border-bottom: 1px solid #333;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 15px 20px;
+            font-size: 16px;
+            color: #ccc;
+        }
+
+        .sidebar a:hover {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 150;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        /* 4. ÁREA DO ARTIGO */
+        .content-area {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            flex: 1;
+        }
+
+        .artigo-titulo {
+            font-size: 32px;
+            color: #fff;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .artigo-imagem {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .artigo-texto {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+
+        /* 5. RODAPÉ */
+        footer {
+            background-color: #1f1f1f;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #333;
+            font-size: 14px;
+            color: #888;
+            margin-top: 40px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="top-bar">
+        <a href="../index.html">Home</a> 
+        <a href="#">Downloads</a>
+        <a href="#">Tartago</a>
+        <a href="#">Detalhe</a>
+        <a href="#">Cep</a>
+        <a href="#">Tv</a>
+    </nav>
+
+    <div class="main-header">
+        <div class="menu-trigger" onclick="toggleMenu()">
+            <span class="hamburger-icon">&#9776;</span> 
+            <span class="menu-label">MENU</span>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="campoBuscaHome" placeholder="BUSCAR" onkeypress="verificarEnter(event)">
+            <span class="search-icon" onclick="realizarBusca()">&#128269;</span>
+        </div>
+    </div>
+
+    <div class="overlay" onclick="toggleMenu()"></div> 
+    <aside class="sidebar" id="sidebarMenu">
+        <span class="close-btn" onclick="toggleMenu()">&times;</span>
+        <ul>
+            <li><a href="#">Sony Vegas</a></li>
+            <li><a href="#">Virtual dj</a></li>
+            <li><a href="#">Efeito Sonoro</a></li>
+        </ul>
+    </aside>
+
+    <main class="content-area">
+        <article>
+            <h1 class="artigo-titulo">Área de Downloads</h1>
+            
+            <img src="https://via.placeholder.com/800x400" alt="Imagem Downloads" class="artigo-imagem">
+            
+            <p class="artigo-texto">
+                Você está na área de downloads. Esta página está dentro de uma subpasta, mas usa o mesmo estilo e sistema de busca da página principal.
+            </p>
+            
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Arqueid</p>
+        
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebarMenu');
+            const overlay = document.querySelector('.overlay');
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        function verificarEnter(event) {
+            if (event.key === "Enter") {
+                realizarBusca();
+            }
+        }
+
+        function realizarBusca() {
+            var termo = document.getElementById('campoBuscaHome').value;
+            if (termo) {
+                // ALTERAÇÃO IMPORTANTE AQUI:
+                // O prefixo "../" manda o navegador voltar uma pasta antes de abrir o arquivo.
+                window.location.href = "../busca.html?q=" + encodeURIComponent(termo);
+            }
+        }
+    </script>
+
+</body>
+</html>

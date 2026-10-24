@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <title>CEP de Apiaí SP | Buscador de CEP por Rua – Arqueid</title>
+    <meta name="description" content="Consulte o CEP das ruas de Apiaí SP de forma rápida e fácil. Digite o nome da rua e encontre o CEP correto instantaneamente.">
+    <meta name="keywords" content="CEP Apiaí, CEP de Apiaí SP, buscar CEP Apiaí, CEP por rua Apiaí, ruas de Apiaí CEP, consulta CEP Apiaí, CEP Apiaí centro">
+    <meta name="robots" content="index, follow">
+    <meta property="og:url" content="https://arqueid.com.br/cepdeapiai">
+    <meta property="og:title" content="CEP de Apiaí SP | Buscador de CEP por Rua">
+    <meta property="og:description" content="Ferramenta online para buscar o CEP correto das ruas de Apiaí SP. Digite o nome da rua e encontre o CEP instantaneamente.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://arqueid.com.br/cepdeapiai">
+    <meta property="og:site_name" content="Arqueid">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:image" content="https://arqueid.com.br/cepdeapiai/favicon.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="CEP de Apiaí SP | Buscar CEP por Rua">
+    <meta name="twitter:description" content="Encontre o CEP correto das ruas de Apiaí SP digitando o nome da rua. Rápido, simples e gratuito.">
+
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --bg-color: #f3f4f6;
+            --text-color: #1f2937;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            margin-top: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            outline: none;
+            box-sizing: border-box; /* Garante que o padding não aumente a largura */
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--primary-color);
+        }
+
+        /* Lista de Autocomplete */
+        .suggestions-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            max-height: 250px;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: none; /* Escondido por padrão */
+        }
+
+        .suggestion-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.2s;
+        }
+
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .suggestion-item:hover {
+            background-color: #eff6ff;
+            color: var(--primary-color);
+        }
+
+        .suggestion-item strong {
+            color: var(--primary-color);
+        }
+
+        .suggestion-item span {
+            font-size: 0.85em;
+            color: #6b7280;
+            display: block;
+        }
+
+        /* Área de Resultados */
+        .result-card {
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none; /* Escondido por padrão */
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #dbeafe;
+            padding-bottom: 5px;
+        }
+
+        .result-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .result-label {
+            font-weight: 600;
+            color: #4b5563;
+        }
+
+        .result-value {
+            font-weight: 700;
+            color: #1e3a8a;
+            text-align: right;
+        }
+
+        .cep-highlight {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+
+        .no-results {
+            text-align: center;
+            color: #ef4444;
+            margin-top: 10px;
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Consulte CEP - Apiaí</h1>
+    
+    <div class="search-box">
+        <label for="streetInput">DIGITE O NOME DA RUA:</label>
+        <input type="text" id="streetInput" placeholder="Ex: Avenida Nelson..." autocomplete="off">
+        <div id="suggestions" class="suggestions-list"></div>
+    </div>
+
+    <div id="noResults" class="no-results">Nenhuma rua encontrada.</div>
+
+    <div id="resultCard" class="result-card">
+        <div class="result-row">
+            <span class="result-label">CEP:</span>
+            <span class="result-value cep-highlight" id="resCep">00000-000</span>
+        </div>
+        <div class="result-row">
+            <span class="result-label">Logradouro:</span>
+            <span class="result-value" id="resLogradouro">Nome da Rua</span>
+        </div>
+        <div class="result-row">
+            <span class="result-label">Bairro:</span>
+            <span class="result-value" id="resBairro">Nome do Bairro</span>
+        </div>
+        <div class="result-row">
+            <span class="result-label">Cidade/UF:</span>
+            <span class="result-value">Apiaí - SP</span>
+        </div>
+    </div>
+    <p><a href="https://arqueid.github.io/apoie07/" target="_blank">apoiar o criador</a></p>
+</div>
+
+<script>
+    // Banco de dados extraído do PDF
+    const dbCeps = [
+        { rua: "Avenida Nelson Dias Batista", bairro: "Centro", cep: "18320-001" },
+        { rua: "Rua 1º de Maio", bairro: "Centro", cep: "18320-003" },
+        { rua: "Rua Joaquim Antunes da Silva Júnior", bairro: "Centro", cep: "18320-005" },
+        { rua: "Rua da Biquinha", bairro: "Centro", cep: "18320-007" },
+        { rua: "Rua 21 de Abril", bairro: "Centro", cep: "18320-009" },
+        { rua: "Beco Benedita Dias da Silva", bairro: "Centro", cep: "18320-011" },
+        { rua: "Rua Euclides Severiano Lara", bairro: "Centro", cep: "18320-013" },
+        { rua: "Rua Odorico Manoel Barbosa", bairro: "Centro", cep: "18320-015" },
+        { rua: "Ladeira da Memória", bairro: "Centro", cep: "18320-017" },
+        { rua: "Praça Alvares de Azevedo", bairro: "Centro", cep: "18320-019" },
+        { rua: "Beco do Fotógrafo", bairro: "Centro", cep: "18320-021" },
+        { rua: "Rua Tenente-Coronel Meira", bairro: "Centro", cep: "18320-023" },
+        { rua: "Rua Doutor Gabriel Ribeiro dos Santos", bairro: "Centro", cep: "18320-025" },
+        { rua: "Rua Doutor Augusto do Amaral", bairro: "Centro", cep: "18320-027" },
+        { rua: "Rua Cândido Dias Batista", bairro: "Centro", cep: "18320-029" },
+        { rua: "Rua Joaquim Barbosa", bairro: "Centro", cep: "18320-031" },
+        { rua: "Travessa Joaquim Barbosa", bairro: "Centro", cep: "18320-033" },
+        { rua: "Rua Duque de Caxias", bairro: "Centro", cep: "18320-035" },
+        { rua: "Rua Josué de Castro", bairro: "Centro", cep: "18320-037" },
+        { rua: "Rua das Indústrias", bairro: "Centro", cep: "18320-039" },
+        { rua: "Rua Sebastião Ferraz de Camargo Penteado", bairro: "Centro", cep: "18320-041" },
+        { rua: "Avenida Parascevia Nedopetalski", bairro: "Centro", cep: "18320-043" },
+        { rua: "Rua Alfeu Victório Nery", bairro: "Centro", cep: "18320-045" },
+        { rua: "Rua da Saudade", bairro: "Centro", cep: "18320-047" },
+        { rua: "Rua Valentim Carriel de Lima", bairro: "Centro", cep: "18320-049" },
+        { rua: "Praça Pastor Onofre Cisterna", bairro: "Centro", cep: "18320-051" },
+        { rua: "Avenida Duque de Caxias", bairro: "Centro", cep: "18320-053" },
+        { rua: "Rua da Consolação", bairro: "Centro", cep: "18320-055" },
+        { rua: "Rua Isaias Teixeira da Silva", bairro: "Centro", cep: "18320-057" },
+        { rua: "Rua Alexandre Ferreira", bairro: "Centro", cep: "18320-059" },
+        { rua: "Ladeira Manoel Augusto", bairro: "Centro", cep: "18320-061" },
+        { rua: "Rua 19 de Novembro", bairro: "Centro", cep: "18320-063" },
+        { rua: "Rua José Doria Barbosa", bairro: "Centro", cep: "18320-065" },
+        { rua: "Travessa Antônio Dória", bairro: "Centro", cep: "18320-067" },
+        { rua: "Praça Jonas Dias Batista", bairro: "Centro", cep: "18320-069" },
+        { rua: "Rua Dimas Dória de Oliveira", bairro: "Centro", cep: "18320-071" },
+        { rua: "Rua Professora Honorina de Albuquerque", bairro: "Centro", cep: "18320-073" },
+        { rua: "Rua Camilo Lopes de Matos", bairro: "Centro", cep: "18320-075" },
+        { rua: "Praça Prefeito Alberto Dias Baptista", bairro: "Centro", cep: "18320-077" },
+        { rua: "Avenida Leopoldo Leme Verneque", bairro: "Centro", cep: "18320-079" },
+        { rua: "Rua Manoel Pacheco Carvalho", bairro: "Centro", cep: "18320-081" },
+        { rua: "Ladeira da Concórdia", bairro: "Centro", cep: "18320-083" },
+        { rua: "Rua Benedito Cesário Prestes", bairro: "Centro", cep: "18320-085" },
+        { rua: "Rua José Thomaz de Lima", bairro: "Centro", cep: "18320-087" },
+        { rua: "Rua Torquato Rios Carneiro", bairro: "Centro", cep: "18320-089" },
+        { rua: "Rua Major Augusto Francisco Rios Carneiro", bairro: "Centro", cep: "18320-091" },
+        { rua: "Praça Francisco Xavier da Rocha", bairro: "Centro", cep: "18320-093" },
+        { rua: "Rua Monsenhor Cassese", bairro: "Centro", cep: "18320-095" },
+        { rua: "Rua Ubaldo de Campos", bairro: "Centro", cep: "18320-097" },
+        { rua: "Rua Gastão dos Santos Lisboa", bairro: "Centro", cep: "18320-099" },
+        { rua: "Rua Joaquim Elisiário de Campos", bairro: "Centro", cep: "18320-101" },
+        { rua: "Rua Tenente Laurindo da Silva Pereira", bairro: "Centro", cep: "18320-103" },
+        { rua: "Rua Júlio Reis Munhão", bairro: "Centro", cep: "18320-105" },
+        { rua: "Rua Amarilio Gorgonha Silva", bairro: "Centro", cep: "18320-107" },
+        { rua: "Rua 7 de Setembro", bairro: "Centro", cep: "18320-109" },
+        { rua: "Rua Professora Elisa dos Santos", bairro: "Centro", cep: "18320-111" },
+        { rua: "Travessa Duarte", bairro: "Centro", cep: "18320-113" },
+        { rua: "Rua Ana Celestina Henriques", bairro: "Centro", cep: "18320-115" },
+        { rua: "Rua Leôncio da Costa", bairro: "Centro", cep: "18320-117" },
+        { rua: "Rua Padre Celso", bairro: "Centro", cep: "18320-119" },
+        { rua: "Beco Isaac Rodrigues Machado", bairro: "Centro", cep: "18320-121" },
+        { rua: "Travessa Lafit", bairro: "Centro", cep: "18320-123" },
+        { rua: "Rua XV de Novembro", bairro: "Centro", cep: "18320-125" },
+        { rua: "Travessa Álvaro de Campos", bairro: "Centro", cep: "18320-127" },
+        { rua: "Rua João Rodrigues Cunha", bairro: "Centro", cep: "18320-129" },
+        { rua: "Beco Fumagalli", bairro: "Centro", cep: "18320-131" },
+        { rua: "Beco Silva", bairro: "Centro", cep: "18320-133" },
+        { rua: "Rua José Euclides de Oliveira", bairro: "Centro", cep: "18320-135" },
+        { rua: "Rua Liberato Doria", bairro: "Centro", cep: "18320-137" },
+        { rua: "Rua Tenente Bernardo Rodrigues Dias Martins", bairro: "Centro", cep: "18320-139" },
+        { rua: "Rua Hiroaki Oikawa", bairro: "Centro", cep: "18320-141" },
+        { rua: "Rua Sizenando Dias Batista", bairro: "Centro", cep: "18320-143" },
+        { rua: "Rua Celso Costa", bairro: "Centro", cep: "18320-145" },
+        { rua: "Beco Gregório Rosa", bairro: "Centro", cep: "18320-147" },
+        { rua: "Rua Chigueyuki Tsutia", bairro: "Jardim Sol Nascente", cep: "18320-150" },
+        { rua: "Rua Tokio", bairro: "Jardim Sol Nascente", cep: "18320-152" },
+        { rua: "Rua Professora Elisa dos Santos", bairro: "Jardim Sol Nascente", cep: "18320-154" },
+        { rua: "Rua Kioto", bairro: "Jardim Sol Nascente", cep: "18320-156" },
+        { rua: "Rua Nagoya", bairro: "Jardim Sol Nascente", cep: "18320-158" },
+        { rua: "Rua Hiroshima", bairro: "Jardim Sol Nascente", cep: "18320-160" },
+        { rua: "Rua Osaka", bairro: "Jardim Sol Nascente", cep: "18320-162" },
+        { rua: "Avenida Leony Silva", bairro: "Jardim Eucalipto", cep: "18320-170" },
+        { rua: "Rua José Rodrigues de Lima", bairro: "Jardim Eucalipto", cep: "18320-172" },
+        { rua: "Rua Prefeito Agostinho Rubim", bairro: "Jardim Eucalipto", cep: "18320-174" },
+        { rua: "Rua Silverio da Silva Pereira", bairro: "Campo Velho", cep: "18320-180" },
+        { rua: "Rua Doutor Mário dos Santos", bairro: "Campo Velho", cep: "18320-182" },
+        { rua: "Rua Belisário Rodrigues da Silva", bairro: "Campo Velho", cep: "18320-184" },
+        { rua: "Rua Francisco Ferreira de Morais", bairro: "Campo Velho", cep: "18320-186" },
+        { rua: "Rua Toshio Takiguchi", bairro: "Campo Velho", cep: "18320-188" },
+        { rua: "Rua Liduina Vieira da Cruz", bairro: "Campo Velho", cep: "18320-190" },
+        { rua: "Rua Marcolino Manoel da Cruz", bairro: "Campo Velho", cep: "18320-192" },
+        { rua: "Rua Victor Barbosa de Paiva", bairro: "Campo Velho", cep: "18320-194" },
+        { rua: "Praça Victor Barbosa de Paiva", bairro: "Campo Velho", cep: "18320-196" },
+        { rua: "Avenida Leony Silva", bairro: "Campo Velho", cep: "18320-198" },
+        { rua: "Rua Hiroaki Oikawa", bairro: "Jardim Paraiso", cep: "18320-200" },
+        { rua: "Rua José Manoel Batista Dias", bairro: "Jardim Paraiso", cep: "18320-202" },
+        { rua: "Rua David Carlos Macknight", bairro: "Jardim Paraiso", cep: "18320-204" },
+        { rua: "Rua Bertholdo Balbino Dias Martins", bairro: "Jardim Paraiso", cep: "18320-206" },
+        { rua: "Rua Maestro Carlos Spino do Nascimento", bairro: "Jardim Paraiso", cep: "18320-208" },
+        { rua: "Rua Inês Martins", bairro: "Jardim Paraiso", cep: "18320-210" },
+        { rua: "Rua Manoel Araújo de Lima", bairro: "Jardim Paraiso", cep: "18320-212" },
+        { rua: "Travessa David Carlos Macknight", bairro: "Jardim Paraiso", cep: "18320-214" },
+        { rua: "Travessa Eurico Teixeira", bairro: "Jardim Paraiso", cep: "18320-216" },
+        { rua: "Rua José de Haro Martinez", bairro: "Jardim Paraiso", cep: "18320-218" },
+        { rua: "Rua Herculino Laudário", bairro: "Jardim Paraiso", cep: "18320-220" },
+        { rua: "Rua Francisco Martins Cordeiro", bairro: "Jardim Paraiso", cep: "18320-221" },
+        { rua: "Rua Coronel José Vitorino de Oliveira", bairro: "Jardim Paraiso", cep: "18320-222" },
+        { rua: "Rua Amâncio Batista do Canto", bairro: "Jardim Paraiso", cep: "18320-224" },
+        { rua: "Rua Joaquim Isidio dos Santos", bairro: "Jardim Paraiso", cep: "18320-228" },
+        { rua: "Travessa Tenente Bernardo Rodrigues Dias Martins", bairro: "Jardim Paraiso", cep: "18320-229" },
+        { rua: "Rua Antônio Valentim Coelho", bairro: "Jardim Paraiso", cep: "18320-230" },
+        { rua: "Rua Pedro Ribas dos Santos", bairro: "Jardim Paraiso", cep: "18320-234" },
+        { rua: "Rua Felix Valois da Costa", bairro: "Jardim Paraiso", cep: "18320-236" },
+        { rua: "Rua Antônio Carriel de Lima", bairro: "Quilombo", cep: "18320-301" },
+        { rua: "Rua Haralambos Mihail Panitsa", bairro: "Quilombo", cep: "18320-303" },
+        { rua: "Rua Hiroaki Oikawa", bairro: "Quilombo", cep: "18320-308" },
+        { rua: "Rua Juvelino Rodrigues Machado", bairro: "Conjunto Habitacional Adail M. Araújo", cep: "18320-310" },
+        { rua: "Rua Anibal de Almeida", bairro: "Conjunto Habitacional Adail M. Araújo", cep: "18320-312" },
+        { rua: "Rua Noemi Duarte Santos", bairro: "Conjunto Habitacional Adail M. Araújo", cep: "18320-314" },
+        { rua: "Rua Ermínio Rodrigues Silva", bairro: "Conjunto Habitacional Adail M. Araújo", cep: "18320-316" },
+        { rua: "Rua Brigadeiro Eduardo Gomes", bairro: "Conjunto Habitacional Adail M. Araújo", cep: "18320-318" },
+        { rua: "Rua Adélia Teixeira Barbosa", bairro: "Conjunto Habitacional Adail M. Araújo", cep: "18320-320" },
+        { rua: "Rua Clarisse Dias da Silva", bairro: "Conjunto Habitacional Adail M. Araújo", cep: "18320-322" },
+        { rua: "Rua José Felipe de Campos", bairro: "Conjunto Habitacional Adail M. Araújo", cep: "18320-324" },
+        { rua: "Rua Olímpia Sarti de Lima", bairro: "Conjunto Habitacional Adail M. Araújo", cep: "18320-326" },
+        { rua: "Rua Alberto Santos Dumont da Silva", bairro: "Conjunto Habitacional Adail M. Araújo", cep: "18320-328" },
+        { rua: "Rua Hiroaki Oikawa", bairro: "Conjunto Habitacional Adail M. Araújo", cep: "18320-330" },
+        { rua: "Rua Luciano Polaczek", bairro: "Jardim Santo Antônio", cep: "18320-340" },
+        { rua: "Rua Juvelino Rodrigues Machado", bairro: "Jardim Santo Antônio", cep: "18320-341" },
+        { rua: "Rua Altino Bandeira Araujo", bairro: "Jardim Santo Antônio", cep: "18320-342" },
+        { rua: "Travessa Miguel Costa", bairro: "Jardim Santo Antônio", cep: "18320-343" },
+        { rua: "Rua Darcy Costa", bairro: "Jardim Santo Antônio", cep: "18320-344" },
+        { rua: "Rua João Costa", bairro: "Jardim Santo Antônio", cep: "18320-346" },
+        { rua: "Rua Tenente Laurindo da Silva Pereira", bairro: "Jardim Santo Antônio", cep: "18320-348" },
+        { rua: "Rua José de Melo", bairro: "Jardim Santo Antônio", cep: "18320-350" },
+        { rua: "Rua Alcides Ferraz de Camargo", bairro: "Jardim Santo Antônio", cep: "18320-352" },
+        { rua: "Rua Doutor Joffre Campello de Souza", bairro: "Jardim Santo Antônio", cep: "18320-354" },
+        { rua: "Rua Benedito Dias Martins", bairro: "Jardim Santo Antônio", cep: "18320-356" },
+        { rua: "Rua Júlio Reis Munhão", bairro: "Jardim Santo Antônio", cep: "18320-358" },
+        { rua: "Rua Joffre Campello de Souza", bairro: "Jardim Conceição", cep: "18320-372" },
+        { rua: "Rua Alcides Ferraz de Camargo", bairro: "Jardim Conceição", cep: "18320-374" },
+        { rua: "Rua Benedito Dias Martins", bairro: "Jardim Conceição", cep: "18320-376" },
+        { rua: "Rua Felicia Polaczek", bairro: "Jardim Conceição", cep: "18320-378" },
+        { rua: "Viela 1 da rua Felicia Polaczek", bairro: "Jardim Conceição", cep: "18320-380" },
+        { rua: "Rua Professora Dirce Fonseca Teixeira", bairro: "Jardim Conceição", cep: "18320-382" },
+        { rua: "Avenida Izidoro Alpheu Santiago", bairro: "Jardim Conceição", cep: "18320-384" },
+        { rua: "Rua Maria Lúcia Ferraz Rodrigues", bairro: "Jardim Conceição", cep: "18320-386" },
+        { rua: "Rua Antônio Polaczek", bairro: "Jardim Conceição", cep: "18320-388" },
+        { rua: "Travessa Miguel Costa", bairro: "Jardim Conceição", cep: "18320-389" },
+        { rua: "Avenida Izidoro Alpheu Santiago", bairro: "Vila Paiolinho", cep: "18320-451" },
+        { rua: "Rua Mihail Haralambos Panitsa", bairro: "Vila Paiolinho", cep: "18320-453" },
+        { rua: "Rua Joaquim Barbosa Sobrinho", bairro: "Vila Paiolinho", cep: "18320-455" },
+        { rua: "Rua Jurandir de Oliveira", bairro: "Vila Paiolinho", cep: "18320-456" },
+        { rua: "Rua Benedito Dias de Moura", bairro: "Vila Paiolinho", cep: "18320-458" },
+        { rua: "Rua José Francisco Xavier", bairro: "Vila Paiolinho", cep: "18320-460" },
+        { rua: "Rua Ana Maria Tadeu", bairro: "Vila Paiolinho", cep: "18320-462" },
+        { rua: "Rua Reginaldo Lemischka", bairro: "Vila Paiolinho", cep: "18320-464" },
+        { rua: "Rua José Rodrigues Silva", bairro: "Conjunto Habitacional Mário Covas", cep: "18320-470" },
+        { rua: "Rua Ralfe Antunes da Silva", bairro: "Conjunto Habitacional Mário Covas", cep: "18320-472" },
+        { rua: "Rua Lazara Coutinho Rezende", bairro: "Conjunto Habitacional Mário Covas", cep: "18320-474" },
+        { rua: "Rua Rubens Batista da Silva", bairro: "Conjunto Habitacional Mário Covas", cep: "18320-476" },
+        { rua: "Rua Professora Carolina Ferreira de Lima", bairro: "Conjunto Habitacional Mário Covas", cep: "18320-478" },
+        { rua: "Rua Paulo Estevam Dante", bairro: "Conjunto Habitacional Mário Covas", cep: "18320-480" },
+        { rua: "Rua Doutor Rubens Calazans Luz", bairro: "Conjunto Habitacional Mário Covas", cep: "18320-482" },
+        { rua: "Rua Hiroaki Oikawa", bairro: "Conjunto Habitacional Mário Covas", cep: "18320-484" },
+        { rua: "Rua Avelino Servilha", bairro: "Vila Nova Esperança", cep: "18320-490" },
+        { rua: "Rua Hiroshi Assai", bairro: "Vila Nova Esperança", cep: "18320-492" },
+        { rua: "Rua Aparecida Domingas Gouvêa Servilha", bairro: "Vila Nova Esperança", cep: "18320-494" },
+        { rua: "Rua Kintaro Kondo", bairro: "Vila Nova Esperança", cep: "18320-496" },
+        { rua: "Rua Kintaro Kondo", bairro: "Conjunto Habitacional Monsenhor Oscar Santos Junior", cep: "18320-500" },
+        { rua: "Rua Rubens de Campos", bairro: "Conjunto Habitacional Monsenhor Oscar Santos Junior", cep: "18320-502" },
+        { rua: "Rua Ludovico Pienta", bairro: "Conjunto Habitacional Monsenhor Oscar Santos Junior", cep: "18320-504" },
+        { rua: "Rua Hiroaki Oikawa", bairro: "Pinheiros", cep: "18320-550" },
+        { rua: "Avenida Humberto de Alencar Castelo Branco", bairro: "Pinheiros", cep: "18320-552" },
+        { rua: "Rua Maria Bilesk", bairro: "Pinheiros", cep: "18320-554" },
+        { rua: "Rua Santa Catarina", bairro: "Pinheiros", cep: "18320-556" },
+        { rua: "Rua 14 de Agosto", bairro: "Pinheiros", cep: "18320-558" },
+        { rua: "Rua Ulcino Roberto Duarte", bairro: "Pinheiros", cep: "18320-560" },
+        { rua: "Rua Belo Horizonte", bairro: "Pinheiros", cep: "18320-562" },
+        { rua: "Travessa Maria Bilesk", bairro: "Pinheiros", cep: "18320-564" },
+        { rua: "Rua Joaquim Barbosa Sobrinho", bairro: "Pinheiros", cep: "18320-566" },
+        { rua: "Rua Manoel João de Souza", bairro: "Pinheiros", cep: "18320-568" },
+        { rua: "Rua Luiz Barnabé da Trindade", bairro: "Pinheiros", cep: "18320-570" },
+        { rua: "Rua Gustavo Coelho dos Santos", bairro: "Pinheiros", cep: "18320-572" },
+        { rua: "Rua Pedro Lucas Evangelista", bairro: "Pinheiros", cep: "18320-574" },
+        { rua: "Travessa Pedro Lucas Evangelista", bairro: "Pinheiros", cep: "18320-576" },
+        { rua: "Rua José Cristóvão de Oliveira", bairro: "Pinheiros", cep: "18320-578" },
+        { rua: "Rua Pernambuco", bairro: "Pinheiros", cep: "18320-580" },
+        { rua: "Rua João Ferreira de Moraes", bairro: "Pinheiros", cep: "18320-582" },
+        { rua: "Rua José Mancebo Hernandez", bairro: "Pinheiros", cep: "18320-584" },
+        { rua: "Travessa Carlos Achinitz", bairro: "Pinheiros", cep: "18320-586" },
+        { rua: "Rua Carlos Achinitz", bairro: "Pinheiros", cep: "18320-588" },
+        { rua: "Rua Mihail Haralambos Panitsa", bairro: "Pinheiros", cep: "18320-590" },
+        { rua: "Rua Amazonas", bairro: "Pinheiros", cep: "18320-592" },
+        { rua: "Rua Piaui", bairro: "Pinheiros", cep: "18320-594" },
+        { rua: "Rua Antoli Esteves Valdez", bairro: "Pinheiros", cep: "18320-596" },
+        { rua: "Rua Marta Langner", bairro: "Pinheiros", cep: "18320-598" },
+        { rua: "Rua Otto Langner", bairro: "Pinheiros", cep: "18320-600" },
+        { rua: "Travessa Antônio dos Santos Lisboa", bairro: "Pinheiros", cep: "18320-602" },
+        { rua: "Rua 1 da João Antônio de Camargo", bairro: "Pinheiros", cep: "18320-604" },
+        { rua: "Rua João Antônio de Camargo", bairro: "Pinheiros", cep: "18320-606" },
+        { rua: "Rua Florentino Antônio de Camargo", bairro: "Pinheiros", cep: "18320-608" },
+        { rua: "Rua Manoel Xavier da Rocha", bairro: "Pinheiros", cep: "18320-610" },
+        { rua: "Rua João Cândido de Oliveira", bairro: "Pinheiros", cep: "18320-612" },
+        { rua: "Rua Ambrósio Carlos de Assunção", bairro: "Pinheiros", cep: "18320-614" },
+        { rua: "Rua Doutor Manoel Barbosa de Carvalho", bairro: "Pinheiros", cep: "18320-616" },
+        { rua: "Rua João Rodrigues de Moraes", bairro: "Pinheiros", cep: "18320-618" },
+        { rua: "Rua Carlos Ollig", bairro: "Pinheiros", cep: "18320-620" },
+        { rua: "Rua Theodorico Dias de Souza", bairro: "Pinheiros", cep: "18320-622" },
+        { rua: "Rua José da Silveira Mello", bairro: "Pinheiros", cep: "18320-624" },
+        { rua: "Rua João Batista Machado", bairro: "Pinheiros", cep: "18320-629" },
+        { rua: "Rua Alcídia Amaral de Moraes", bairro: "Pinheiros II", cep: "18320-630" },
+        { rua: "Rua Pedro Laureno da Costa", bairro: "Pinheiros II", cep: "18320-632" },
+        { rua: "Rua João Lopes", bairro: "Pinheiros II", cep: "18320-634" },
+        { rua: "Rua Sérgio Roberto Dias", bairro: "Pinheiros II", cep: "18320-636" },
+        { rua: "Rua Antônio Dias de Moura", bairro: "Pinheiros II", cep: "18320-638" },
+        { rua: "Rua Lourenço Teixeira", bairro: "Pinheiros II", cep: "18320-640" },
+        { rua: "Rua Emilia Rodrigues Lopes", bairro: "Pinheiros II", cep: "18320-642" },
+        { rua: "Avenida Presidente Humberto de Alencar Castelo Branco", bairro: "Pinheiros II", cep: "18320-644" },
+        { rua: "Avenida Presidente Humberto de Alencar Castelo Branco", bairro: "Sumidoro", cep: "18320-659" },
+        { rua: "Rua Alfeu Victório Nery", bairro: "Jardim Zizi", cep: "18321-000" },
+        { rua: "Rua Valentim Carriel de Lima", bairro: "Jardim Zizi", cep: "18321-002" },
+        { rua: "Rua Jonas Teixeira", bairro: "Jardim Zizi", cep: "18321-004" },
+        { rua: "Travessa Manoel Santiago", bairro: "Horto Florestal", cep: "18321-010" },
+        { rua: "Viela 1 da Travessa Manoel Santiago", bairro: "Horto Florestal", cep: "18321-012" },
+        { rua: "Travessa Major José Aguiar", bairro: "Horto Florestal", cep: "18321-014" },
+        { rua: "Rua Manoel Santiago", bairro: "Horto Florestal", cep: "18321-016" },
+        { rua: "Beco Antônio Castilho de Almeida", bairro: "Horto Florestal", cep: "18321-018" },
+        { rua: "Beco França", bairro: "Horto Florestal", cep: "18321-020" },
+        { rua: "Rua Major José de Aguiar", bairro: "Santa Bárbara", cep: "18321-030" },
+        { rua: "Rua da Consolação", bairro: "Santa Bárbara", cep: "18321-032" },
+        { rua: "Rua Jonas de Pontes", bairro: "Santa Bárbara", cep: "18321-034" },
+        { rua: "Rua Jonas Teixeira", bairro: "Santa Bárbara", cep: "18321-036" },
+        { rua: "Rua Valentim Carriel de Lima", bairro: "Santa Bárbara", cep: "18321-038" },
+        { rua: "Rua Sebastião Dias dos Santos", bairro: "Santa Bárbara", cep: "18321-040" },
+        { rua: "Rua Tenente Martinho Pereira da Silva", bairro: "Santa Bárbara", cep: "18321-042" },
+        { rua: "Rua Isaias Teixeira da Silva", bairro: "Santa Bárbara", cep: "18321-044" },
+        { rua: "Rua Doutor José Lúcio de Santana", bairro: "Santa Bárbara", cep: "18321-046" },
+        { rua: "Rua Major Leôncio Martins", bairro: "Santa Bárbara", cep: "18321-047" },
+        { rua: "Rua Pedro Nolasco da Silva", bairro: "Santa Bárbara", cep: "18321-048" },
+        { rua: "Praça Padre José de Anchieta", bairro: "Santa Bárbara", cep: "18321-050" },
+        { rua: "Rua Eugênio Alves Garcia", bairro: "Santa Bárbara", cep: "18321-052" },
+        { rua: "Rua Maria Elisa de Campos", bairro: "Santa Bárbara", cep: "18321-054" },
+        { rua: "Rua Manoel Pacheco Carvalho", bairro: "Santa Bárbara", cep: "18321-056" },
+        { rua: "Rua Ubirajara Pacheco de Carvalho", bairro: "Santa Bárbara", cep: "18321-058" },
+        { rua: "Rua Ubirajara Pacheco de Carvalho", bairro: "Jardim Aurora", cep: "18321-070" },
+        { rua: "Rua Monsenhor Cassese", bairro: "Jardim Aurora", cep: "18321-072" },
+        { rua: "Rua das Orquídeas", bairro: "Jardim Aurora", cep: "18321-074" },
+        { rua: "Rua Vereador Ezequiel Bueno de Camargo", bairro: "Jardim Aurora", cep: "18321-076" },
+        { rua: "Rua Ubaldo de Campos", bairro: "Jardim Aurora", cep: "18321-078" },
+        { rua: "Rua das Camélias", bairro: "Jardim Aurora", cep: "18321-080" },
+        { rua: "Praça José Neves Fagundes", bairro: "Jardim Aurora", cep: "18321-082" },
+        { rua: "Rua Tenente Martinho Pereira da Silva", bairro: "Jardim Aurora", cep: "18321-084" },
+        { rua: "Rua Santa Terezinha", bairro: "Jardim Araucária", cep: "18321-092" },
+        { rua: "Rua Capitão Ciriaco Barbosa de Campos", bairro: "Jardim Araucária", cep: "18321-094" },
+        { rua: "Rua Aparicio Pinto de Mello", bairro: "Jardim Araucária", cep: "18321-096" },
+        { rua: "Rua Joaquim Fogaça de Almeida", bairro: "Jardim Araucária", cep: "18321-098" },
+        { rua: "Rua Lazaro Calazans Luz", bairro: "Jardim Araucária", cep: "18321-102" },
+        { rua: "Rua Isaias Teixeira da Silva", bairro: "Jardim Araucária", cep: "18321-103" },
+        { rua: "Rua José Martinho Dias", bairro: "Jardim Araucária", cep: "18321-104" },
+        { rua: "Rua Tenente Martinho Pereira da Silva", bairro: "Jardim Araucária", cep: "18321-105" },
+        { rua: "Rua Joaquim Elisiário de Campos", bairro: "Vila Fepasa", cep: "18321-110" },
+        { rua: "Rua Izidoro Alpheu Santiago", bairro: "Vila Fepasa", cep: "18321-112" },
+        { rua: "Rua Júlio Reis Munhão", bairro: "Vila Fepasa", cep: "18321-114" },
+        { rua: "Rua Benedito Dias Martins", bairro: "Vila Fepasa", cep: "18321-116" },
+        { rua: "Travessa Lourenço Martins Dias Baptista", bairro: "Vila Fepasa", cep: "18321-118" },
+        { rua: "Rua Lourenço Martins Dias Baptista", bairro: "Vila Fepasa", cep: "18321-120" },
+        { rua: "Rua da Consolação", bairro: "Alto da Tenda", cep: "18321-130" },
+        { rua: "Rua do Orfanato", bairro: "Alto da Tenda", cep: "18321-132" },
+        { rua: "Travessa Sérgio Lago", bairro: "Alto da Tenda", cep: "18321-134" },
+        { rua: "Rua da Infância", bairro: "Alto da Tenda", cep: "18321-136" },
+        { rua: "Travessa da Fraternidade", bairro: "Alto da Tenda", cep: "18321-138" },
+        { rua: "Beco do Birilo", bairro: "Alto da Tenda", cep: "18321-140" },
+        { rua: "Rua da Fraternidade", bairro: "Alto da Tenda", cep: "18321-142" },
+        { rua: "Viela 1 da rua da Infância", bairro: "Alto da Tenda", cep: "18321-144" },
+        { rua: "Rua Sebastião Ferraz de Camargo Pentead", bairro: "Alto da Tenda", cep: "18321-146" },
+        { rua: "Rua Maestro Custódio Possidonio Martins", bairro: "Alto da Tenda", cep: "18321-148" },
+        { rua: "Rua da Esperança", bairro: "Alto da Tenda", cep: "18321-150" },
+        { rua: "Rua da Fonte", bairro: "Alto da Tenda", cep: "18321-152" },
+        { rua: "Travessa São Vicente de Paula", bairro: "Alto da Tenda", cep: "18321-154" },
+        { rua: "Rua Antônio Barbosa", bairro: "Alto da Tenda", cep: "18321-155" },
+        { rua: "Rua São Vicente de Paula", bairro: "Alto da Tenda", cep: "18321-156" },
+        { rua: "Rua do Engenho Velho", bairro: "Alto da Tenda", cep: "18321-157" },
+        { rua: "Rua Luiz Gomes de Lima", bairro: "Alto da Tenda", cep: "18321-158" },
+        { rua: "Travessa Pedro Ribeiro", bairro: "Alto da Tenda", cep: "18321-160" },
+        { rua: "Travessa José Manoel Mancebo Hernandez", bairro: "Alto da Tenda", cep: "18321-162" },
+        { rua: "Rua José Manoel Mancebo Hernandez", bairro: "Alto da Tenda", cep: "18321-164" },
+        { rua: "Rua Willy Walter Harzcke", bairro: "Alto da Tenda", cep: "18321-166" },
+        { rua: "Travessa Antônio Barbosa", bairro: "Alto da Tenda", cep: "18321-168" },
+        { rua: "Rua Cipriano de Oliveira", bairro: "Alto da Tenda", cep: "18321-170" },
+        { rua: "Travessa Joaquim Ribeiro de Souza", bairro: "Alto da Tenda", cep: "18321-172" },
+        { rua: "Rua Pedro Antônio de Oliveira", bairro: "Alto da Tenda", cep: "18321-174" },
+        { rua: "Rua João Pedro Antonio", bairro: "Alto da Tenda", cep: "18321-176" },
+        { rua: "Rua Sizenando Mariano de Oliveira", bairro: "Alto da Tenda", cep: "18321-178" },
+        { rua: "Rua Marcionilio de Brito", bairro: "Alto da Tenda", cep: "18321-180" },
+        { rua: "Rua Paulo Nedopetalski", bairro: "Alto da Tenda", cep: "18321-182" },
+        { rua: "Rua Lino Camargo", bairro: "Alto da Tenda", cep: "18321-184" },
+        { rua: "Rua Rodolfo Franco de Queiroz", bairro: "Alto da Tenda", cep: "18321-186" },
+        { rua: "Rua Ernesto Santos Lisboa", bairro: "Alto da Tenda", cep: "18321-188" },
+        { rua: "Rua Maria das dores Barbosa", bairro: "Alto da Tenda", cep: "18321-190" },
+        { rua: "Viela 1 da Rua da Fonte", bairro: "Alto da Tenda", cep: "18321-192" },
+        { rua: "Rua do Acre", bairro: "Alto da Tenda", cep: "18321-194" },
+        { rua: "Rua Pedro Rodrigues da Cruz", bairro: "Alto da Tenda", cep: "18321-196" },
+        { rua: "Rua Tertuliano Isaias de Oliveira", bairro: "Alto da Tenda", cep: "18321-198" },
+        { rua: "Rua dos Quatis", bairro: "Alto da Tenda", cep: "18321-200" },
+        { rua: "Rua Rafael Soler Domenech", bairro: "Usina Velha", cep: "18321-250" },
+        { rua: "Travessa da Usina Velha Domenech", bairro: "Usina Velha", cep: "18321-252" },
+        { rua: "Rua Mihail Haralambos Panitsa", bairro: "Usina Velha", cep: "18321-258" },
+        { rua: "Rua José Ferreira", bairro: "Usina Velha", cep: "18321-259" },
+        { rua: "Travessa Antônio Dimpino Pontes", bairro: "Benvindo", cep: "18321-260" },
+        { rua: "Rua José Ferreira", bairro: "Benvindo", cep: "18321-262" },
+        { rua: "Rua Projetada", bairro: "Benvindo", cep: "18321-264" },
+        { rua: "Rua Lúcia Maria de Oliveira", bairro: "Benvindo", cep: "18321-266" },
+        { rua: "Rua Olga Boguchesky de Moraes", bairro: "Benvindo", cep: "18321-268" },
+        { rua: "Rua Antonieta Dias Batista", bairro: "Benvindo", cep: "18321-270" },
+        { rua: "Rua Luiz Gonzaga de Freitas", bairro: "Benvindo", cep: "18321-272" },
+        { rua: "Rua Trindade Paz Ferreira", bairro: "Benvindo", cep: "18321-274" },
+        { rua: "Rua Antônio Dias de Pontes", bairro: "Benvindo", cep: "18321-276" },
+        { rua: "Rua Paulo Bogucheski", bairro: "Jardim Bela Vista", cep: "18321-300" },
+        { rua: "Rua Cândido Dias Batista", bairro: "Jardim Brasília", cep: "18322-000" },
+        { rua: "Rua Júlio Julião da Costa", bairro: "Jardim Brasília", cep: "18322-002" },
+        { rua: "Rua Doutor Augusto do Amaral", bairro: "Jardim Brasília", cep: "18322-004" },
+        { rua: "Rua Major Agostinho Dias Baptista", bairro: "Jardim Brasília", cep: "18322-006" },
+        { rua: "Rua Rufino Martins Dias Baptista", bairro: "Jardim Brasília", cep: "18322-008" },
+        { rua: "Rua Frederico Dias Baptista", bairro: "Jardim Brasília", cep: "18322-010" },
+        { rua: "Rua das Industrias", bairro: "Área Industrial CCC", cep: "18322-050" },
+        { rua: "Rua Leonel Cordeiro", bairro: "Motocross", cep: "18322-060" },
+        { rua: "Rua Fernando Camargo Mota", bairro: "Motocross", cep: "18322-062" },
+        { rua: "Rua Arlinda Martins Cordeiro", bairro: "Motocross", cep: "18322-064" },
+        { rua: "Rua Pompilio Manoel de Santana", bairro: "Motocross", cep: "18322-066" },
+        { rua: "Rua João Martins Cordeiro", bairro: "Motocross", cep: "18322-068" },
+        { rua: "Rua Maria de Lourdes Pacheco", bairro: "Motocross", cep: "18322-070" },
+        { rua: "Rua Alceu Albuquerque Martins Dias Batista", bairro: "Motocross", cep: "18322-072" },
+        { rua: "Rua Sebastião de Oliveira", bairro: "Motocross", cep: "18322-074" },
+        { rua: "Rua José Benedito de Azevedo", bairro: "Motocross", cep: "18322-078" },
+        { rua: "Rua Joaquim Benedito Barbosa", bairro: "Motocross", cep: "18322-080" },
+        { rua: "Rua Luiz Antônio de Lima", bairro: "Motocross", cep: "18322-082" },
+        { rua: "Rua João de Pontes", bairro: "Motocross", cep: "18322-084" },
+        { rua: "Rua 1 da rua João de Pontes", bairro: "Motocross", cep: "18322-086" },
+        { rua: "Rua Alcides de Oliveira Camargo", bairro: "Motocross", cep: "18322-087" },
+        { rua: "Rua Mário Antônio Pereira", bairro: "Motocross", cep: "18322-089" },
+        { rua: "Rua Alcides de Oliveira Camargo", bairro: "Nosso Teto", cep: "18322-090" },
+        { rua: "Rua Israel Francisco Barbosa", bairro: "Nosso Teto", cep: "18322-092" },
+        { rua: "Rua Antônio Carlos Pereira", bairro: "Nosso Teto", cep: "18322-094" },
+        { rua: "Rua Vitorino Dias Martins", bairro: "Nosso Teto", cep: "18322-096" },
+        { rua: "Rua Dalmo Spino do Nascimento", bairro: "Nosso Teto", cep: "18322-098" },
+        { rua: "Rua Teodoro Dias Martins", bairro: "Nosso Teto", cep: "18322-100" },
+        { rua: "Rua Primo Araujo", bairro: "Nosso Teto", cep: "18322-102" },
+        { rua: "Rua Darci Hilario Oliveira", bairro: "Nosso Teto", cep: "18322-104" },
+        { rua: "Rua José Roque da Silva", bairro: "Nosso Teto", cep: "18322-106" },
+        { rua: "Rua Jonas Coutinho Vieira", bairro: "Nosso Teto", cep: "18322-108" },
+        { rua: "Praça Hilario Siqueira Duarte", bairro: "Cordeirópolis", cep: "18322-110" },
+        { rua: "Rua Karl Schauerhuber", bairro: "Cordeirópolis", cep: "18322-112" },
+        { rua: "Rua Rozendo Pedrozo de Moraes", bairro: "Cordeirópolis", cep: "18322-114" },
+        { rua: "Travessa Copacabana", bairro: "Cordeirópolis", cep: "18322-116" },
+        { rua: "Rua Guanabara", bairro: "Cordeirópolis", cep: "18322-118" },
+        { rua: "Rua Maria Cândida Chaves", bairro: "Cordeirópolis", cep: "18322-122" },
+        { rua: "Rua do Vieira", bairro: "Cordeirópolis", cep: "18322-124" },
+        { rua: "Rua do Espirito Santo", bairro: "Cordeirópolis", cep: "18322-128" },
+        { rua: "Rua Quirino Antônio Silva", bairro: "Cordeirópolis", cep: "18322-130" },
+        { rua: "Rua Mato Grosso", bairro: "Cordeirópolis", cep: "18322-132" },
+        { rua: "Rua Maranhão", bairro: "Cordeirópolis", cep: "18322-134" },
+        { rua: "Rua Demi Chiodi", bairro: "Cordeirópolis", cep: "18322-136" },
+        { rua: "Travessa Demi Chiodi", bairro: "Cordeirópolis", cep: "18322-138" },
+        { rua: "Rua Sérgio Ferreira de Moraes", bairro: "Cordeirópolis", cep: "18322-140" },
+        { rua: "Rua Mário Antônio Pereira", bairro: "Cordeirópolis", cep: "18322-141" },
+        { rua: "Rua Sergipe", bairro: "Cordeirópolis", cep: "18322-142" },
+        { rua: "Rua José Roque da Silva", bairro: "Cordeirópolis", cep: "18322-143" },
+        { rua: "Rua Santino Pires da Silva", bairro: "Cordeirópolis", cep: "18322-144" },
+        { rua: "Avenida Nelson Dias Batista", bairro: "Cordeirópolis", cep: "18322-145" },
+        { rua: "Rua Israel Francisco Barbosa", bairro: "Cordeirópolis", cep: "18322-147" },
+        { rua: "Rodovia Sebastião Ferraz de Camargo Penteado", bairro: "Parque Morro do Ouro", cep: "18322-150" },
+        { rua: "Rua Miguel Ursulino Dias", bairro: "Vila Ouro Verde", cep: "18322-160" },
+        { rua: "Rua Santino Pires da Silva", bairro: "Vila Ouro Verde", cep: "18322-162" },
+        { rua: "Rua Vicente Felipe de Oliveira", bairro: "Vila Ouro Verde", cep: "18322-164" },
+        { rua: "Rua André José de Oliveira", bairro: "Vila Ouro Verde", cep: "18322-166" },
+        { rua: "Rua do Córrego do Ouro", bairro: "Vila Ouro Verde", cep: "18322-168" },
+        { rua: "Rua Neri Antônio de Camargo", bairro: "Palmital", cep: "18322-200" },
+        { rua: "Rua Nelson Pelegrina", bairro: "Palmital", cep: "18322-202" },
+        { rua: "Rua Benjamin Rosa de Oliveira", bairro: "Palmital", cep: "18322-204" },
+        { rua: "Travessa Itaóca", bairro: "Palmital", cep: "18322-206" },
+        { rua: "Viela 1 da Travessa Itaóca", bairro: "Palmital", cep: "18322-208" },
+        { rua: "Travessa Cardoso", bairro: "Palmital", cep: "18322-210" },
+        { rua: "Rodovia Benedito Rodrigues Martins", bairro: "Palmital", cep: "18322-212" },
+        { rua: "Rua Dionizio Carriel de Lima", bairro: "Palmital", cep: "18322-214" },
+        { rua: "Rua Alceu Alves Barbosa", bairro: "Palmital", cep: "18322-216" },
+        { rua: "Rua 11", bairro: "Palmital", cep: "18322-218" },
+        { rua: "Rua Projetada", bairro: "Palmital", cep: "18322-220" },
+        { rua: "Rua Didi Paes de Oliveira", bairro: "Palmital", cep: "18322-222" },
+        { rua: "Rua 15", bairro: "Palmital", cep: "18322-224" },
+        { rua: "Rua Amilton Augusto Santiago", bairro: "Campininha", cep: "18322-250" },
+        { rua: "Rua Rillary Vitória Duarte da Rosa", bairro: "Campininha", cep: "18322-252" },
+        { rua: "Rua Luiz Gonzaga Rezende França", bairro: "Campininha", cep: "18322-254" },
+        { rua: "Rua Maria Aparecida Carriel de Lima", bairro: "Campininha", cep: "18322-256" },
+        { rua: "Rua E", bairro: "Campininha", cep: "18322-258" },
+        { rua: "Rua F", bairro: "Campininha", cep: "18322-260" },
+        { rua: "Rua Raimundo Roque da Rosa", bairro: "Campininha", cep: "18322-262" },
+        { rua: "Rua Miguel Duarte de Oliveira", bairro: "Campininha", cep: "18322-264" },
+        { rua: "Rua Projetada", bairro: "Campininha", cep: "18322-266" },
+        { rua: "Rua Antero Queiroz da Silva", bairro: "Campininha", cep: "18322-268" },
+        { rua: "Area Rural", bairro: "Área Rural de Apial", cep: "18323-899" },
+        { rua: "Rodovia da Pedro Rodrigues Garcia", bairro: "Centro (Araçaíba)", cep: "18324-001" },
+        { rua: "Área Rural", bairro: "Área Rural de Araçaíba", cep: "18324-899" }
+    ];
+
+    const input = document.getElementById('streetInput');
+    const suggestionsBox = document.getElementById('suggestions');
+    const resultCard = document.getElementById('resultCard');
+    const noResults = document.getElementById('noResults');
+    const resCep = document.getElementById('resCep');
+    const resLogradouro = document.getElementById('resLogradouro');
+    const resBairro = document.getElementById('resBairro');
+
+    // Função normalizar texto para busca (remove acentos e minúsculas)
+    function normalizeString(str) {
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    }
+
+    // Evento de digitação
+    input.addEventListener('input', function() {
+        const query = normalizeString(this.value);
+        suggestionsBox.innerHTML = '';
+        suggestionsBox.style.display = 'none';
+        resultCard.style.display = 'none';
+        noResults.style.display = 'none';
+
+        if (query.length < 2) return; // Só busca a partir de 2 caracteres
+
+        const matches = dbCeps.filter(item => {
+            return normalizeString(item.rua).includes(query);
+        });
+
+        if (matches.length > 0) {
+            suggestionsBox.style.display = 'block';
+            matches.forEach(item => {
+                const div = document.createElement('div');
+                div.classList.add('suggestion-item');
+                // Realça a parte do texto
+                div.innerHTML = `<strong>${item.rua}</strong><span>${item.bairro}</span>`;
+                
+                div.addEventListener('click', () => {
+                    selectAddress(item);
+                });
+                suggestionsBox.appendChild(div);
+            });
+        } else {
+            noResults.style.display = 'block';
+        }
+    });
+
+    // Função ao selecionar um endereço
+    function selectAddress(item) {
+        input.value = item.rua;
+        suggestionsBox.style.display = 'none';
+        
+        // Popula resultado
+        resCep.textContent = item.cep;
+        resLogradouro.textContent = item.rua;
+        resBairro.textContent = item.bairro;
+
+        resultCard.style.display = 'block';
+    }
+
+    // Fechar sugestões se clicar fora
+    document.addEventListener('click', function(e) {
+        if (e.target !== input && e.target !== suggestionsBox) {
+            suggestionsBox.style.display = 'none';
+        }
+    });
+
+</script>
+
+</body>
+</html>
