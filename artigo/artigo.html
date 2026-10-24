@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../favicon.png">
+    <title>Arqueid - Artigo</title>
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- ESTILO CSS EXTERNO (Usa '../' para voltar à raiz) -->
+    <link rel="stylesheet" href="../style.css">
+</head>
+<!-- 
+  GUIA PARA O PROGRAMADOR:
+  - O atributo 'style="display: none;"' oculta o conteúdo temporariamente 
+    até que o script de segurança confirme se o usuário está logado.
+-->
+<body style="display: none;">
+
+    <main class="content-area">
+        <article id="artigo-container">
+            <!-- O conteúdo (título, imagem e parágrafos) será injetado dinamicamente via JS -->
+        </article>
+    </main>
+
+    <!-- SCRIPTS -->
+    <script src="../menu.js"></script>
+    <!-- SCRIPT DE DADOS DO ARTIGO -->
+    <script src="https://files.catbox.moe/pfxlyq.js"></script>
+    
+    <!-- SCRIPT DE SEGURANÇA (Protege contra acesso direto via URL) -->
+    <script type="module" src="../seguranca.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof artigoDados !== 'undefined') {
+                const container = document.getElementById('artigo-container');
+                
+                let paragrafosHTML = '';
+                artigoDados.paragrafos.forEach(p => {
+                    paragrafosHTML += `<p style="font-size: 16px; color: #aaa; line-height: 1.6; margin-bottom: 20px;">${p}</p>`;
+                });
+
+                container.innerHTML = `
+                    <span style="color: #b71c1c; font-weight: bold; text-transform: uppercase; font-size: 14px; display: block; margin-bottom: 10px;">${artigoDados.categoria}</span>
+                    <h1 style="font-size: 32px; color: #fff; font-weight: bold; margin-bottom: 20px; line-height: 1.2;">${artigoDados.titulo}</h1>
+                    <div style="width: 100%; max-height: 400px; overflow: hidden; border-radius: 4px; margin-bottom: 25px;">
+                        <img src="${artigoDados.imagem}" style="width: 100%; height: auto; object-fit: cover;" alt="Imagem do artigo">
+                    </div>
+                    ${paragrafosHTML}
+                `;
+            }
+        });
+    </script>
+</body>
+</html>
