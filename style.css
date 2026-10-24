@@ -4,6 +4,12 @@
    ========================================================================== */
 
 /* 1. RESET E ESTILOS GERAIS */
+/* Garante que imagens e vídeos nunca ultrapassem o tamanho do container e mantenham proporção */
+img, video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
 * {
     margin: 0;
     padding: 0;
