@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <title>Portal Modelo - Busca</title>
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- APENAS O ARQUIVO CSS EXTERNO -->
+    <link rel="stylesheet" href="https://arqueid.com.br/style.css">
+</head>
+<!-- 
+  GUIA PARA O PROGRAMADOR:
+  - O atributo 'style="display: none;"' abaixo é obrigatório em páginas protegidas.
+  - Ele esconde o conteúdo da página para evitar que apareça brevemente antes 
+    do script de segurança verificar a autenticação do usuário.
+  - Para remover a proteção: retire o script 'seguranca.js' do final da página 
+    e remova o 'style="display: none;"' do body.
+-->
+<body style="display: none;">
+
+    <main class="container-busca">
+        <h1 class="titulo-busca" id="tituloPagina">Buscando...</h1>
+        <div id="listaResultados"></div>
+    </main>
+
+    <!-- SCRIPTS -->
+    <script src="https://arqueid.com.br/dados.js"></script>
+    <script src="https://arqueid.com.br/menu.js"></script>
+    
+    <!-- SCRIPT DE SEGURANÇA: Verifica se o usuário está logado -->
+    <script type="module" src="https://arqueid.com.br/seguranca.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const termoBusca = params.get('q');
+
+            const container = document.getElementById('listaResultados');
+            const tituloEl = document.getElementById('tituloPagina');
+
+            if (!termoBusca) {
+                tituloEl.innerText = "Nenhum termo digitado";
+            } else if (typeof bancoDeDados !== 'undefined') {
+                tituloEl.innerText = 'Resultados para: "' + termoBusca + '"';
+                
+                const resultados = bancoDeDados.filter(item => {
+                    const termoLower = termoBusca.toLowerCase();
+                    return item.titulo.toLowerCase().includes(termoLower) || 
+                           item.resumo.toLowerCase().includes(termoLower);
+                });
+
+                if (resultados.length > 0) {
+                    let htmlFinal = "";
+
+                    resultados.forEach(noticia => {
+                        htmlFinal += `
+                            <div class="resultado-item">
+                                <a href="${noticia.link}" target="_blank" class="resultado-img-link">
+                                    <img src="${noticia.imagem}" class="resultado-img" alt="Imagem da notícia">
+                                </a>
+                                
+                                <div class="resultado-info">
+                                    <span class="res-categoria">${noticia.categoria}</span>
+                                    <a href="${noticia.link}" target="_blank" class="res-titulo">
+                                        ${noticia.titulo}
+                                    </a>
+                                    <p class="res-resumo">${noticia.resumo}</p>
+                                    <span class="res-tempo">${noticia.tempo}</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    container.innerHTML = htmlFinal;
+                } else {
+                    container.innerHTML = '<div class="sem-resultados">Termo não encontrado. Tente outra palavra.</div>';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
