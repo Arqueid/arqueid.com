@@ -1,34 +1,43 @@
-/**
- * ARQUIVO: dados.js (Ponte Síncrona para Script Externo)
- * GUIA E PASSO A PASSO PARA O PROGRAMADOR:
- * 1. Função: Este arquivo intercepta a chamada local e baixa o conteúdo do script 
- *    externo de forma síncrona. Isso garante que a variável 'bancoDeDados' esteja 
- *    100% disponível antes que os scripts da página executem a busca.
- * 2. COMO ALTERAR O LINK EXTERNO: Mude o valor da variável 'urlExterna' abaixo 
- *    para o novo link do arquivo .js.
- * 3. COMO VOLTAR A USAR DADOS LOCAIS: Apague todo este código e cole o array 
- *    original de dados (ex: const bancoDeDados = [...]) diretamente aqui.
- */
+// BANCO DE DADOS MANUAL
+// Para adicionar mais notÃ­cias, copie um bloco entre chaves {} e cole abaixo, separando por vÃ­rgula.
 
-(function() {
-    // URL do arquivo JS externo
-    var urlExterna = "https://files.catbox.moe/4r7g84.js";
-
-    // Cria uma requisição HTTP síncrona para bloquear o carregamento até obter o arquivo
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', urlExterna, false); // O parâmetro 'false' ativa o modo síncrono
-
-    try {
-        xhr.send();
-        if (xhr.status === 200) {
-            // Cria a tag script e injeta o código-fonte baixado no cabeçalho
-            var scriptElement = document.createElement('script');
-            scriptElement.text = xhr.responseText;
-            document.head.appendChild(scriptElement);
-        } else {
-            console.error("Erro ao carregar o arquivo externo. Código HTTP: " + xhr.status);
-        }
-    } catch (erro) {
-        console.error("Falha na conexão ao tentar carregar o script externo.", erro);
+// os 4 Primeiros tem destaque principalmente o 1
+// digite final para ir ao fm das IDs
+const bancoDeDados = [
+    {
+        id: 1,
+        titulo: "LanÃ§amento do novo Portal Dark Mode agita a web",
+        resumo: "Desenvolvedores elogiam a interface limpa e a velocidade de carregamento do novo layout inspirado em grandes portais.",
+        categoria: "TECNOLOGIA",
+        tempo: "hÃ¡ 2 horas",
+        imagem: "https://via.placeholder.com/320x180/b71c1c/ffffff?text=FOTO+16:9", // Link da imagem 16:9
+        link: "https://www.google.com" // Link para onde vai ao clicar
+    },
+    {
+        id: 2,
+        titulo: "Tutorial: Como criar menus responsivos com CSS",
+        resumo: "Aprenda passo a passo como fazer o menu hambÃºrguer funcionar sem usar frameworks pesados.",
+        categoria: "PROGRAMAÃ‡ÃƒO",
+        tempo: "hÃ¡ 5 horas",
+        imagem: "foto.jpg",
+        link: "https://www.w3schools.com"
+    },
+    {
+        id: 3,
+        titulo: "Tutorial: Como criar menus responsivos com CSS",
+        resumo: "Aprenda passo a passo como fazer o menu hambÃºrguer funcionar sem usar frameworks pesados.",
+        categoria: "PROGRAMAÃ‡ÃƒO",
+        tempo: "hÃ¡ 5 horas",
+        imagem: "foto.jpg",
+        link: "https://www.w3schools.com"
+    },
+    {
+        id: 4,
+        titulo: "O futuro do Javascript no desenvolvimento Front-end",
+        resumo: "Especialistas discutem as novas atualizaÃ§Ãµes da linguagem e o que esperar para 2026.",
+        categoria: "MERCADO",
+        tempo: "hÃ¡ 1 dia",
+        imagem: "https://via.placeholder.com/320x180/333333/ffffff?text=JS+FUTURO",
+        link: "https://developer.mozilla.org"
     }
-})();
+];
