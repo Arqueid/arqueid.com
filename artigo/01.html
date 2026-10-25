@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="https://arqueid.com.br/favicon.png">
+    <title>Arqueid - Artigo Completo</title>
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- ESTILO CSS EXTERNO -->
+    <link rel="stylesheet" href="https://arqueid.com.br/style.css">
+</head>
+<!-- 
+  GUIA PARA O PROGRAMADOR:
+  - O 'style="display: none;"' evita a exibição do conteúdo antes do script de segurança verificar o login.
+-->
+<body style="display: none;">
+
+    <main class="content-area">
+        <article id="artigo-container">
+            <!-- 
+              GUIA PARA O PROGRAMADOR (ESTRUTURA DE CONTEÚDO):
+              - Este modelo contém parágrafos, espaços preparados para imagem e um player de vídeo MP4 direto.
+              - COMO ADICIONAR NOVO CONTEÚDO: Duplique as tags <p>, <figure> ou <div class="video-wrapper"> conforme necessário.
+              - COMO REMOVER: Apague o bloco de elemento correspondente.
+            -->
+
+            <!-- Cabeçalho do Artigo -->
+            <header class="artigo-header">
+                <h1>Título Principal do Artigo</h1>
+                <p class="artigo-data">Publicado em: 26 de Outubro de 2026</p>
+            </header>
+
+            <!-- Parágrafo de Introdução -->
+            <p>
+                Insira aqui o primeiro parágrafo do seu texto explicativo ou introdução do artigo. 
+                Este espaço serve para detalhar o assunto principal de forma clara e direta.
+            </p>
+
+            <!-- Bloco de Imagem Exemplo -->
+            <figure class="artigo-imagem">
+                <img src="../imagens/exemplo.jpg" alt="Descrição da imagem para acessibilidade">
+                <figcaption>Legenda explicativa da imagem inserida no artigo.</figcaption>
+            </figure>
+
+            <!-- Parágrafo Intermediário -->
+            <p>
+                Insira aqui o segundo parágrafo dando continuidade ao conteúdo, explicando detalhes técnicos 
+                ou complementando a informação apresentada na imagem acima.
+            </p>
+
+            <!-- Bloco de Vídeo Direto (MP4) -->
+            <!-- 
+              GUIA PARA O PROGRAMADOR (VÍDEO MP4 DIRETO):
+              - A tag <video> reproduz ficheiros MP4 nativamente no navegador sem depender de plataformas externas.
+              - COMO ADICIONAR: Altere o atributo 'src' da tag <source> para o link direto do seu arquivo MP4 (ex: Catbox ou servidor próprio).
+              - COMO REMOVER: Apague toda a <div class="video-wrapper">.
+            -->
+            <div class="video-wrapper" style="width: 100%; margin: 20px 0; text-align: center;">
+                <video controls playsinline preload="metadata" style="width: 100%; max-width: 100%; height: auto; border-radius: 8px;">
+                    <source src="https://files.catbox.moe/seu-video.mp4" type="video/mp4">
+                    Seu navegador não suporta a reprodução deste vídeo.
+                </video>
+            </div>
+
+            <!-- Parágrafo de Conclusão -->
+            <p>
+                Insira aqui o parágrafo final de encerramento, resumo ou considerações finais do artigo.
+            </p>
+
+        </article>
+    </main>
+
+    <!-- SCRIPTS DE ESTRUTURA E NAVEGAÇÃO -->
+    <script src="https://arqueid.com.br/menu.js"></script>
+    
+    <!-- SCRIPT DE SEGURANÇA (Verifica autenticação via Firebase) -->
+    <script type="module" src="https://arqueid.com.br/seguranca.js"></script>
+</body>
+</html>
