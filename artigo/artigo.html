@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../favicon.png">
+    <title>Arqueid - Artigo</title>
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- ESTILO CSS EXTERNO -->
+    <link rel="stylesheet" href="../style.css">
+</head>
+<!-- 
+  GUIA PARA O PROGRAMADOR:
+  - O 'style="display: none;"' evita a exibição do conteúdo antes do script de segurança verificar o login.
+-->
+<body style="display: none;">
+
+    <main class="content-area">
+        <article id="artigo-container">
+            <!-- O conteúdo do fonte.html será injetado aqui -->
+        </article>
+    </main>
+
+    <!-- SCRIPTS DE ESTRUTURA E NAVEGAÇÃO -->
+    <script src="../menu.js"></script>
+    
+    <!-- SCRIPT DE SEGURANÇA (Verifica autenticação via Firebase) -->
+    <script type="module" src="../seguranca.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Requisita o arquivo HTML externo com o conteúdo do artigo
+            fetch('https://files.catbox.moe/k5dw3s.html')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Não foi possível carregar o artigo.');
+                    }
+                    return response.text();
+                })
+                .then(htmlConteudo => {
+                    // Injeta o HTML retornado dentro do contêiner do artigo
+                    document.getElementById('artigo-container').innerHTML = htmlConteudo;
+                })
+                .catch(erro => {
+                    console.error('Erro ao carregar o artigo:', erro);
+                    document.getElementById('artigo-container').innerHTML = '<p style="color: #f44336;">Erro ao carregar o conteúdo do artigo.</p>';
+                });
+        });
+    </script>
+</body>
+</html>
