@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Barra superior de navegação global
     const topBarHTML = `
         <nav class="top-bar">
-            <a href="index.html">Home</a> 
+            <a href="https://arqueid.com.br/home/">Home</a> 
             <a href="#">Downloads</a>
             <a href="#">Tartago</a>
             <a href="#">Detalhe</a>
