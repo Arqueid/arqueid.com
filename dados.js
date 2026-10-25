@@ -33,6 +33,15 @@ const bancoDeDados = [
     },
     {
         id: 4,
+        titulo: "Tutorial: Como criar menus responsivos com CSS",
+        resumo: "Aprenda passo a passo como fazer o menu hambÃºrguer funcionar sem usar frameworks pesados.",
+        categoria: "PROGRAMAÃ‡ÃƒO",
+        tempo: "hÃ¡ 5 horas",
+        imagem: "foto.jpg",
+        link: "https://www.w3schools.com"
+    },
+    {
+        id: 5,
         titulo: "O futuro do Javascript no desenvolvimento Front-end",
         resumo: "Especialistas discutem as novas atualizaÃ§Ãµes da linguagem e o que esperar para 2026.",
         categoria: "MERCADO",
