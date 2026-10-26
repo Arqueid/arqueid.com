@@ -22,7 +22,8 @@ document.addEventListener("DOMContentLoaded", function() {
             <a href="#">Detalhe</a>
             <a href="https://ultradownload89.webnode.page/">Ultradownload89</a>
             <a href="https://arqueid.github.io/apoie07/">WTube</a>
-        </nav>
+            <a href="https://arqueid.com.br/recurso/bucetube/">BuceTube</a>
+         </nav>
     `;
 
     // Cabeçalho principal com botão de menu hambúrguer e campo de busca
