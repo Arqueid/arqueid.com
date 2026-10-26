@@ -18,11 +18,10 @@ document.addEventListener("DOMContentLoaded", function() {
     const topBarHTML = `
         <nav class="top-bar">
             <a href="https://arqueid.com.br/home/">Home</a> 
-            <a href="#">Downloads</a>
             <a href="#">Tartago</a>
             <a href="#">Detalhe</a>
-            <a href="#">Cep</a>
-            <a href="#">Tv</a>
+            <a href="https://ultradownload89.webnode.page/">ultradownload89</a>
+            <a href="https://arqueid.github.io/apoie07/">WTube</a>
         </nav>
     `;
 
