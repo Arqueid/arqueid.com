@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Player</title>
+    <link rel="stylesheet" href="estilo.css">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" href="https://arqueid.com.br/favicon.png">
+</head>
+<body>
+
+    <div class="cabecalho">
+        <button onclick="window.location.href='index.html'" class="btn-voltar">Voltar</button>
+        <form action="busca.html" method="GET">
+            <input type="text" name="q" placeholder="Buscar vídeos..." required>
+            <button type="submit">Buscar</button>
+        </form>
+    </div>
+
+    <div class="layout-player">
+        <div class="area-video">
+            <video id="meuVideo" preload="metadata" controls autoplay></video>
+            
+            <div class="controles-customizados">
+                <button onclick="document.getElementById('meuVideo').play()">Play</button>
+                <button onclick="document.getElementById('meuVideo').pause()">Pause</button>
+                <button onclick="pararVideo()">Stop</button>
+                <!-- GUIA FUTURO PROGRAMADOR: Botão para reiniciar o filme inteiro do zero (Parte 1) -->
+                <button onclick="reiniciarDoInicio()">Ver do Início</button>
+            </div>
+
+            <h2 id="titulo-video">Carregando...</h2>
+            <p id="descricao-video"></p>
+        </div>
+
+        <div class="area-recomendados" id="container-recomendados">
+            <div class="titulo-secao">Relacionados</div>
+        </div>
+
+    </div>
+
+    <script src="https://files.catbox.moe/cagt7w.js"></script>
+    <script>
+        // GUIA FUTURO PROGRAMADOR: Variáveis globais para controle do player e partes
+        const parametrosDaUrl = new URLSearchParams(window.location.search);
+        const idVideoAtual = parametrosDaUrl.get('v');
+        const elementoVideo = document.getElementById('meuVideo');
+        const containerRecomendados = document.getElementById('container-recomendados');
+
+        const chaveProgresso = `tubefilme_${idVideoAtual}`;
+
+        let indiceParteAtual = 0;
+        let listaDePartes = [];
+        let tituloFilmeAtual = "";
+
+        function pararVideo() {
+            elementoVideo.pause();
+            elementoVideo.currentTime = 0;
+        }
+
+        // GUIA FUTURO PROGRAMADOR: Retorna o filme inteiramente para a Parte 1 e apaga o progresso salvo
+        function reiniciarDoInicio() {
+            localStorage.removeItem(chaveProgresso); // Limpa o tempo gravado
+            indiceParteAtual = 0;                    // Reseta para a primeira parte
+            
+            if (listaDePartes.length > 0) {
+                elementoVideo.src = listaDePartes[indiceParteAtual];
+                
+                // Atualiza o título com a contagem correta da Parte 1
+                if (listaDePartes.length > 1) {
+                    document.getElementById('titulo-video').innerText = `${tituloFilmeAtual} (Parte 1 de ${listaDePartes.length})`;
+                } else {
+                    document.getElementById('titulo-video').innerText = tituloFilmeAtual;
+                }
+            }
+
+            elementoVideo.currentTime = 0;
+            elementoVideo.play();
+        }
+
+        // Procura a ID correspondente no array do arquivo dados.js
+        const videoEncontrado = bancoDeVideos.find(v => v.idUnico === idVideoAtual);
+
+        if (videoEncontrado) {
+            document.getElementById('descricao-video').innerText = videoEncontrado.descricao;
+            tituloFilmeAtual = videoEncontrado.titulo;
+            listaDePartes = videoEncontrado.urlVideo; 
+
+            function carregarParte(indice) {
+                elementoVideo.src = listaDePartes[indice];
+                
+                if (listaDePartes.length > 1) {
+                    document.getElementById('titulo-video').innerText = `${tituloFilmeAtual} (Parte ${indice + 1} de ${listaDePartes.length})`;
+                } else {
+                    document.getElementById('titulo-video').innerText = tituloFilmeAtual;
+                }
+            }
+
+            carregarParte(indiceParteAtual);
+
+            // Restaura o progresso automaticamente no início da exibição
+            elementoVideo.addEventListener('loadedmetadata', function() {
+                const tempoSalvo = localStorage.getItem(chaveProgresso);
+                if (tempoSalvo && tempoSalvo > 0) {
+                    elementoVideo.currentTime = parseFloat(tempoSalvo);
+                }
+            });
+
+            // Salva o tempo atual em tempo real
+            elementoVideo.addEventListener('timeupdate', function() {
+                if (elementoVideo.currentTime > 0 && !elementoVideo.paused) {
+                    localStorage.setItem(chaveProgresso, elementoVideo.currentTime);
+                }
+            });
+
+            elementoVideo.addEventListener('ended', function() {
+                indiceParteAtual++; 
+                
+                if (indiceParteAtual < listaDePartes.length) {
+                    carregarParte(indiceParteAtual);
+                    elementoVideo.play(); 
+                } else {
+                    localStorage.removeItem(chaveProgresso);
+                }
+            });
+
+            const videosMesmoGrupo = bancoDeVideos.filter(v => 
+                v.idGrupo === videoEncontrado.idGrupo && v.idUnico !== videoEncontrado.idUnico
+            );
+
+            let recomendadosSorteados = embaralharArray([...videosMesmoGrupo]).slice(0, 10);
+
+            if (recomendadosSorteados.length > 0) {
+                recomendadosSorteados.forEach(video => {
+                    const cartao = `
+                        <a href="player.html?v=${video.idUnico}" class="item-recomenda">
+                            <img src="${video.urlCapa}" alt="Capa">
+                            <strong>${video.titulo}</strong>
+                        </a>
+                    `;
+                    containerRecomendados.innerHTML += cartao;
+                });
+            } else {
+                containerRecomendados.innerHTML += '<p style="color:#aaa; font-size:13px;">Nenhum vídeo relacionado.</p>';
+            }
+
+        } else {
+            document.getElementById('titulo-video').innerText = "Vídeo não encontrado";
+            document.getElementById('descricao-video').innerText = "Verifique o link ou retorne para a home.";
+        }
+    </script>
+</body>
+</html>

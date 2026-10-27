@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>BuceTube</title>
+    <link rel="stylesheet" href="estilo.css">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" href="https://arqueid.com.br/favicon.png">
+    
+    <meta property="og:title" content="WTube Filmes Para Emergência">
+    <meta property="og:description" content="Tá Chovendo, Netflix Não Entra, Youtube Tá Bloqueado, Pendive tá Cheio, Isso talvez Ajude!">
+    <meta property="og:image" content="https://files.catbox.moe/oogo0n.webp">
+    <meta property="og:type" content="website de auxilio">
+</head>
+<body>
+
+    <div class="cabecalho">
+        <h2>BuceTube</h2>
+        <form action="busca.html" method="GET">
+            <input type="text" name="q" placeholder="Buscar filmes, séries..." required>
+            <button type="submit">Buscar</button>
+        </form>
+    </div>
+
+    <!-- GUIA FUTURO PROGRAMADOR: Banner Destaque em Estilo Netflix -->
+    <div id="banner-destaque" class="banner-destaque" style="display: none;">
+        <div class="banner-overlay"></div>
+        <div class="banner-conteudo">
+            <h2 id="banner-titulo"></h2>
+            <p id="banner-descricao"></p>
+            <a id="banner-link" href="#" class="btn-assistir">► ASSISTIR NOW</a>
+        </div>
+    </div>
+
+    <div class="titulo-secao">Catálogo Recomendado</div>
+    <div id="container-videos" class="grid-videos"></div>
+
+    <script src="https://files.catbox.moe/cagt7w.js"></script>
+    <script>
+        // GUIA FUTURO PROGRAMADOR: Lógica da Home e Banner Destaque
+        const container = document.getElementById('container-videos');
+
+        if (!bancoDeVideos || bancoDeVideos.length === 0) {
+            container.innerHTML = '<p class="mensagem-erro">Ainda não contém video</p>';
+        } else {
+            // 1. Sorteia aleatoriamente um filme para o Banner Destaque Netflix
+            const videoDestaque = bancoDeVideos[Math.floor(Math.random() * bancoDeVideos.length)];
+            const bannerDiv = document.getElementById('banner-destaque');
+            
+            bannerDiv.style.backgroundImage = `url('${videoDestaque.urlCapa}')`;
+            document.getElementById('banner-titulo').innerText = videoDestaque.titulo;
+            document.getElementById('banner-descricao').innerText = videoDestaque.descricao.length > 180 ? 
+                videoDestaque.descricao.substring(0, 180) + '...' : videoDestaque.descricao;
+            document.getElementById('banner-link').href = `player.html?v=${videoDestaque.idUnico}`;
+            bannerDiv.style.display = 'flex';
+
+            // 2. Renderiza o grid de catálogo embaralhado
+            let videosSorteados = embaralharArray([...bancoDeVideos]).slice(0, 28);
+
+            videosSorteados.forEach(video => {
+                const cartao = `
+                    <a href="player.html?v=${video.idUnico}" class="cartao-video">
+                        <img src="${video.urlCapa}" alt="Capa">
+                        <h4>${video.titulo}</h4>
+                        <p>${video.descricao.substring(0, 50)}...</p>
+                    </a>
+                `;
+                container.innerHTML += cartao;
+            });
+        }
+    </script>
+</body>
+</html>
