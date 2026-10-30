@@ -31,7 +31,7 @@
 const bancoDeDados = [
     {
         id: 1,
-        titulo: "Lançamento do novo Portal Dark Mode agita a web",
+        titulo: "Ejetando HD Externo do computador",
         resumo: "Como ejetar um hd ou disco do computador via promp de comando cmd",
         categoria: "TECNOLOGIA",
         tempo: "em 30/10/2026",
