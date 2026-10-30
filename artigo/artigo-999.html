@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="https://arqueid.com.br/favicon.png">
+    <title>Como Forçar Ejeção de Disco via CMD - Arqueid</title>
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- ESTILO CSS EXTERNO -->
+    <link rel="stylesheet" href="https://arqueid.com.br/style.css">
+</head>
+<!-- 
+  GUIA PARA O PROGRAMADOR:
+  - O 'style="display: none;"' evita a exibição do conteúdo antes do script de segurança verificar o login.
+-->
+<body style="display: none;">
+
+    <main class="content-area">
+        <article id="artigo-container">
+            <!-- 
+              GUIA PARA O PROGRAMADOR (ESTRUTURA DE CONTEÚDO):
+              - Este artigo explica o passo a passo para forçar a ejeção de unidades de disco via Prompt de Comando (CMD).
+              - COMO ADICIONAR NOVO CONTEÚDO: Duplique as tags <p>, <figure> ou <div class="video-wrapper"> conforme necessário.
+              - COMO REMOVER: Apague o bloco de elemento correspondente.
+            -->
+
+            <!-- Cabeçalho do Artigo -->
+            <header class="artigo-header">
+                <h1>Como Forçar a Ejeção de Discos via CMD no Windows</h1>
+                <p class="artigo-data">Publicado em: 30 de Outubro de 2026</p>
+            </header>
+
+            <!-- Parágrafo de Introdução -->
+            <p>
+                Em diversas situações, o Windows impede a remoção segura de um pendrive, HD externo ou cartão de memória informando que a unidade está sendo usada por outro programa. Para contornar esse travamento de forma rápida e direta, é possível utilzar um comando nativo via Prompt de Comando (CMD) executado como Administrador.
+            </p>
+
+            <!-- Bloco de Imagem Exemplo -->
+            <figure class="artigo-imagem">
+                <img src="../imagens/cmd-admin.jpg" alt="Prompt de Comando executado como Administrador">
+                <figcaption>Execução do Prompt de Comando com privilégios administrativos no Windows.</figcaption>
+            </figure>
+
+            <!-- Parágrafo Passo a Passo -->
+            <p>
+                Para realizar a ejeção forçada sem a necessidade do PowerShell, siga o passo a passo abaixo:
+            </p>
+
+            <!-- Lista em Código/Instruções -->
+            <p>
+                <strong>1.</strong> Abra o menu Iniciar, digite <code>cmd</code>, clique com o botão direito sobre "Prompt de Comando" e selecione <strong>Executar como administrador</strong>.<br><br>
+                <strong>2.</strong> Cole o seguinte comando na janela do CMD, lembrando de substituir a letra <code>F</code> pela letra da sua unidade:
+            </p>
+
+            <pre style="background-color: #1e1e1e; color: #00ff00; padding: 15px; border-radius: 5px; overflow-x: auto; font-family: monospace; margin: 15px 0;">(echo select volume F &amp; echo remove all noerr dismount) | diskpart &amp;&amp; echo Disco ejetado com êxito!</pre>
+
+            <p>
+                <strong>3.</strong> Pressione <strong>Enter</strong>. O utilitário <code>diskpart</code> desmanchará a montagem da unidade e, caso a operação seja concluída com sucesso, a mensagem "Disco ejetado com êxito!" será exibida no terminal.
+            </p>
+
+            <!-- Bloco de Vídeo Direto (MP4) -->
+            <div class="video-wrapper" style="width: 100%; margin: 20px 0; text-align: center;">
+                <video controls playsinline preload="metadata" style="width: 100%; max-width: 100%; height: auto; border-radius: 8px;">
+                    <source src="https://files.catbox.moe/seu-video.mp4" type="video/mp4">
+                    Seu navegador não suporta a reprodução deste vídeo.
+                </video>
+            </div>
+
+            <!-- Parágrafo de Conclusão -->
+            <p>
+                Este método utiliza a ferramenta nativa de gerenciamento de discos do Windows (Diskpart) combinada com executores de cadeia de comandos, permitindo liberar o volume com segurança diretamente no nível de sistema.
+            </p>
+
+        </article>
+    </main>
+
+    <!-- SCRIPTS DE ESTRUTURA E NAVEGAÇÃO -->
+    <script src="https://arqueid.com.br/menu.js"></script>
+    
+    <!-- SCRIPT DE SEGURANÇA (Verifica autenticação via Firebase) -->
+    <script type="module" src="https://arqueid.com.br/seguranca.js"></script>
+</body>
+</html>
