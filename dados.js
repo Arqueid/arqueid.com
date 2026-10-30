@@ -32,11 +32,11 @@ const bancoDeDados = [
     {
         id: 1,
         titulo: "Lançamento do novo Portal Dark Mode agita a web",
-        resumo: "Desenvolvedores elogiam a interface limpa e a velocidade de carregamento do novo layout inspirado em grandes portais.",
+        resumo: "Como ejetar um hd ou disco do computador via promp de comando cmd",
         categoria: "TECNOLOGIA",
-        tempo: "há 2 horas",
-        imagem: "https://via.placeholder.com/320x180/b71c1c/ffffff?text=FOTO+16:9", // Link da imagem 16:9
-        link: "https://www.google.com" // Link para onde vai ao clicar
+        tempo: "em 30/10/2026",
+        imagem: "https://yourimageshare.com/ib/L1RyR7VRhM.png", // Link da imagem 16:9
+        link: "https://arqueid.com.br/artigo/artigo-999.html" // Link para onde vai ao clicar
     },
     {
         id: 2,
