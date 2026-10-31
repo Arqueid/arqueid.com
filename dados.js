@@ -45,7 +45,7 @@ const bancoDeDados = [
         categoria: "EQUIPAMENTOS",
         tempo: "em 31/10/2026",
         imagem: "https://files.catbox.moe/3qqgtj.webp",
-        link: "https://arqueid.com.br/artigo/artigo-999.html"
+        link: "https://arqueid.com.br/artigo/artigo-998.html"
     },
     {
         id: 3,
