@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="https://arqueid.com.br/favicon.png">
-    <title>Como Forçar Ejeção de Disco via CMD - Arqueid</title>
+    <title>Como Ejetar HD Externo via Script Batch - Arqueid</title>
     <meta name="robots" content="noindex, nofollow">
     
     <!-- ESTILO CSS EXTERNO -->
@@ -12,7 +12,7 @@
 </head>
 <!-- 
   GUIA PARA O PROGRAMADOR:
-  - O 'style="display: none;"' evita a exibição do conteúdo antes do script de segurança verificar o login.
+  - O 'style="display: none;"' evita a exibição do conteúdo antes do script de segurança verificar o início de sessão.
 -->
 <body style="display: none;">
 
@@ -20,41 +20,49 @@
         <article id="artigo-container">
             <!-- 
               GUIA PARA O PROGRAMADOR (ESTRUTURA DE CONTEÚDO):
-              - Este artigo explica o passo a passo para forçar a ejeção de unidades de disco via Prompt de Comando (CMD).
-              - COMO ADICIONAR NOVO CONTEÚDO: Duplique as tags <p>, <figure> ou <div class="video-wrapper"> conforme necessário.
-              - COMO REMOVER: Apague o bloco de elemento correspondente.
+              - Este artigo apresenta o script Batch (.bat) para acionar o gestor de remoção segura de hardware do Windows através da biblioteca 'hotplug.dll'.
+              - COMO ADICIONAR NOVO CONTEÚDO: Duplique as tags <p>, <figure> ou blocos <pre> conforme necessário.
+              - COMO REMOVER: Apague o bloco de elemento correspondente no código HTML.
+              - PASSO A PASSO PARA MANUTENÇÃO DO CÓDIGO:
+                1. Localize a tag <pre style="..."> para alterar o código do script Batch exibido.
+                2. Edite os parágrafos (<p>) subsequentes para atualizar as instruções operacionais direcionadas ao utilizador.
             -->
 
             <!-- Cabeçalho do Artigo -->
             <header class="artigo-header">
-                <h1>Como Forçar a Ejeção de Discos via CMD no Windows</h1>
+                <h1>Como Ejetar HD Externo com Script Batch no Windows</h1>
                 <p class="artigo-data">Publicado em: 30 de Outubro de 2026</p>
             </header>
 
             <!-- Parágrafo de Introdução -->
             <p>
-                Em diversas situações, o Windows impede a remoção segura de um pendrive, HD externo ou cartão de memória informando que a unidade está sendo usada por outro programa. Para contornar esse travamento de forma rápida e direta, é possível utilzar um comando nativo via Prompt de Comando (CMD) executado como Administrador.
+                Para automatizar e simplificar a remoção segura de unidades de armazenamento USB, é possível utilizar um script em Batch (.bat) que invoca diretamente a interface nativa do Windows responsável pela gestão de dispositivos de ligação a quente.
             </p>
+
             <!-- Parágrafo Passo a Passo -->
             <p>
-                Para realizar a ejeção forçada sem a necessidade do PowerShell, siga o passo a passo abaixo:
+                O código abaixo configura o ambiente do terminal e executa a ferramenta de ejeção de hardware, apresentando simultaneamente instruções claras ao utilizador:
             </p>
 
-            <!-- Lista em Código/Instruções -->
-            <p>
-                <strong>1.</strong> Abra o menu Iniciar, digite <code>cmd</code>, clique com o botão direito sobre "Prompt de Comando" e selecione <strong>Executar como administrador</strong>.<br><br>
-                <strong>2.</strong> Cole o seguinte comando na janela do CMD, lembrando de substituir a letra <code>F</code> pela letra da sua unidade:
-            </p>
+            <!-- Bloco com o Código Batch -->
+            <pre style="background-color: #1e1e1e; color: #00ff00; padding: 15px; border-radius: 5px; overflow-x: auto; font-family: monospace; margin: 15px 0;">@echo off
+title EJETAR HD EXTERNO
+color 0B
 
-            <pre style="background-color: #1e1e1e; color: #00ff00; padding: 15px; border-radius: 5px; overflow-x: auto; font-family: monospace; margin: 15px 0;">(echo select volume F &amp; echo remove all noerr dismount) | diskpart &amp;&amp; echo Disco ejetado com êxito!</pre>
+start "" rundll32.exe shell32.dll,Control_RunDLL hotplug.dll
+
+echo.
+echo 1. Localize sua case USB na lista.
+echo 2. Selecione o dispositivo.
+echo 3. Clique em Parar ou Remover.
+echo 4. Aguarde a confirmacao do Windows.
+echo.
+echo Nao desconecte antes da confirmacao.
+echo ==========================================
+pause</pre>
 
             <p>
-                <strong>3.</strong> Pressione <strong>Enter</strong>. O utilitário <code>diskpart</code> desmanchará a montagem da unidade e, caso a operação seja concluída com sucesso, a mensagem "Disco ejetado com êxito!" será exibida no terminal.
-            </p>
-
-            
-            <p>
-                Este método utiliza a ferramenta nativa de gerenciamento de discos do Windows (Diskpart) combinada com executores de cadeia de comandos, permitindo liberar o volume com segurança diretamente no nível de sistema.
+                <strong>Instruções de Implementação:</strong> Copie o bloco de código acima, crie um ficheiro de texto plano, cole o conteúdo e guarde o documento com a extensão <code>.bat</code>. A execução deste ficheiro abrirá a janela de remoção segura de hardware do sistema operativo de forma imediata.
             </p>
 
         </article>
