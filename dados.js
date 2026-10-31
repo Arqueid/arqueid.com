@@ -40,12 +40,12 @@ const bancoDeDados = [
     },
     {
         id: 2,
-        titulo: "Tutorial: Como criar menus responsivos com CSS",
-        resumo: "Aprenda passo a passo como fazer o menu hambúrguer funcionar sem usar frameworks pesados.",
-        categoria: "PROGRAMAÇÃO",
-        tempo: "há 5 horas",
-        imagem: "foto.jpg",
-        link: "https://www.w3schools.com"
+        titulo: "Cuidado Com Microfone",
+        resumo: "explica os cuidados essenciais com microfones, com destaque para o uso correto do Phantom Power.",
+        categoria: "EQUIPAMENTOS",
+        tempo: "em 31/10/2026",
+        imagem: "https://files.catbox.moe/3qqgtj.webp",
+        link: "https://arqueid.com.br/artigo/artigo-999.html"
     },
     {
         id: 3,
